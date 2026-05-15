@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #064e3b; /* Emerald Green */
+  --color-primary-light: #065f46;
+  --color-accent: #d97706; /* Gold/Amber */
+  --color-accent-light: #fbbf24;
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-accent: var(--color-accent);
+  --color-accent-light: var(--color-accent-light);
+}
+
+body {
+  color: #1a1a1a;
+  background: #fdfdfb;
+}
+
+/* Custom Islamic Pattern Background */
+.islamic-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(#064e3b08 2px, transparent 2px);
+  background-size: 30px 30px;
+  position: relative;
+}
+
+.islamic-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, #f8fafc 100%);
+  pointer-events: none;
+}
+
+.shadow-3xl {
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mihrab-shape {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
+}
+
+@layer components {
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-primary-light);
+  }
+  
+  .card-premium {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .card-premium:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+}

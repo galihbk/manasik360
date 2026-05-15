@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  activities    ActivityHistory[]
+  reviews       Review[]
+  notifications Notification[]
+  feedbacks     Feedback[]
+
+  @@map("users")
+}
+
+model Prayer {
+  id          String   @id @default(uuid())
+  title       String
+  category    String
+  arabic      String   @db.Text
+  latin       String   @db.Text
+  translation String   @db.Text
+  audioUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("prayers")
+}
+
+model ActivityHistory {
+  id        String   @id @default(uuid())
+  title     String
+  type      String   // Belajar, Simulasi, Hafalan, Sistem
+  time      String
+  date      String
+  color     String   // tailwind class for icon bg
+  icon      String   // SVG path or name
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("activity_history")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  avatar    String
+  rating    Int
+  comment   String   @db.Text
+  date      String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  desc      String   @db.Text
+  time      String
+  unread    Boolean  @default(true)
+  type      String   // info, success, warning
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notifications")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  subject   String
+  message   String   @db.Text
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("feedbacks")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model VRModule {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  thumbnail   String?
+  isActive    Boolean  @default(true)
+  scenes      VRScene[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("vr_modules")
+}
+
+model VRScene {
+  id           String      @id @default(uuid())
+  name         String
+  panoramaPath String      @db.Text
+  isFirst      Boolean     @default(false)
+  hotspots     VRHotspot[] @relation("SceneHotspots")
+  targetOf     VRHotspot[] @relation("TargetScene")
+  
+  // Relations
+  moduleId     String?
+  module       VRModule?   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("vr_scenes")
+}
+
+model VRHotspot {
+  id            String   @id @default(uuid())
+  sceneId       String
+  scene         VRScene  @relation("SceneHotspots", fields: [sceneId], references: [id])
+  targetSceneId String
+  targetScene   VRScene  @relation("TargetScene", fields: [targetSceneId], references: [id])
+  pitch         Float    @default(0)
+  yaw           Float    @default(0)
+  text          String?
+  type          String   @default("scene")
+  createdAt     DateTime @default(now())
+
+  @@map("vr_hotspots")
+}

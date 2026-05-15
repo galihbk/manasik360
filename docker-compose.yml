@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: manasik360_db
+    restart: always
+    environment:
+      POSTGRES_USER: manasik_user
+      POSTGRES_PASSWORD: manasik_password
+      POSTGRES_DB: manasik360_db
+    ports:
+      - "54360:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
