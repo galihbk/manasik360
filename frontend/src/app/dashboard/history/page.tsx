@@ -21,7 +21,7 @@ export default function HistoryPage() {
   useEffect(() => {
     async function fetchActivities() {
       try {
-        const response = await fetch("http://localhost:5001/api/activities", {
+        const response = await fetch("/api/activities", {
           credentials: "include"
         });
         const json = await response.json();

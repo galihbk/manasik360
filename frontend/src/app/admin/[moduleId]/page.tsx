@@ -56,7 +56,7 @@ export default function ModuleEditorPage() {
   const fetchData = async () => {
     try {
       // Fetch Module details
-      const modRes = await fetch(`http://localhost:5001/api/vrtour/modules`, { credentials: "include" });
+      const modRes = await fetch(`/api/vrtour/modules`, { credentials: "include" });
       const modJson = await modRes.json();
       if (modJson.status === "success") {
         const found = modJson.data.find((m: any) => m.id === moduleId);
@@ -64,7 +64,7 @@ export default function ModuleEditorPage() {
       }
 
       // Fetch Scenes in Module
-      const scRes = await fetch(`http://localhost:5001/api/vrtour/scenes?moduleId=${moduleId}`, { credentials: "include" });
+      const scRes = await fetch(`/api/vrtour/scenes?moduleId=${moduleId}`, { credentials: "include" });
       const scJson = await scRes.json();
       if (scJson.status === "success") setScenes(scJson.data);
     } catch (err) {
@@ -96,7 +96,7 @@ export default function ModuleEditorPage() {
 
         const viewer = (window as any).pannellum.viewer("pannellum-preview-container", {
           type: "equirectangular",
-          panorama: `http://localhost:5001${previewScene.panoramaPath}`,
+          panorama: `${previewScene.panoramaPath}`,
           autoLoad: true,
           hotSpots: hotSpots
         });
@@ -116,7 +116,7 @@ export default function ModuleEditorPage() {
     formData.append("panorama", file);
 
     try {
-      const res = await fetch("http://localhost:5001/api/vrtour/upload", {
+      const res = await fetch("/api/vrtour/upload", {
         method: "POST",
         credentials: "include",
         body: formData
@@ -142,7 +142,7 @@ export default function ModuleEditorPage() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5001/api/vrtour/scenes", {
+      const res = await fetch("/api/vrtour/scenes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -165,7 +165,7 @@ export default function ModuleEditorPage() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5001/api/vrtour/hotspots", {
+      const res = await fetch("/api/vrtour/hotspots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -432,7 +432,7 @@ export default function ModuleEditorPage() {
                        <td className="py-4 font-bold text-slate-900">{scene.name}</td>
                        <td className="py-4">
                           <div className="w-16 h-10 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
-                             <img src={`http://localhost:5001${scene.panoramaPath}`} className="w-full h-full object-cover" alt="" />
+                             <img src={`${scene.panoramaPath}`} className="w-full h-full object-cover" alt="" />
                           </div>
                        </td>
                        <td className="py-4">
@@ -458,7 +458,7 @@ export default function ModuleEditorPage() {
                                   title: "Hapus Titik VR?",
                                   message: `Apakah Anda yakin ingin menghapus titik "${scene.name}"? Seluruh koneksi navigasi (hotspots) yang terikat pada titik ini akan ikut terhapus.`,
                                   onConfirm: async () => {
-                                    await fetch(`http://localhost:5001/api/vrtour/scenes/${scene.id}`, { method: 'DELETE', credentials: 'include' });
+                                    await fetch(`/api/vrtour/scenes/${scene.id}`, { method: 'DELETE', credentials: 'include' });
                                     fetchData();
                                   }
                                 });
@@ -493,7 +493,7 @@ export default function ModuleEditorPage() {
                 className="relative w-full h-[400px] rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 cursor-crosshair group"
                 onClick={handleMapClick}
               >
-                 <img src={`http://localhost:5001${pickerImage}`} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300" alt="Panorama Flat Projection" />
+                 <img src={`${pickerImage}`} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300" alt="Panorama Flat Projection" />
                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     {/* Visual Center Hairlines */}
                     <div className="w-full h-[1px] bg-emerald-500/20"></div>

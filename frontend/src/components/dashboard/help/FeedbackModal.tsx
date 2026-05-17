@@ -21,7 +21,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5001/api/feedback", {
+      const response = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

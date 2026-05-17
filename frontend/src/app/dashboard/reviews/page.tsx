@@ -22,7 +22,7 @@ export default function ReviewsPage() {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/reviews", {
+      const response = await fetch("/api/reviews", {
         credentials: "include"
       });
       const json = await response.json();

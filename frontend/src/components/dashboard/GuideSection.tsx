@@ -18,7 +18,7 @@ export default function GuideSection() {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/vrtour/modules");
+        const res = await fetch("/api/vrtour/modules");
         const json = await res.json();
         if (json.status === "success") {
           setDbModules(json.data);

@@ -21,7 +21,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5001/api/reviews", {
+      const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

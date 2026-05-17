@@ -21,7 +21,7 @@ export default function PrayersPage() {
   useEffect(() => {
     async function fetchPrayers() {
       try {
-        const response = await fetch("http://localhost:5001/api/prayers", {
+        const response = await fetch("/api/prayers", {
           credentials: "include"
         });
         const json = await response.json();

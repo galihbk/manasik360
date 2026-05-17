@@ -18,7 +18,7 @@ export default function VRViewerPage() {
     const fetchModuleDetails = async () => {
       try {
         // Fetch module data from API
-        const res = await fetch("http://localhost:5001/api/vrtour/modules");
+        const res = await fetch("/api/vrtour/modules");
         const json = await res.json();
         if (json.status === "success") {
           const activeMod = json.data.find((m: any) => m.id === moduleId);

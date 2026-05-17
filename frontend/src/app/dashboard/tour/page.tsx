@@ -32,7 +32,7 @@ export default function VRModuleListPage() {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/vrtour/modules");
+        const res = await fetch("/api/vrtour/modules");
         const json = await res.json();
         if (json.status === "success") {
           setModules(json.data);

@@ -18,7 +18,7 @@ export default function NotificationDropdown() {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/notifications", {
+      const response = await fetch("/api/notifications", {
         credentials: "include"
       });
       const json = await response.json();
@@ -44,7 +44,7 @@ export default function NotificationDropdown() {
 
   const markAllAsRead = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/notifications/read-all", {
+      const response = await fetch("/api/notifications/read-all", {
         method: "PATCH",
         credentials: "include"
       });
