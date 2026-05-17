@@ -109,7 +109,7 @@ const getTourConfig = async (req, res, next) => {
     scenes.forEach(scene => {
       config.scenes[scene.id] = {
         title: scene.name,
-        panorama: scene.panoramaPath.startsWith('http') ? scene.panoramaPath : `http://localhost:5001${scene.panoramaPath}`,
+        panorama: scene.panoramaPath,
         type: "equirectangular",
         hotSpots: scene.hotspots.map(hs => ({
           pitch: hs.pitch,
