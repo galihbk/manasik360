@@ -99,8 +99,8 @@ jobs:
           envs: ENV_PROD
           script: |
             # Create deployment directory
-            mkdir -p ~/app/manasik360
-            cd ~/app/manasik360
+            mkdir -p /var/www/manasik360
+            cd /var/www/manasik360
 
             # Write the production .env file dynamically from GitHub Secrets
             echo "$ENV_PROD" > .env
