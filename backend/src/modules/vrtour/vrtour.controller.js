@@ -99,10 +99,8 @@ const getTourConfig = async (req, res, next) => {
         sceneFadeDuration: 1000,
         autoLoad: true,
         type: "equirectangular",
-        haov: 180,
-        vaov: 90,
-        minYaw: -90,
-        maxYaw: 90,
+        haov: 360,
+        vaov: 180,
         hfov: 100
       },
       scenes: {}
@@ -118,7 +116,8 @@ const getTourConfig = async (req, res, next) => {
           yaw: hs.yaw,
           type: "scene",
           text: hs.text,
-          sceneId: hs.targetSceneId
+          sceneId: hs.targetSceneId,
+          cssClass: "custom-vr-arrow"
         }))
       };
     });

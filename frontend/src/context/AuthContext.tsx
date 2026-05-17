@@ -48,6 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!loading) {
       if (!user && pathname.startsWith("/dashboard")) {
         router.push("/login");
+      } else if (user && user.role === "ADMIN" && pathname.startsWith("/dashboard") && !pathname.startsWith("/dashboard/tour/viewer")) {
+        router.push("/admin");
       }
     }
   }, [user, loading, pathname, router]);
@@ -55,7 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = (userData: User) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
-    router.push("/dashboard");
+    if (userData.role === "ADMIN") {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   const logout = async () => {

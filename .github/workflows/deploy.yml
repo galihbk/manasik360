@@ -1,0 +1,168 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  # 1. BUILD JOB: Compile Docker images and push them to GitHub Container Registry (GHCR)
+  build:
+    name: Build & Push to GHCR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      # Login to GHCR using built-in automatic GITHUB_TOKEN
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Convert repository name to lowercase for GHCR compliance
+      - name: Convert repository name to lowercase
+        id: repo
+        run: |
+          echo "REPO_LOWER=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      # Build and push Backend Image (with caching to optimize run times)
+      - name: Build and push Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/backend:latest
+            ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/backend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Build and push Frontend Image (with caching to optimize Next.js build times)
+      - name: Build and push Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/frontend:latest
+            ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/frontend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # 2. DEPLOY JOB: Connect to server over SSH, pull fresh containers, and spin up Compose
+  deploy:
+    name: Deploy to Server (VPS)
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Convert repository name to lowercase for SSH login/pull commands
+      - name: Convert repository name to lowercase
+        id: repo
+        run: |
+          echo "REPO_LOWER=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      # Connect to VPS via secure SSH keys and execute deployment script
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          ENV_PROD: ${{ secrets.ENV_PROD }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          envs: ENV_PROD
+          script: |
+            # Create deployment directory
+            mkdir -p ~/app/manasik360
+            cd ~/app/manasik360
+
+            # Write the production .env file dynamically from GitHub Secrets
+            echo "$ENV_PROD" > .env
+
+            # Write high-performance production docker-compose
+            cat << 'EOF' > docker-compose.prod.yml
+            version: '3.8'
+
+            services:
+              db:
+                image: postgres:15-alpine
+                container_name: manasik360_db
+                restart: always
+                environment:
+                  POSTGRES_USER: ${POSTGRES_USER:-manasik_user}
+                  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-manasik_password}
+                  POSTGRES_DB: ${POSTGRES_DB:-manasik360_db}
+                volumes:
+                  - postgres_data:/var/lib/postgresql/data
+
+              backend:
+                image: ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/backend:latest
+                container_name: manasik360_backend
+                restart: always
+                ports:
+                  - "127.0.0.1:5630:5001"
+                environment:
+                  DATABASE_URL: postgresql://${POSTGRES_USER:-manasik_user}:${POSTGRES_PASSWORD:-manasik_password}@db:5432/${POSTGRES_DB:-manasik360_db}?schema=public
+                  JWT_SECRET: ${JWT_SECRET:-super_secret_jwt_key_12345}
+                  NODE_ENV: production
+                depends_on:
+                  - db
+
+              frontend:
+                image: ghcr.io/${{ steps.repo.outputs.REPO_LOWER }}/frontend:latest
+                container_name: manasik360_frontend
+                restart: always
+                ports:
+                  - "127.0.0.1:3600:3000"
+                environment:
+                  NEXT_PUBLIC_API_URL: http://localhost:5630
+                depends_on:
+                  - backend
+
+            volumes:
+              postgres_data:
+            EOF
+
+            # Login to GitHub Container Registry (GHCR) using the built-in automatic GITHUB_TOKEN
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Pull the fresh production container builds
+            docker compose -f docker-compose.prod.yml pull
+
+            # Stop and re-launch updated containers with zero orphan traces
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # Wait 5 seconds for Database and Backend startup
+            sleep 5
+
+            # Auto-run Prisma db push inside the backend container to sync DB schema structure
+            docker exec manasik360_backend npx prisma db push --accept-data-loss || true
+
+            # Prune obsolete images and containers to save SSD space on VPS
+            docker image prune -f
