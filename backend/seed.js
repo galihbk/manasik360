@@ -142,23 +142,22 @@ async function main() {
 
   // Seed Super Admin Account
   const bcrypt = require('bcryptjs');
-  const existingAdmin = await prisma.user.findUnique({
-    where: { email: 'admin@manasik360.com' }
+  const hashedPassword = await bcrypt.hash('adminpassword', 10);
+  await prisma.user.upsert({
+    where: { email: 'admin@manasik360.com' },
+    update: {
+      name: 'Super Admin Manasik360',
+      password: hashedPassword,
+      role: 'ADMIN'
+    },
+    create: {
+      name: 'Super Admin Manasik360',
+      email: 'admin@manasik360.com',
+      password: hashedPassword,
+      role: 'ADMIN'
+    }
   });
-  if (!existingAdmin) {
-    const hashedPassword = await bcrypt.hash('adminpassword', 10);
-    await prisma.user.create({
-      data: {
-        name: 'Super Admin Manasik360',
-        email: 'admin@manasik360.com',
-        password: hashedPassword,
-        role: 'ADMIN'
-      }
-    });
-    console.log('Super Admin seeded successfully: admin@manasik360.com / adminpassword');
-  } else {
-    console.log('Super Admin account already exists, skipping.');
-  }
+  console.log('Super Admin seeded/ensured successfully: admin@manasik360.com / adminpassword');
 
   console.log('Seeding finished.');
 }

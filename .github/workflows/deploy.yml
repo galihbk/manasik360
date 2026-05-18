@@ -164,5 +164,8 @@ jobs:
             # Auto-run Prisma db push inside the backend container to sync DB schema structure
             docker exec manasik360_backend npx prisma db push --accept-data-loss || true
 
+            # Auto-run database seeder inside the backend container to ensure Super Admin exists
+            docker exec manasik360_backend node seed.js || true
+
             # Prune obsolete images and containers to save SSD space on VPS
             docker image prune -f
