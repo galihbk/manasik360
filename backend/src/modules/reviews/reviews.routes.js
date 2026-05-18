@@ -1,8 +1,9 @@
 const express = require('express');
 const reviewController = require('./reviews.controller');
+const { protect } = require('../../middleware/authMiddleware');
 const router = express.Router();
 
 router.get('/', reviewController.getAllReviews);
-router.post('/', reviewController.createReview);
+router.post('/', protect, reviewController.createReview);
 
 module.exports = router;

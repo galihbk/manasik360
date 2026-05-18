@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/ui/Card";
+import { useAuth } from "@/context/AuthContext";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface ReviewModalProps {
 }
 
 export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalProps) {
+  const { user } = useAuth();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,16 +23,23 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
     setIsSubmitting(true);
 
     try {
+      const todayStr = new Date().toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "Akhmad Fauzi", // Hardcoded for now until Auth is ready
-          role: "Premium User",
+          name: user?.name || "Jamaah Manasik360",
+          role: user?.role === "ADMIN" ? "Administrator" : "Premium User",
           avatar: "/images/pilgrim-hero.png",
           rating,
           comment,
-          date: "Hari Ini"
+          date: todayStr,
+          userId: user?.id
         }),
       });
 

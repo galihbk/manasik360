@@ -1,12 +1,76 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ChatWidget from "@/components/dashboard/ChatWidget";
+
+interface Review {
+  id: string;
+  name: string;
+  role: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  image: string;
+  category: string;
+  date: string;
+}
 
 export default function Home() {
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loadingBlogs, setLoadingBlogs] = useState(true);
+  const [loadingReviews, setLoadingReviews] = useState(true);
+
+  useEffect(() => {
+    // Fetch dynamic blogs
+    async function fetchBlogs() {
+      try {
+        const response = await fetch("/api/blogs");
+        const json = await response.json();
+        if (json.status === "success") {
+          setBlogs(json.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      } finally {
+        setLoadingBlogs(false);
+      }
+    }
+
+    // Fetch dynamic reviews
+    async function fetchReviews() {
+      try {
+        const response = await fetch("/api/reviews");
+        const json = await response.json();
+        if (json.status === "success") {
+          // Display top 3 newest testimonials on the homepage
+          setReviews(json.data.slice(0, 3));
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+      } finally {
+        setLoadingReviews(false);
+      }
+    }
+
+    fetchBlogs();
+    fetchReviews();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#fdfdfb]">
       <Navbar />
@@ -140,8 +204,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Final Branding Section */}
-        <section className="py-40 bg-white">
+        {/* Why Manasik360 Section */}
+        <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center gap-24">
               <div className="flex-1 space-y-10">
@@ -177,9 +241,166 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Dynamic Testimonials / Reviews Section */}
+        <section id="testimoni" className="py-32 bg-[#f8f9f5] border-t border-gray-100 relative">
+          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] islamic-pattern pointer-events-none"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center space-y-4 mb-20">
+              <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs uppercase opacity-60 block">
+                Apa Kata Mereka?
+              </span>
+              <h2 className="text-3xl lg:text-5xl font-extrabold text-gray-900 tracking-tight uppercase">
+                TESTIMONI TERBARU JAMAAH KAMI
+              </h2>
+              <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
+                Dengarkan cerita jujur dari para jamaah yang telah mematangkan persiapan ibadah haji mereka bersama Manasik360.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {loadingReviews ? (
+                [...Array(3)].map((_, i) => (
+                  <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-gray-100/50 shadow-sm animate-pulse space-y-6">
+                    <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-200 rounded"></div>
+                      <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-gray-200 rounded-2xl"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3.5 bg-gray-200 rounded w-1/2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : reviews.length === 0 ? (
+                <div className="col-span-full text-center py-12 text-gray-400 text-sm">
+                  Belum ada testimoni terbaru yang disubmit.
+                </div>
+              ) : (
+                reviews.map((review) => (
+                  <div key={review.id} className="bg-white p-8 rounded-[2.5rem] border border-gray-100/50 shadow-sm hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between h-full">
+                    <div className="space-y-6">
+                      {/* Star Ratings */}
+                      <div className="flex gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <svg 
+                            key={i} 
+                            className={`w-4 h-4 ${i < review.rating ? 'text-amber-400' : 'text-gray-200'}`} 
+                            fill="currentColor" 
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                          </svg>
+                        ))}
+                      </div>
+
+                      {/* Comment */}
+                      <p className="text-sm text-gray-500 italic leading-relaxed">
+                        "{review.comment}"
+                      </p>
+                    </div>
+
+                    {/* Reviewer Details */}
+                    <div className="flex items-center gap-4 pt-8 mt-8 border-t border-gray-50">
+                      <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-sm shrink-0">
+                        <Image src={review.avatar || "/images/pilgrim-hero.png"} alt={review.name} fill className="object-cover" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-bold text-gray-900 leading-none">{review.name}</h4>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Dynamic Blog & Articles Section */}
+        <section id="blog" className="py-32 bg-white relative border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center space-y-4 mb-20">
+              <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs uppercase opacity-60 block">
+                Artikel & Berita Terbaru
+              </span>
+              <h2 className="text-3xl lg:text-5xl font-extrabold text-gray-900 tracking-tight uppercase">
+                PANDUAN & FIKIH MANASIK TERBAIK
+              </h2>
+              <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
+                Perkaya ilmu manasik Anda melalui kumpulan artikel panduan, fikih praktis, dan tips perjalanan haji yang dikuratori ustadz ahli.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {loadingBlogs ? (
+                [...Array(3)].map((_, i) => (
+                  <div key={i} className="space-y-6 animate-pulse">
+                    <div className="aspect-video bg-gray-200 rounded-[2rem] w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-200 rounded"></div>
+                      <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                    </div>
+                  </div>
+                ))
+              ) : blogs.length === 0 ? (
+                <div className="col-span-full text-center py-12 text-gray-400 text-sm">
+                  Belum ada artikel panduan yang diterbitkan.
+                </div>
+              ) : (
+                blogs.map((post) => (
+                  <div key={post.id} className="group cursor-pointer flex flex-col space-y-6">
+                    {/* Cover Image */}
+                    <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <Image 
+                        src={post.image} 
+                        alt={post.title} 
+                        fill 
+                        className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                      />
+                      <div className="absolute top-6 left-6 px-4 py-1.5 bg-white/90 backdrop-blur-md text-[10px] font-black uppercase tracking-widest text-[var(--color-primary)] rounded-full shadow-sm">
+                        {post.category}
+                      </div>
+                    </div>
+
+                    {/* Metadata & Content */}
+                    <div className="space-y-3 px-2 text-left">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.date}</span>
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-[var(--color-primary)] transition-colors leading-snug line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+                        {post.summary}
+                      </p>
+                      
+                      <div className="pt-2">
+                        <Link 
+                          href={`/blog/${post.slug}`} 
+                          className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--color-primary)] hover:text-emerald-700 transition-colors group/link"
+                        >
+                          Baca Selengkapnya
+                          <svg className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

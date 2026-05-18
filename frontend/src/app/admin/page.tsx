@@ -1,237 +1,238 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
-import ConfirmModal from "@/components/ui/ConfirmModal";
+import Link from "next/link";
 
-interface Module {
+interface LatestUser {
   id: string;
   name: string;
-  description: string;
-  thumbnail?: string;
-  _count?: { scenes: number };
+  email: string;
+  role: string;
+  createdAt: string;
 }
 
-export default function AdminVRPage() {
-  const router = useRouter();
-  const [modules, setModules] = useState<Module[]>([]);
+interface StatsData {
+  totalUsers: number;
+  totalBlogs: number;
+  totalReviews: number;
+  totalFeedbacks: number;
+  latestUsers: LatestUser[];
+}
+
+export default function AdminDashboardHome() {
+  const [stats, setStats] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Confirmation Modal State
-  const [confirmModal, setConfirmModal] = useState({
-    isOpen: false,
-    title: "",
-    message: "",
-    onConfirm: () => {},
-  });
-
-  // Form State
-  const [moduleForm, setModuleForm] = useState({ name: "", description: "" });
-  const [isUploadingModule, setIsUploadingModule] = useState(false);
-  const [moduleThumbnail, setModuleThumbnail] = useState("");
-
-  const fetchModules = async () => {
+  const fetchStats = async () => {
     try {
-      const res = await fetch("/api/vrtour/modules", { credentials: "include" });
-      const json = await res.json();
-      if (json.status === "success") setModules(json.data);
-    } catch (err) { 
-      console.error(err); 
-    } finally { 
-      setLoading(false); 
+      const response = await fetch("/api/auth/stats", { credentials: "include" });
+      const json = await response.json();
+      if (json.status === "success") {
+        setStats(json.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch dashboard stats:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => { 
-    fetchModules(); 
+  useEffect(() => {
+    fetchStats();
   }, []);
 
-  const handleModuleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setIsUploadingModule(true);
-    const formData = new FormData();
-    formData.append("panorama", file);
+  if (loading) {
+    return <div className="p-10 text-emerald-600 font-bold animate-pulse">Memuat Ringkasan Dashboard...</div>;
+  }
+
+  // Format date safely
+  const formatDate = (isoString: string) => {
     try {
-      const res = await fetch("/api/vrtour/upload", {
-        method: "POST",
-        credentials: "include",
-        body: formData
+      const date = new Date(isoString);
+      return date.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
       });
-      const json = await res.json();
-      if (json.status === "success") setModuleThumbnail(json.data.filePath);
-    } catch (err) { 
-      console.error(err); 
-    } finally { 
-      setIsUploadingModule(false); 
+    } catch {
+      return "Baru saja";
     }
   };
-
-  const handleCreateModule = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!moduleForm.name) {
-      alert("Nama modul wajib diisi!");
-      return;
-    }
-    try {
-      const res = await fetch("/api/vrtour/modules", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ ...moduleForm, thumbnail: moduleThumbnail })
-      });
-      if (res.ok) {
-        alert("Modul berhasil dibuat!");
-        fetchModules();
-        setModuleForm({ name: "", description: "" });
-        setModuleThumbnail("");
-      }
-    } catch (err) { 
-      console.error(err); 
-    }
-  };
-
-  if (loading) return <div className="p-10 text-emerald-600 font-bold animate-pulse">Memuat Modul VR...</div>;
 
   return (
-    <div className="space-y-10 pb-20">
+    <div className="space-y-12 pb-20 text-left">
       {/* HEADER SECTION */}
       <div className="flex justify-between items-end border-b border-slate-100 pb-6">
         <div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Kurikulum Virtual Reality</h1>
-            <p className="text-slate-500 text-sm mt-1">Kelola dan rancang petualangan manasik interaktif 360° Anda.</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Ringkasan Dashboard</h1>
+          <p className="text-slate-500 text-sm mt-1">Pantau pendaftaran jamaah, publikasi konten, dan interaksi KBIHU secara real-time.</p>
         </div>
-        <div className="hidden lg:block">
-            <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100 uppercase tracking-widest">
-              Total: {modules.length} Modul
-            </span>
-        </div>
+        <button 
+          onClick={() => { setLoading(true); fetchStats(); }}
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl text-xs font-bold transition-all border border-emerald-100"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7.89H18"/></svg>
+          Refresh Data
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Create Module Card */}
-        <Card className="p-8 border border-dashed border-slate-200 bg-white flex flex-col justify-between text-left gap-4 group hover:border-emerald-500/30 hover:bg-emerald-50/5 transition-all duration-300 rounded-[2.5rem] min-h-[420px] shadow-sm">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/></svg>
-                </div>
-                <div>
-                  <h3 className="font-black text-slate-900 tracking-tight text-base">Tambah Modul</h3>
-                  <p className="text-[9px] text-emerald-600 font-bold uppercase tracking-wider">Kurikulum Baru</p>
-                </div>
-              </div>
-              
-              <form onSubmit={handleCreateModule} className="w-full space-y-4" id="module-create-form">
-                <div className="relative group/thumb">
-                    <input type="file" accept="image/*" onChange={handleModuleThumbnailUpload} className="hidden" id="module-thumb" />
-                    <label htmlFor="module-thumb" className="block w-full h-28 bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer hover:border-emerald-500/50 transition-all">
-                      {isUploadingModule ? (
-                        <div className="flex items-center justify-center h-full"><div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div></div>
-                      ) : moduleThumbnail ? (
-                        <img src={`${moduleThumbnail}`} className="w-full h-full object-cover" alt="" />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center h-full text-slate-400 hover:text-slate-600 transition-colors">
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                            <span className="text-[8px] font-black uppercase tracking-widest mt-2">Upload Sampul Modul</span>
-                        </div>
-                      )}
-                    </label>
-                </div>
-                <input 
-                  value={moduleForm.name} 
-                  onChange={(e) => setModuleForm({...moduleForm, name: e.target.value})}
-                  placeholder="Nama Modul..." 
-                  className="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:ring-2 focus:ring-emerald-500/10 shadow-sm"
-                />
-                <textarea 
-                  value={moduleForm.description} 
-                  onChange={(e) => setModuleForm({...moduleForm, description: e.target.value})}
-                  placeholder="Deskripsi singkat..." 
-                  className="w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:ring-2 focus:ring-emerald-500/10 shadow-sm h-20 resize-none"
-                />
-              </form>
-            </div>
-
-            <Button form="module-create-form" type="submit" className="w-full py-3.5 text-xs rounded-xl bg-emerald-600 font-bold hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/10">
-              Buat Modul Baru
-            </Button>
+      {/* STATS OVERVIEW CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        {/* Card 1: Pendaftar */}
+        <Card className="p-8 bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-[2.5rem] flex items-center gap-6 group hover:border-emerald-500/20">
+          <div className="w-14 h-14 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-2xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Jamaah</p>
+            <h3 className="text-3xl font-black text-slate-900 leading-none">{stats?.totalUsers || 0}</h3>
+            <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 uppercase tracking-wider inline-block">Terdaftar</span>
+          </div>
         </Card>
 
-        {/* Existing Modules */}
-        {modules.map(mod => (
-          <Card 
-            key={mod.id} 
-            className="group relative p-8 bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-100 hover:border-emerald-500/30 transition-all duration-500 rounded-[2.5rem] cursor-pointer overflow-hidden flex flex-col justify-between min-h-[420px]"
-            onClick={() => router.push(`/admin/${mod.id}`)}
-          >
-            <div>
-              {/* Thumbnail Container */}
-              <div className="w-full h-36 bg-slate-50 rounded-3xl overflow-hidden mb-6 relative border border-slate-100">
-                {mod.thumbnail ? (
-                  <img src={`${mod.thumbnail}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-emerald-600">
-                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                  </div>
-                )}
-                <div className="absolute top-4 right-4">
-                  <div className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center text-slate-500 group-hover:bg-emerald-600 group-hover:text-white border border-slate-150 shadow-sm transition-all duration-300">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                  </div>
-                </div>
-              </div>
+        {/* Card 2: Artikel */}
+        <Card className="p-8 bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-[2.5rem] flex items-center gap-6 group hover:border-amber-500/20">
+          <div className="w-14 h-14 bg-amber-50 text-amber-600 border border-amber-100 rounded-2xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 00-2-2h-3m3 2a2 2 0 00-2-2M9 9h.01M9 13h.01M9 17h.01M13 9h.01M13 13h.01M13 17h.01"/></svg>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Artikel Edukasi</p>
+            <h3 className="text-3xl font-black text-slate-900 leading-none">{stats?.totalBlogs || 0}</h3>
+            <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100 uppercase tracking-wider inline-block">Published</span>
+          </div>
+        </Card>
 
-              <h3 className="text-lg font-black text-slate-900 group-hover:text-emerald-600 transition-colors leading-snug tracking-tight">{mod.name}</h3>
-              <p className="text-slate-500 text-xs mt-2 line-clamp-3 leading-relaxed">{mod.description || 'Belum ada deskripsi.'}</p>
-            </div>
+        {/* Card 3: Feedback */}
+        <Card className="p-8 bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-[2.5rem] flex items-center gap-6 group hover:border-blue-500/20">
+          <div className="w-14 h-14 bg-blue-50 text-blue-600 border border-blue-100 rounded-2xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Saran Pengunjung</p>
+            <h3 className="text-3xl font-black text-slate-900 leading-none">{stats?.totalFeedbacks || 0}</h3>
+            <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 uppercase tracking-wider inline-block">Masuk</span>
+          </div>
+        </Card>
 
-            <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{mod._count?.scenes || 0} Titik VR</span>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setConfirmModal({
-                        isOpen: true,
-                        title: "Hapus Modul?",
-                        message: `Seluruh data titik VR di dalam modul "${mod.name}" akan ikut terhapus permanen dari server.`,
-                        onConfirm: async () => {
-                          await fetch(`/api/vrtour/modules/${mod.id}`, { method: 'DELETE', credentials: 'include' });
-                          fetchModules();
-                        }
-                      });
-                    }}
-                    className="text-[9px] font-bold text-rose-500 hover:text-rose-600 transition-colors uppercase tracking-widest mt-1 text-left"
-                  >
-                    Hapus Modul
-                  </button>
-                </div>
-                
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(`/dashboard/tour/viewer/${mod.id}`, '_blank');
-                  }}
-                  className="px-4 py-2 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white hover:border-emerald-500 transition-all duration-300"
-                >
-                  Preview
-                </button>
-            </div>
-          </Card>
-        ))}
+        {/* Card 4: Ulasan */}
+        <Card className="p-8 bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-[2.5rem] flex items-center gap-6 group hover:border-rose-500/20">
+          <div className="w-14 h-14 bg-rose-50 text-rose-600 border border-rose-100 rounded-2xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.175 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Ulasan Manasik</p>
+            <h3 className="text-3xl font-black text-slate-900 leading-none">{stats?.totalReviews || 0}</h3>
+            <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100 uppercase tracking-wider inline-block">Rating 5/5</span>
+          </div>
+        </Card>
+
       </div>
 
-      {/* CONFIRMATION MODAL */}
-      <ConfirmModal 
-        isOpen={confirmModal.isOpen}
-        onClose={() => setConfirmModal({ ...confirmModal, isOpen: false })}
-        onConfirm={confirmModal.onConfirm}
-        title={confirmModal.title}
-        message={confirmModal.message}
-      />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        {/* Left Side: Recent Registrants list (takes 2/3) */}
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="p-8 bg-white border border-slate-100 shadow-sm rounded-[2.5rem] space-y-6">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-black text-slate-900 tracking-tight">Daftar Pendaftar Terbaru</h3>
+              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-100">5 Akun Baru</span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <th className="pb-4 pl-4">Jamaah</th>
+                    <th className="pb-4">Email</th>
+                    <th className="pb-4">Tanggal Daftar</th>
+                    <th className="pb-4 pr-4 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {!stats?.latestUsers || stats.latestUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="py-10 text-center text-slate-400 text-sm font-semibold">
+                        Belum ada jamaah yang terdaftar di database.
+                      </td>
+                    </tr>
+                  ) : (
+                    stats.latestUsers.map((u) => (
+                      <tr key={u.id} className="group hover:bg-slate-50/50 transition-colors">
+                        <td className="py-5 pl-4 flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-extrabold text-sm shrink-0">
+                            {u.name ? u.name.charAt(0).toUpperCase() : "U"}
+                          </div>
+                          <span className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{u.name || "User Tanpa Nama"}</span>
+                        </td>
+                        <td className="py-5 text-slate-500 font-medium text-xs font-sans">{u.email}</td>
+                        <td className="py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">{formatDate(u.createdAt)}</td>
+                        <td className="py-5 pr-4 text-right">
+                          <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${
+                            u.role === "ADMIN" 
+                              ? "bg-blue-50 border-blue-100 text-blue-700" 
+                              : "bg-emerald-50 border-emerald-100 text-emerald-700"
+                          }`}>
+                            {u.role === "ADMIN" ? "Super Admin" : "Premium User"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        </div>
+
+        {/* Right Side: Quick Action and System Information (takes 1/3) */}
+        <div className="space-y-6">
+          <Card className="p-8 bg-white border border-slate-100 shadow-sm rounded-[2.5rem] space-y-6">
+            <h3 className="text-lg font-black text-slate-900 tracking-tight">Navigasi Cepat</h3>
+            
+            <div className="space-y-3">
+              <Link 
+                href="/admin/blogs"
+                className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-emerald-50 border border-slate-150 hover:border-emerald-100 rounded-2xl group transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white border border-slate-150 rounded-xl flex items-center justify-center text-slate-500 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xs font-bold text-slate-900 leading-none">Terbitkan Artikel</h4>
+                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1 inline-block">Kelola Blog</span>
+                  </div>
+                </div>
+                <svg className="w-5 h-5 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7"/></svg>
+              </Link>
+
+              <Link 
+                href="/dashboard"
+                className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-emerald-50 border border-slate-150 hover:border-emerald-100 rounded-2xl group transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white border border-slate-150 rounded-xl flex items-center justify-center text-slate-500 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xs font-bold text-slate-900 leading-none">Portal Jamaah</h4>
+                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1 inline-block">Lihat Simulasi VR</span>
+                  </div>
+                </div>
+                <svg className="w-5 h-5 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7"/></svg>
+              </Link>
+            </div>
+          </Card>
+
+          <div className="bg-emerald-50 border border-emerald-100 rounded-[2.5rem] p-8 text-left space-y-4 shadow-sm">
+            <h4 className="font-bold text-emerald-950 text-sm">🛡️ Konsol Manajemen Aman</h4>
+            <p className="text-xs text-emerald-800 leading-relaxed font-medium">
+              Seluruh data pendaftar dan statistik di atas terenkripsi secara otomatis menggunakan protokol keamanan tingkat tinggi. Silakan hubungi bagian IT travel KBIHU jika Anda memerlukan integrasi API pendaftaran haji lebih lanjut.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

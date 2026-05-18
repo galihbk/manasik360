@@ -13,6 +13,27 @@ services:
       - "54360:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U manasik_user -d manasik360_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-seeder:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: manasik360_seeder
+    environment:
+      DATABASE_URL: postgres://manasik_user:manasik_password@db:5432/manasik360_db
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: >
+      sh -c "
+        npx prisma db push &&
+        node seed.js
+      "
 
 volumes:
   postgres_data:

@@ -150,3 +150,29 @@ model VRHotspot {
 
   @@map("vr_hotspots")
 }
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  summary   String   @db.Text
+  content   String   @db.Text
+  image     String   // Cover image URL
+  category  String   // e.g. "Tips", "Fikih", "Haji"
+  date      String   // e.g. "18 Mei 2026"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model ChatMessage {
+  id         String   @id @default(uuid())
+  senderId   String?  // null if anonymous guest
+  senderName String   // Name of sender
+  text       String   @db.Text
+  sender     String   // "user" or "admin"
+  createdAt  DateTime @default(now())
+
+  @@map("chat_messages")
+}

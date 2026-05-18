@@ -4,6 +4,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import TaskOverlay from "@/components/dashboard/tour/TaskOverlay";
+import { autoCheckTaskByTrigger } from "@/utils/progressStore";
 
 export default function VRPage() {
   const params = useParams();
@@ -98,6 +100,14 @@ export default function VRPage() {
             text: hs.text,
             createTooltipFunc: (hotSpotDiv: any) => {
                hotSpotDiv.classList.add('custom-hotspot');
+
+               // Automatic task completion trigger when user interacts with a hotspot
+               const autoCheck = () => {
+                 autoCheckTaskByTrigger(moduleId, hs.text);
+               };
+               hotSpotDiv.addEventListener('click', autoCheck);
+               hotSpotDiv.addEventListener('mouseenter', autoCheck);
+
                const span = document.createElement('span');
                span.innerHTML = `<div class="p-4 bg-black/80 backdrop-blur-xl text-white rounded-2xl border border-white/20 w-48 shadow-2xl">
                  <p class="font-bold text-accent mb-1">${hs.text}</p>
@@ -110,10 +120,22 @@ export default function VRPage() {
             }
           }))
         });
+
+        // Dispatch scene changed event to notify TaskOverlay of the loaded Pannellum scene/photo
+        const sceneEvent = new CustomEvent("vrSceneChanged", {
+          detail: {
+            sceneName: currentModule.title,
+            sceneIndex: 1,
+            totalScenes: 1
+          }
+        });
+        window.dispatchEvent(sceneEvent);
       } else {
         setTimeout(initViewer, 500);
       }
     };
+
+
 
     if (!showVideo) {
       initViewer();
@@ -135,6 +157,10 @@ export default function VRPage() {
 
   return (
     <div className="relative w-full h-[calc(100vh-12rem)] bg-black rounded-3xl overflow-hidden shadow-2xl font-sans">
+      
+      {/* Dynamic Task list Checklist widget */}
+      {!showVideo && !showQuiz && moduleId && <TaskOverlay moduleId={moduleId} />}
+
       
       {/* 1. Video Opening Overlay */}
       {showVideo && (

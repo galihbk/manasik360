@@ -48,6 +48,7 @@ export default function Navbar() {
             <Link href="/about" className="hover:text-[var(--color-accent)] transition-colors">Tentang Kami</Link>
             <Link href="#fitur" className="hover:text-[var(--color-accent)] transition-colors">Fitur</Link>
             <Link href="#harga" className="hover:text-[var(--color-accent)] transition-colors">Harga</Link>
+            <Link href="/blog" className="hover:text-[var(--color-accent)] transition-colors">Blog</Link>
             <Link href="/faq" className="hover:text-[var(--color-accent)] transition-colors">FAQ</Link>
             <Link href="/contact" className="hover:text-[var(--color-accent)] transition-colors">Hubungi Kami</Link>
           </div>

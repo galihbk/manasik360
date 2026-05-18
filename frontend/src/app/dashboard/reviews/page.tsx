@@ -40,6 +40,13 @@ export default function ReviewsPage() {
     fetchReviews();
   }, []);
 
+  // Compute dynamic average rating
+  const averageRating = reviews.length > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : "5.0";
+
+  const numericRating = Math.round(parseFloat(averageRating));
+
   return (
     <div className="w-full space-y-12 pb-10">
       {/* Review Submission Modal */}
@@ -59,10 +66,17 @@ export default function ReviewsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
          <Card className="p-8 bg-white border-none shadow-sm flex flex-col items-center justify-center text-center space-y-2 rounded-[2.5rem]">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rating Rata-rata</p>
-            <h3 className="text-5xl font-black text-gray-900">4.9</h3>
-            <div className="flex gap-1 text-amber-400">
+            <h3 className="text-5xl font-black text-gray-900">{averageRating}</h3>
+            <div className="flex gap-1">
                {[...Array(5)].map((_, i) => (
-                 <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                 <svg 
+                   key={i} 
+                   className={`w-5 h-5 ${i < numericRating ? 'text-amber-400' : 'text-gray-200'}`} 
+                   fill="currentColor" 
+                   viewBox="0 0 20 20"
+                 >
+                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                 </svg>
                ))}
             </div>
             <p className="text-xs text-gray-400">Berdasarkan {reviews.length} ulasan</p>
@@ -98,6 +112,10 @@ export default function ReviewsPage() {
             <div className="col-span-full flex justify-center py-20">
                <div className="w-10 h-10 border-4 border-[var(--color-primary)]/20 border-t-[var(--color-primary)] rounded-full animate-spin"></div>
             </div>
+         ) : reviews.length === 0 ? (
+            <div className="col-span-full text-center py-20 bg-white border border-gray-100 rounded-[2.5rem]">
+               <p className="text-gray-400 text-sm">Belum ada ulasan yang dibuat. Jadilah yang pertama memberikan ulasan!</p>
+            </div>
          ) : (
             reviews.map((review, i) => (
               <ReviewCard key={i} {...review} />
@@ -106,11 +124,13 @@ export default function ReviewsPage() {
       </div>
 
       {/* Load More */}
-      <div className="flex justify-center pt-8">
-         <button className="px-12 py-4 border-2 border-gray-100 text-gray-400 rounded-2xl text-xs font-bold transition-all hover:bg-white hover:border-gray-200">
-            Lihat Lebih Banyak Ulasan
-         </button>
-      </div>
+      {reviews.length > 6 && (
+        <div className="flex justify-center pt-8">
+           <button className="px-12 py-4 border-2 border-gray-100 text-gray-400 rounded-2xl text-xs font-bold transition-all hover:bg-white hover:border-gray-200">
+              Lihat Lebih Banyak Ulasan
+           </button>
+        </div>
+      )}
     </div>
   );
 }

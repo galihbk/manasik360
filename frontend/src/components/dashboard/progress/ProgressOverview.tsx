@@ -1,12 +1,29 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Card from "@/components/ui/Card";
+import { getCompletedModulesCount } from "@/utils/progressStore";
 
 interface ProgressOverviewProps {
   overallProgress: number;
 }
 
 export default function ProgressOverview({ overallProgress }: ProgressOverviewProps) {
+  const [completedCount, setCompletedCount] = useState(0);
+
+  useEffect(() => {
+    setCompletedCount(getCompletedModulesCount());
+
+    const handleProgressUpdate = () => {
+      setCompletedCount(getCompletedModulesCount());
+    };
+
+    window.addEventListener("progressStoreUpdated", handleProgressUpdate);
+    return () => {
+      window.removeEventListener("progressStoreUpdated", handleProgressUpdate);
+    };
+  }, []);
+
   return (
     <Card className="p-8 bg-white border-none shadow-sm lg:col-span-1 flex flex-col items-center justify-center text-center space-y-6">
       <div className="relative w-40 h-40">
@@ -20,7 +37,7 @@ export default function ProgressOverview({ overallProgress }: ProgressOverviewPr
          </div>
       </div>
       <p className="text-sm text-gray-500 leading-relaxed">
-         Anda telah menyelesaikan <span className="font-bold text-[var(--color-primary)]">1 dari 6</span> modul utama. Terus tingkatkan!
+         Anda telah menyelesaikan <span className="font-bold text-[var(--color-primary)]">{completedCount} dari 6</span> modul utama. Terus tingkatkan!
       </p>
     </Card>
   );

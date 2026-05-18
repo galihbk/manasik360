@@ -1,20 +1,18 @@
 "use client";
 
-import ProgressHeader from "@/components/dashboard/progress/ProgressHeader";
-import ProgressOverview from "@/components/dashboard/progress/ProgressOverview";
-import ModuleTable from "@/components/dashboard/progress/ModuleTable";
+import StepsSection from "@/components/dashboard/StepsSection";
 
 export default function ProgressPage() {
-  const overallProgress = 35;
-  
   return (
-    <div className="w-full space-y-12">
-      <ProgressHeader />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         <ProgressOverview overallProgress={overallProgress} />
-         <ModuleTable />
+    <div className="w-full space-y-12 pb-10">
+      {/* Page Header - Perfectly matched with Doa & Dzikir and other pages */}
+      <div className="space-y-2">
+        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Progress Modul</h1>
+        <p className="text-gray-500 text-lg">Ikuti urutan bimbingan manasik di bawah secara berurutan sesuai ketentuan Rukun & Wajib Haji.</p>
       </div>
+
+      {/* The 6 Interactive Haji & Umrah Simulation Timeline Modules with hidden local header */}
+      <StepsSection hideHeader />
 
       {/* Achievement / Suggestion Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
@@ -25,7 +23,7 @@ export default function ProgressPage() {
             </div>
             <div>
                <h4 className="font-bold mb-1">Terus Berikan yang Terbaik!</h4>
-               <p className="text-xs text-emerald-100">Sedikit lagi Anda akan menyelesaikan Modul Tawaf. Kesiapan mental sangat penting.</p>
+               <p className="text-xs text-emerald-100 font-medium">Tuntaskan setiap langkah rukun haji secara disiplin untuk meraih kesempurnaan ibadah.</p>
             </div>
          </div>
          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 flex items-center gap-6 shadow-sm group cursor-pointer hover:shadow-lg transition-all">
@@ -34,10 +32,11 @@ export default function ProgressPage() {
             </div>
             <div>
                <h4 className="font-bold text-gray-900">Unduh Sertifikat Progress</h4>
-               <p className="text-xs text-gray-400">Dapatkan sertifikat sementara untuk setiap modul yang Anda selesaikan.</p>
+               <p className="text-xs text-gray-400 font-medium font-sans">Dapatkan sertifikat sementara untuk setiap modul yang Anda selesaikan.</p>
             </div>
          </div>
       </div>
     </div>
   );
 }
+

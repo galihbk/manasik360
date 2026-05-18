@@ -40,9 +40,8 @@ export default function ReviewCard({ name, role, avatar, rating, comment, date }
        <p className="text-sm text-gray-500 leading-relaxed italic mb-6">
           "{comment}"
        </p>
-       <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+       <div className="flex items-center justify-start pt-6 border-t border-gray-50">
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{date}</span>
-          <button className="text-[10px] font-bold text-[var(--color-primary)] hover:underline">Balas Ulasan</button>
        </div>
     </div>
   );

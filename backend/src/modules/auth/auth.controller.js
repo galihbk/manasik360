@@ -137,9 +137,78 @@ const getMe = async (req, res) => {
   });
 };
 
+const updateProfile = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+    const userId = req.user.id;
+
+    const updateData = { name, email };
+
+    if (password && password.trim() !== '') {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updateData
+    });
+
+    res.json({
+      status: 'success',
+      message: 'Profil berhasil diperbarui',
+      data: {
+        user: {
+          id: updatedUser.id,
+          email: updatedUser.email,
+          name: updatedUser.name,
+          role: updatedUser.role
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getStats = async (req, res, next) => {
+  try {
+    const totalUsers = await prisma.user.count();
+    const totalBlogs = await prisma.blogPost.count();
+    const totalReviews = await prisma.review.count();
+    const totalFeedbacks = await prisma.feedback.count();
+
+    const latestUsers = await prisma.user.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true
+      }
+    });
+
+    res.json({
+      status: 'success',
+      data: {
+        totalUsers,
+        totalBlogs,
+        totalReviews,
+        totalFeedbacks,
+        latestUsers
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   register,
   logout,
-  getMe
+  getMe,
+  updateProfile,
+  getStats
 };

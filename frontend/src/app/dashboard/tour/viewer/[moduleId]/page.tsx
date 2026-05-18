@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import TaskOverlay from "@/components/dashboard/tour/TaskOverlay";
+import { autoCheckTaskByTrigger } from "@/utils/progressStore";
+
 
 export default function VRViewerPage() {
   const { moduleId } = useParams();
@@ -9,7 +12,7 @@ export default function VRViewerPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   
   const [moduleName, setModuleName] = useState("Simulasi Manasik VR");
-  const [moduleDescription, setModuleDescription] = useState("Pengalaman Virtual Tour Manasik 3DVista Premium");
+  const [moduleDescription, setModuleDescription] = useState("Pengalaman Virtual Tour Manasik Haji & Umrah Premium");
   const [iframeSrc, setIframeSrc] = useState("/tour/index.htm");
   const [iframeLoading, setIframeLoading] = useState(true);
 
@@ -58,11 +61,55 @@ export default function VRViewerPage() {
     return () => clearTimeout(timer);
   }, []);
 
+  // 3. Listen for automatic task triggers from 3DVista iframe (postMessage and window.parent helper triggers)
+  useEffect(() => {
+    const handleVRMessage = (event: MessageEvent) => {
+      const data = event.data;
+      if (data && (data.type === "VR_TASK_TRIGGER" || data.type === "VR_HOTSPOT_CLICKED" || data.type === "VR_SCENE_CHANGED")) {
+        const triggerText = data.text || data.hotspotText || data.sceneName;
+        if (triggerText && moduleId) {
+          autoCheckTaskByTrigger(moduleId as string, triggerText);
+        }
+      }
+      
+      // If we got a scene changed event, broadcast it to the React overlays
+      if (data && data.type === "VR_SCENE_CHANGED") {
+        const sceneEvent = new CustomEvent("vrSceneChanged", {
+          detail: {
+            sceneName: data.sceneName,
+            sceneIndex: data.sceneIndex,
+            totalScenes: data.totalScenes
+          }
+        });
+        window.dispatchEvent(sceneEvent);
+      }
+    };
+
+    window.addEventListener("message", handleVRMessage);
+    
+    // Direct global helper for 3DVista custom action scripts (window.parent.triggerVRTask("Rukun Yamani"))
+    (window as any).triggerVRTask = (text: string) => {
+      if (moduleId) {
+        autoCheckTaskByTrigger(moduleId as string, text);
+      }
+    };
+
+
+    return () => {
+      window.removeEventListener("message", handleVRMessage);
+      delete (window as any).triggerVRTask;
+    };
+  }, [moduleId]);
+
+
   return (
     <div 
       ref={containerRef}
       className="fixed inset-0 z-[200] bg-black w-full h-full overflow-hidden"
     >
+      {/* Floating Task checklist Overlay */}
+      {moduleId && <TaskOverlay moduleId={moduleId as string} />}
+
       {/* Top Header Overlay */}
       <div className="absolute top-0 left-0 right-0 z-[210] p-6 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
         <div className="flex items-center gap-4 pointer-events-auto">
