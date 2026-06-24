@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Card from "@/components/ui/Card";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface ReviewModalProps {
 
 export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalProps) {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +36,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: user?.name || "Jamaah Bahrain",
-          role: user?.role === "ADMIN" ? "Administrator" : "Premium User",
+          role: user?.role === "ADMIN" ? "ADMIN" : "USER", // Send standardized role string
           avatar: "/images/pilgrim-hero.png",
           rating,
           comment,
@@ -69,14 +71,14 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
 
         <div className="space-y-8">
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-bold text-gray-900">Tulis Ulasan Anda</h3>
-            <p className="text-sm text-gray-500">Ceritakan pengalaman Anda menggunakan Bahrain.</p>
+            <h3 className="text-2xl font-bold text-gray-900">{t("reviews.modalTitle")}</h3>
+            <p className="text-sm text-gray-500">{t("reviews.subtitle")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Rating Selector */}
             <div className="flex flex-col items-center gap-3">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Berikan Rating</p>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t("reviews.modalRating")}</p>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -95,12 +97,12 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
 
             {/* Comment Input */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">Komentar</label>
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">{t("reviews.modalComment")}</label>
               <textarea
                 required
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Apa yang paling Anda sukai dari simulasi ini?"
+                placeholder={t("reviews.modalPlaceholder")}
                 rows={4}
                 className="w-full p-6 bg-gray-50 border-none rounded-[2rem] text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all resize-none"
               ></textarea>
@@ -115,7 +117,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
                 <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
-                  Kirim Ulasan
+                  {t("reviews.modalBtnSubmit")}
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
                 </>
               )}

@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer id="kontak" className="py-24 bg-[#064e3b] text-white relative overflow-hidden">
       {/* Decorative background pattern */}
@@ -21,33 +24,33 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-300 leading-relaxed max-w-xs">
-              Membantu jamaah Indonesia mempersiapkan perjalanan spiritual terbaik mereka melalui teknologi imersif yang nyata dan terpercaya.
+              {t("footer.desc")}
             </p>
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">Navigasi</h4>
+            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">{t("footer.nav")}</h4>
             <ul className="space-y-6 text-gray-300 font-medium">
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">Tentang Kami</Link></li>
-              <li><Link href="#fitur" className="hover:text-white transition-colors">Fitur Utama</Link></li>
-              <li><Link href="#harga" className="hover:text-white transition-colors">Paket Harga</Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">{t("nav.home")}</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">{t("nav.about")}</Link></li>
+              <li><Link href="/#fitur" className="hover:text-white transition-colors">{t("footer.mainFeatures")}</Link></li>
+              <li><Link href="/#harga" className="hover:text-white transition-colors">{t("footer.pricePlans")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">Dukungan</h4>
+            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">{t("footer.support")}</h4>
             <ul className="space-y-6 text-gray-300 font-medium">
-              <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Pusat Bantuan</Link></li>
-              <li><Link href="/privacy" className="hover:text-white transition-colors">Kebijakan Privasi</Link></li>
-              <li><Link href="/terms" className="hover:text-white transition-colors">Syarat & Ketentuan</Link></li>
+              <li><Link href="/faq" className="hover:text-white transition-colors">{t("nav.faq")}</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">{t("footer.helpCenter")}</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors">{t("footer.privacy")}</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors">{t("footer.terms")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">Hubungi Kami</h4>
-            <p className="text-gray-300 mb-6">Punya pertanyaan? Kami siap membantu persiapan Anda.</p>
+            <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">{t("footer.contact")}</h4>
+            <p className="text-gray-300 mb-6">{t("footer.contactDesc")}</p>
             <div className="space-y-4">
               <a href="mailto:info@bahrain.com" className="block text-gray-100 font-bold hover:text-[var(--color-accent)] transition-colors">info@bahrain.com</a>
               <div className="flex gap-4">
@@ -68,7 +71,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6 text-center sm:text-left">
-          <p className="text-gray-400 text-sm">© 2026 Bahrain. Seluruh hak cipta dilindungi oleh Allah SWT.</p>
+          <p className="text-gray-400 text-sm">{t("footer.copyright")}</p>
         </div>
       </div>
     </footer>

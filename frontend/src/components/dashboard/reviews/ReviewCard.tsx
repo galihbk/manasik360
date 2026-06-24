@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ReviewCardProps {
   name: string;
@@ -12,6 +13,12 @@ interface ReviewCardProps {
 }
 
 export default function ReviewCard({ name, role, avatar, rating, comment, date }: ReviewCardProps) {
+  const { t } = useLanguage();
+  
+  const displayRole = role === "Administrator" || role === "ADMIN" 
+    ? t("header.admin") 
+    : t("header.premium");
+
   return (
     <div className="bg-white p-8 rounded-[2.5rem] border border-gray-50 shadow-sm hover:shadow-xl transition-all group">
        <div className="flex items-center justify-between mb-6">
@@ -21,7 +28,7 @@ export default function ReviewCard({ name, role, avatar, rating, comment, date }
              </div>
              <div>
                 <h4 className="font-bold text-gray-900 leading-none mb-1">{name}</h4>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{role}</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{displayRole}</p>
              </div>
           </div>
           <div className="flex items-center gap-1">

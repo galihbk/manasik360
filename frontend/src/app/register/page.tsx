@@ -5,9 +5,13 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Image from "next/image";
+import { useToast } from "@/context/ToastContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { showToast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +46,7 @@ export default function RegisterPage() {
       }
 
       // Success
-      alert("Registrasi berhasil! Silakan masuk.");
+      showToast("Registrasi berhasil! Silakan masuk.", "success");
       router.push("/login");
     } catch (err: any) {
       setError(err.message);
@@ -76,8 +80,8 @@ export default function RegisterPage() {
               Bahrain
             </span>
           </Link>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">Buat Akun Baru</h2>
-          <p className="text-gray-300/80 mt-2 text-sm font-medium">Mulai perjalanan manasik digital Anda hari ini</p>
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">{t("auth.createAccount")}</h2>
+          <p className="text-gray-300/80 mt-2 text-sm font-medium">{t("auth.registerSubtitle")}</p>
         </div>
 
         {/* Register Card */}
@@ -91,7 +95,7 @@ export default function RegisterPage() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                Nama Lengkap
+                {t("auth.nameLabel")}
               </label>
               <input
                 type="text"
@@ -100,14 +104,14 @@ export default function RegisterPage() {
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-gray-900 bg-white"
-                placeholder="Masukkan nama lengkap Anda"
+                placeholder={t("auth.phName")}
                 required
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                Alamat Email
+                {t("auth.emailLabel")}
               </label>
               <input
                 type="email"
@@ -123,7 +127,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
-                Kata Sandi
+                {t("auth.passwordLabel")}
               </label>
               <input
                 type="password"
@@ -132,7 +136,7 @@ export default function RegisterPage() {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-gray-900 bg-white"
-                placeholder="Minimal 8 karakter"
+                placeholder={t("auth.phPassword")}
                 required
               />
             </div>
@@ -146,19 +150,19 @@ export default function RegisterPage() {
                 required
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-600 font-medium">
-                Saya setuju dengan{" "}
+                {t("auth.termsAgree")}{" "}
                 <Link href="#" className="font-semibold text-[var(--color-primary)] hover:underline">
-                  Syarat & Ketentuan
+                  {t("auth.termsLink")}
                 </Link>{" "}
-                serta{" "}
+                {t("auth.and")}{" "}
                 <Link href="#" className="font-semibold text-[var(--color-primary)] hover:underline">
-                  Kebijakan Privasi
+                  {t("auth.privacyLink")}
                 </Link>
               </label>
             </div>
 
             <Button type="submit" className="w-full py-4 text-base rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white hover:opacity-95 transition-all shadow-lg shadow-emerald-950/20" onClick={() => {}}>
-              {loading ? "Mendaftar..." : "Daftar Sekarang"}
+              {loading ? "..." : t("auth.btnRegister")}
             </Button>
           </form>
 
@@ -167,7 +171,7 @@ export default function RegisterPage() {
               <div className="w-full border-t border-gray-100"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase tracking-wider font-semibold">
-              <span className="px-3 bg-white/0 text-gray-400">Atau daftar dengan</span>
+              <span className="px-3 bg-white/0 text-gray-400">{t("auth.orRegisterWith")}</span>
             </div>
           </div>
 
@@ -203,9 +207,9 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center mt-8 text-gray-300">
-          Sudah punya akun?{" "}
+          {t("auth.haveAccount")}{" "}
           <Link href="/login" className="font-bold text-[var(--color-accent-light)] hover:underline hover:text-[var(--color-accent)] transition-colors">
-            Masuk Sekarang
+            {t("auth.loginLink")}
           </Link>
         </p>
       </div>

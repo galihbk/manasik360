@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
+
 interface HistoryItemProps {
   title: string;
   type: string;
@@ -17,7 +19,45 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function HistoryItem({ title, type, time, date, icon, color }: HistoryItemProps) {
+  const { t } = useLanguage();
   const renderedIcon = typeof icon === 'string' ? (iconMap[icon] || iconMap.system) : icon;
+
+  const getTypeText = (type: string) => {
+     if (type === "Simulasi") return t("history.typeSimulasi");
+     if (type === "Hafalan") return t("history.typeHafalan");
+     if (type === "Belajar") return t("history.typeBelajar");
+     return type;
+  };
+
+  const getTranslatedTitle = (title: string) => {
+     // Check if the title starts with "Selesai Menonton Video:" or "Menghafal Doa:"
+     if (title.startsWith("Selesai Menonton Video: ")) {
+        const modPart = title.replace("Selesai Menonton Video: ", "");
+        // Map modPart if it matches a module name
+        let mappedName = modPart;
+        if (modPart.includes("Ihram")) mappedName = t("module.ihram.name");
+        else if (modPart.includes("Tawaf")) mappedName = t("module.tawaf.name");
+        else if (modPart.includes("Sa'i") || modPart.includes("Sai")) mappedName = t("module.sai.name");
+        else if (modPart.includes("Wukuf")) mappedName = t("module.wukuf.name");
+        else if (modPart.includes("Mabit") || modPart.includes("Muzdalifah")) mappedName = t("module.muzdalifah.name");
+        else if (modPart.includes("Jumrah")) mappedName = t("module.jumrah.name");
+        return t("progress.videoCompleted").replace("{name}", mappedName);
+     }
+     if (title.startsWith("Menghafal Doa: ")) {
+        const prayerPart = title.replace("Menghafal Doa: ", "");
+        let mappedName = prayerPart;
+        if (prayerPart.includes("Niat")) mappedName = t("prayer.ihram.title");
+        else if (prayerPart.includes("Talbiyah")) mappedName = t("prayer.talbiyah.title");
+        else if (prayerPart.includes("Memulai Tawaf")) mappedName = t("prayer.tawaf.title");
+        else if (prayerPart.includes("Sapu Jagad")) mappedName = t("prayer.sapujagad.title");
+        else if (prayerPart.includes("Safa")) mappedName = t("prayer.sai.title");
+        else if (prayerPart.includes("Wukuf")) mappedName = t("prayer.wukuf.title");
+        else if (prayerPart.includes("Mabit")) mappedName = t("prayer.muzdalifah.title");
+        else if (prayerPart.includes("Jumrah")) mappedName = t("prayer.jumrah.title");
+        return t("progress.doaCompleted").replace("{name}", mappedName);
+     }
+     return title;
+  };
 
   return (
     <div className="flex gap-6 group relative">
@@ -35,15 +75,15 @@ export default function HistoryItem({ title, type, time, date, icon, color }: Hi
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{type}</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{getTypeText(type)}</span>
                       <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{time}</span>
                    </div>
-                   <h4 className="font-bold text-gray-900">{title}</h4>
+                   <h4 className="font-bold text-gray-900">{getTranslatedTitle(title)}</h4>
                 </div>
                 <div className="text-right">
                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{date}</p>
-                   <button className="text-[10px] font-bold text-[var(--color-primary)] hover:underline mt-1">Lihat Detail</button>
+                   <button className="text-[10px] font-bold text-[var(--color-primary)] hover:underline mt-1">{t("landing.blogReadMore")}</button>
                 </div>
              </div>
           </div>

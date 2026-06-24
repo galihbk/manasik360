@@ -6,6 +6,7 @@ import Script from "next/script";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ConfirmModal from "@/components/ui/ConfirmModal";
+import { useToast } from "@/context/ToastContext";
 
 interface Scene {
   id: string;
@@ -25,6 +26,7 @@ export default function ModuleEditorPage() {
   const params = useParams();
   const router = useRouter();
   const moduleId = params.moduleId as string;
+  const { showToast } = useToast();
 
   const [module, setModule] = useState<Module | null>(null);
   const [scenes, setScenes] = useState<Scene[]>([]);
@@ -125,11 +127,11 @@ export default function ModuleEditorPage() {
       if (json.status === "success") {
         setSceneForm({ ...sceneForm, panoramaPath: json.data.filePath });
       } else {
-        alert(json.message);
+        showToast(json.message, "error");
       }
     } catch (err) {
       console.error(err);
-      alert("Gagal mengunggah gambar");
+      showToast("Gagal mengunggah gambar", "error");
     } finally {
       setIsUploading(false);
     }
@@ -138,7 +140,7 @@ export default function ModuleEditorPage() {
   const handleCreateScene = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!sceneForm.name || !sceneForm.panoramaPath) {
-      alert("Silakan lengkapi nama titik dan gambar panorama!");
+      showToast("Silakan lengkapi nama titik dan gambar panorama!", "warning");
       return;
     }
     try {
@@ -149,7 +151,7 @@ export default function ModuleEditorPage() {
         body: JSON.stringify(sceneForm)
       });
       if (res.ok) {
-        alert("Titik VR berhasil disimpan!");
+        showToast("Titik VR berhasil disimpan!", "success");
         setSceneForm({ ...sceneForm, name: "", panoramaPath: "", isFirst: false });
         fetchData();
       }
@@ -161,7 +163,7 @@ export default function ModuleEditorPage() {
   const handleAddHotspot = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!hotspotForm.sceneId || !hotspotForm.targetSceneId) {
-      alert("Silakan pilih titik asal dan titik tujuan!");
+      showToast("Silakan pilih titik asal dan titik tujuan!", "warning");
       return;
     }
     try {
@@ -172,7 +174,7 @@ export default function ModuleEditorPage() {
         body: JSON.stringify(hotspotForm)
       });
       if (res.ok) {
-        alert("Jalur berhasil dihubungkan!");
+        showToast("Jalur berhasil dihubungkan!", "success");
         setHotspotForm({ ...hotspotForm, targetSceneId: "", text: "Maju", pitch: 0, yaw: 0 });
         fetchData();
       }

@@ -6,10 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/ui/Button";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -76,8 +78,8 @@ export default function LoginPage() {
               Bahrain
             </span>
           </Link>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">Selamat Datang Kembali</h2>
-          <p className="text-gray-300/80 mt-2 text-sm font-medium">Masuk untuk melanjutkan pengalaman manasik Anda</p>
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">{t("auth.welcomeBack")}</h2>
+          <p className="text-gray-300/80 mt-2 text-sm font-medium">{t("auth.loginSubtitle")}</p>
         </div>
 
         {/* Login Card */}
@@ -91,7 +93,7 @@ export default function LoginPage() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                Alamat Email
+                {t("auth.emailLabel")}
               </label>
               <input
                 type="email"
@@ -108,10 +110,10 @@ export default function LoginPage() {
             <div>
               <div className="flex justify-between mb-2">
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
-                  Kata Sandi
+                  {t("auth.passwordLabel")}
                 </label>
                 <a href="#" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-light)]">
-                  Lupa kata sandi?
+                  {t("auth.forgotPassword")}
                 </a>
               </div>
               <input
@@ -134,12 +136,12 @@ export default function LoginPage() {
                 className="h-4 w-4 text-[var(--color-primary)] focus:ring-[var(--color-primary)] border-gray-300 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600 font-medium">
-                Ingat saya
+                {t("auth.rememberMe")}
               </label>
             </div>
 
             <Button type="submit" className="w-full py-4 text-base rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white hover:opacity-95 transition-all shadow-lg shadow-emerald-950/20" onClick={() => {}}>
-              {loading ? "Masuk..." : "Masuk Sekarang"}
+              {loading ? "..." : t("auth.btnLogin")}
             </Button>
           </form>
 
@@ -148,7 +150,7 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-100"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase tracking-wider font-semibold">
-              <span className="px-3 bg-white/0 text-gray-400">Atau masuk dengan</span>
+              <span className="px-3 bg-white/0 text-gray-400">{t("auth.orWith")}</span>
             </div>
           </div>
 
@@ -184,9 +186,9 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center mt-8 text-gray-300">
-          Belum punya akun?{" "}
+          {t("auth.noAccount")}{" "}
           <Link href="/register" className="font-bold text-[var(--color-accent-light)] hover:underline hover:text-[var(--color-accent)] transition-colors">
-            Daftar Gratis
+            {t("auth.registerFree")}
           </Link>
         </p>
       </div>

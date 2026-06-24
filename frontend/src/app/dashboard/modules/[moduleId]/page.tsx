@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Card from "@/components/ui/Card";
 import { getModuleProgress, getProgressStore, updateTaskStatus } from "@/utils/progressStore";
 import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/context/ToastContext";
 
 interface HajiModule {
   id: string;
@@ -122,6 +123,7 @@ const OFFICIAL_HAJI_JOURNEY: HajiModule[] = [
 
 export default function ModulePlayerPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const params = useParams();
   const router = useRouter();
   const moduleId = params.moduleId as string;
@@ -676,7 +678,7 @@ export default function ModulePlayerPage() {
             {/* Bottom Actions Panel */}
             <div className="flex items-center justify-between mt-6 border-t border-gray-100 pt-6">
               <button 
-                onClick={() => alert("Fitur feedback aktif. Komentar Anda membantu membimbing jamaah lain!")}
+                onClick={() => showToast("Fitur feedback aktif. Komentar Anda membantu membimbing jamaah lain!", "info")}
                 className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-slate-950/10 cursor-pointer"
               >
                 Tinggalkan Komentar
@@ -849,17 +851,6 @@ export default function ModulePlayerPage() {
                 {currentModule.description} Dibimbing oleh asisten ahli manasik virtual Bahrain International untuk memberikan pemahaman ibadah yang sahih, tertib, dan bernilai pahala makbul.
               </p>
             )}
-
-            {/* Participants counter */}
-            <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-              <div className="w-10 h-10 bg-emerald-100/50 text-emerald-600 rounded-xl flex items-center justify-center">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              </div>
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Keaktifan Kelas</span>
-                <p className="text-xs font-bold text-gray-900">220 Jamaah Bergabung</p>
-              </div>
-            </div>
 
           </Card>
         </div>

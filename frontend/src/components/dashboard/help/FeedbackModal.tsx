@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FeedbackModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface FeedbackModalProps {
 }
 
 export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
+  const { t } = useLanguage();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,6 +47,9 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     }
   };
 
+  const successTitle = t("help.feedbackSuccess").split("!")[0] + "!";
+  const successDesc = t("help.feedbackSuccess").split("!").slice(1).join("!").trim() || t("help.feedbackSuccess");
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen min-h-screen bg-black/60 backdrop-blur-md z-[300] flex items-center justify-center p-4 animate-in fade-in duration-300">
       <Card className="w-full max-w-xl bg-white rounded-[3rem] p-8 lg:p-12 shadow-2xl relative animate-in slide-in-from-bottom-8 duration-500">
@@ -60,23 +65,23 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
             <div className="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-[2rem] flex items-center justify-center">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">Feedback Terkirim!</h3>
-            <p className="text-gray-500 max-w-xs">Terima kasih atas masukan Anda. Kami akan terus berusaha meningkatkan layanan kami.</p>
+            <h3 className="text-2xl font-bold text-gray-900">{successTitle}</h3>
+            <p className="text-gray-500 max-w-xs">{successDesc}</p>
           </div>
         ) : (
           <div className="space-y-8">
             <div className="text-center space-y-2">
-              <h3 className="text-2xl font-bold text-gray-900">Kirim Feedback</h3>
-              <p className="text-sm text-gray-500">Berikan saran atau laporkan kendala teknis Anda.</p>
+              <h3 className="text-2xl font-bold text-gray-900">{t("help.modalTitle")}</h3>
+              <p className="text-sm text-gray-500">{t("help.modalDesc")}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">Subjek</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">{t("contact.labelSubject")}</label>
                 <input
                   required
                   type="text"
-                  placeholder="Contoh: Saran Fitur Baru / Kendala VR"
+                  placeholder={`${t("help.modalOpt2")} / ${t("help.modalOpt1")}`}
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all"
@@ -84,12 +89,12 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">Pesan Anda</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-2">{t("help.modalMessage")}</label>
                 <textarea
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Ceritakan detail saran atau kendala yang Anda alami..."
+                  placeholder={t("help.modalPlaceholder")}
                   rows={4}
                   className="w-full p-6 bg-gray-50 border-none rounded-[2rem] text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all resize-none"
                 ></textarea>
@@ -104,7 +109,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                 ) : (
                   <>
-                    Kirim Sekarang
+                    {t("help.modalBtnSubmit")}
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                   </>
                 )}

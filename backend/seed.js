@@ -63,21 +63,24 @@ const notifications = [
     desc: "Simulasi VR Sa'i Safa-Marwah kini sudah bisa Anda akses.", 
     time: "2 menit yang lalu", 
     unread: true, 
-    type: "info" 
+    type: "info",
+    createdAt: new Date(Date.now() - 2 * 60 * 1000)
   },
   { 
     title: "Pencapaian Baru!", 
     desc: "Selamat! Anda mendapatkan lencana 'Pioneer Ihram'.", 
     time: "1 jam yang lalu", 
     unread: true, 
-    type: "success" 
+    type: "success",
+    createdAt: new Date(Date.now() - 60 * 60 * 1000)
   },
   { 
     title: "Pengingat Ibadah", 
     desc: "Jangan lupa untuk meninjau kembali doa Thawaf hari ini.", 
     time: "Kemarin", 
     unread: false, 
-    type: "warning" 
+    type: "warning",
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000)
   },
 ];
 
@@ -158,6 +161,24 @@ async function main() {
     }
   });
   console.log('Super Admin seeded/ensured successfully: admin@bahrain.com / adminpassword');
+
+  // Seed Demo User Account
+  const userPasswordHash = await bcrypt.hash('userpassword', 10);
+  await prisma.user.upsert({
+    where: { email: 'user@bahrain.com' },
+    update: {
+      name: 'Jamaah Bahrain',
+      password: userPasswordHash,
+      role: 'USER'
+    },
+    create: {
+      name: 'Jamaah Bahrain',
+      email: 'user@bahrain.com',
+      password: userPasswordHash,
+      role: 'USER'
+    }
+  });
+  console.log('Demo User seeded/ensured successfully: user@bahrain.com / userpassword');
 
   console.log('Seeding finished.');
 }

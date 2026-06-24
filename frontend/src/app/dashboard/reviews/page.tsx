@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ReviewCard from "@/components/dashboard/reviews/ReviewCard";
 import ReviewModal from "@/components/dashboard/reviews/ReviewModal";
 import Card from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Review {
   id: string;
@@ -16,6 +17,7 @@ interface Review {
 }
 
 export default function ReviewsPage() {
+  const { t } = useLanguage();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,14 +60,14 @@ export default function ReviewsPage() {
 
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">Ulasan Pengguna</h1>
-        <p className="text-gray-500">Dengarkan pengalaman jamaah lain atau bagikan cerita Anda sendiri.</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t("reviews.title")}</h1>
+        <p className="text-gray-500">{t("reviews.subtitle")}</p>
       </div>
 
       {/* Summary Stats Area */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
          <Card className="p-8 bg-white border-none shadow-sm flex flex-col items-center justify-center text-center space-y-2 rounded-[2.5rem]">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rating Rata-rata</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("reviews.avgRating")}</p>
             <h3 className="text-5xl font-black text-gray-900">{averageRating}</h3>
             <div className="flex gap-1">
                {[...Array(5)].map((_, i) => (
@@ -79,20 +81,20 @@ export default function ReviewsPage() {
                  </svg>
                ))}
             </div>
-            <p className="text-xs text-gray-400">Berdasarkan {reviews.length} ulasan</p>
+            <p className="text-xs text-gray-400">{t("reviews.basedOn").replace("{count}", reviews.length.toString())}</p>
          </Card>
 
          <Card className="lg:col-span-3 p-8 bg-[#064e3b] text-white border-none shadow-xl rounded-[2.5rem] flex flex-col lg:flex-row items-center gap-10">
             <div className="space-y-4 flex-1 text-center lg:text-left">
-               <h3 className="text-2xl font-bold">Bagikan Pengalaman Anda</h3>
+               <h3 className="text-2xl font-bold">{t("reviews.shareTitle")}</h3>
                <p className="text-emerald-100 text-sm leading-relaxed">
-                  Bantu jamaah lain dengan memberikan ulasan mengenai pengalaman Anda menggunakan simulasi Bahrain.
+                  {t("reviews.shareDesc")}
                </p>
                <button 
                   onClick={() => setIsModalOpen(true)}
                   className="bg-[var(--color-accent)] text-white px-10 py-3 rounded-full font-bold text-xs shadow-lg hover:bg-[#b45309] transition-all uppercase tracking-widest"
                >
-                  Tulis Ulasan Sekarang
+                  {t("reviews.btnWrite")}
                </button>
             </div>
             <div className="hidden lg:flex gap-4">
@@ -114,7 +116,7 @@ export default function ReviewsPage() {
             </div>
          ) : reviews.length === 0 ? (
             <div className="col-span-full text-center py-20 bg-white border border-gray-100 rounded-[2.5rem]">
-               <p className="text-gray-400 text-sm">Belum ada ulasan yang dibuat. Jadilah yang pertama memberikan ulasan!</p>
+               <p className="text-gray-400 text-sm">{t("reviews.empty")}</p>
             </div>
          ) : (
             reviews.map((review, i) => (
@@ -127,7 +129,7 @@ export default function ReviewsPage() {
       {reviews.length > 6 && (
         <div className="flex justify-center pt-8">
            <button className="px-12 py-4 border-2 border-gray-100 text-gray-400 rounded-2xl text-xs font-bold transition-all hover:bg-white hover:border-gray-200">
-              Lihat Lebih Banyak Ulasan
+              {t("reviews.btnLoadMore")}
            </button>
         </div>
       )}

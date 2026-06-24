@@ -4,39 +4,42 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PricingPage() {
+  const { t } = useLanguage();
+
   const plans = [
     {
-      name: "Paket Basic",
-      price: "Gratis",
-      desc: "Cocok untuk pengenalan awal manasik.",
-      features: ["1 Modul VR Utama (Ihram)", "Panduan Audio Dasar", "Teks Doa Lengkap", "Akses 7 Hari"],
-      button: "Mulai Gratis",
+      name: t("landing.pkgBasic"),
+      price: t("landing.priceFree"),
+      desc: t("price.descBasic"),
+      features: [t("price.featBasic1"), t("price.featBasic2"), t("price.featBasic3"), t("price.featBasic4")],
+      button: t("price.btnFree"),
       highlight: false
     },
     {
-      name: "Paket Premium VR",
+      name: t("landing.pkgPremium"),
       price: "Rp 150.000",
-      desc: "Pengalaman penuh untuk jamaah individu.",
-      features: ["Semua Modul 360°", "AI Ustadz Virtual 24/7", "Sertifikat Digital", "Akses Selamanya", "Update Konten Berkala"],
-      button: "Beli Paket Premium",
+      desc: t("price.descPremium"),
+      features: [t("price.featPrem1"), t("price.featPrem2"), t("price.featPrem3"), t("price.featPrem4"), t("price.featPrem5")],
+      button: t("price.btnPremium"),
       highlight: true
     },
     {
-      name: "Paket Travel Haji",
-      price: "Custom",
-      desc: "Solusi efisien untuk biro perjalanan.",
-      features: ["Dashboard Monitoring Jamaah", "Branding Nama Travel", "Akses untuk 50+ Jamaah", "API Integration", "Support Prioritas"],
-      button: "Hubungi Penjualan",
+      name: t("landing.pkgTravel"),
+      price: t("landing.priceCustom"),
+      desc: t("price.descTravel"),
+      features: [t("price.featTrav1"), t("price.featTrav2"), t("price.featTrav3"), t("price.featTrav4"), t("price.featTrav5")],
+      button: t("price.btnSales"),
       highlight: false
     },
     {
-      name: "Paket Lansia",
+      name: t("landing.pkgLansia"),
       price: "Rp 250.000",
-      desc: "Bimbingan ekstra untuk orang tua tercinta.",
-      features: ["Navigasi Voice-Command", "Interface Sangat Sederhana", "Bimbingan Video Call (1x)", "Semua Fitur Premium", "Pendampingan Login"],
-      button: "Beli Paket Khusus",
+      desc: t("price.descLansia"),
+      features: [t("price.featLan1"), t("price.featLan2"), t("price.featLan3"), t("price.featLan4"), t("price.featLan5")],
+      button: t("price.btnLansia"),
       highlight: false
     }
   ];
@@ -50,8 +53,8 @@ export default function PricingPage() {
         <div className="bg-[#064e3b] pt-32 pb-24 lg:pt-48 mb-20 relative overflow-hidden">
            <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 islamic-pattern pointer-events-none"></div>
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 text-white">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight">Investasikan Persiapan <br className="hidden lg:block"/> Ibadah Anda</h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">Pilih paket yang paling sesuai dengan kebutuhan Anda untuk pengalaman manasik yang lebih matang.</p>
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 tracking-tight">{t("price.heroTitle")}</h1>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">{t("price.heroSubtitle")}</p>
            </div>
         </div>
 
@@ -68,7 +71,7 @@ export default function PricingPage() {
               >
                 {plan.highlight && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--color-accent)] text-white px-6 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                    Paling Populer
+                    {t("price.popular")}
                   </div>
                 )}
                 
@@ -100,9 +103,9 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-24 p-12 bg-white rounded-[3rem] border border-gray-100 shadow-sm text-center">
-             <h3 className="text-2xl font-bold text-gray-900 mb-4">Butuh Bantuan Memilih?</h3>
-             <p className="text-gray-500 mb-8 max-w-2xl mx-auto">Tim kami siap membantu Anda memilih paket terbaik atau memberikan demo khusus untuk biro perjalanan Haji & Umrah Anda.</p>
-             <Button variant="outline" className="px-10 py-4 rounded-2xl font-bold border-gray-200">Hubungi Kami via WhatsApp</Button>
+             <h3 className="text-2xl font-bold text-gray-900 mb-4">{t("price.helpTitle")}</h3>
+             <p className="text-gray-500 mb-8 max-w-2xl mx-auto">{t("price.helpDesc")}</p>
+             <Button variant="outline" href="https://wa.me/628129000360" className="px-10 py-4 rounded-2xl font-bold border-gray-200">{t("price.btnWa")}</Button>
           </div>
         </div>
       </main>

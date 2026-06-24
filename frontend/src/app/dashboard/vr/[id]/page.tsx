@@ -6,10 +6,12 @@ import Button from "@/components/ui/Button";
 import Image from "next/image";
 import TaskOverlay from "@/components/dashboard/tour/TaskOverlay";
 import { autoCheckTaskByTrigger } from "@/utils/progressStore";
+import { useToast } from "@/context/ToastContext";
 
 export default function VRPage() {
   const params = useParams();
   const router = useRouter();
+  const { showToast } = useToast();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showVideo, setShowVideo] = useState(true);
@@ -151,7 +153,7 @@ export default function VRPage() {
 
   const handleFinishModule = () => {
     setShowQuiz(false);
-    alert("Selamat! Modul Selesai.");
+    showToast("Selamat! Modul berhasil diselesaikan.", "success");
     router.push('/dashboard');
   };
 

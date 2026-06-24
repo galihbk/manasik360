@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Card from "@/components/ui/Card";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ProfilePage() {
   const { user, login } = useAuth();
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("+62 812 3456 7890"); // Mock/Default phone as user doesn't have it in schema
@@ -30,20 +32,20 @@ export default function ProfilePage() {
 
     // Form validations
     if (!name.trim()) {
-      setMessage({ type: "error", text: "Nama tidak boleh kosong" });
+      setMessage({ type: "error", text: t("profile.errName") });
       return;
     }
     if (!email.trim()) {
-      setMessage({ type: "error", text: "Email tidak boleh kosong" });
+      setMessage({ type: "error", text: t("profile.errEmail") });
       return;
     }
     if (password) {
       if (password !== confirmPassword) {
-        setMessage({ type: "error", text: "Konfirmasi password tidak cocok" });
+        setMessage({ type: "error", text: t("profile.errConfirm") });
         return;
       }
       if (password.length < 6) {
-        setMessage({ type: "error", text: "Password baru minimal harus 6 karakter" });
+        setMessage({ type: "error", text: t("profile.errLength") });
         return;
       }
     }
@@ -66,15 +68,15 @@ export default function ProfilePage() {
       if (json.status === "success") {
         // Sync context session and local storage
         login(json.data.user);
-        setMessage({ type: "success", text: "Profil berhasil diperbarui!" });
+        setMessage({ type: "success", text: t("profile.success") });
         setPassword("");
         setConfirmPassword("");
       } else {
-        setMessage({ type: "error", text: json.message || "Gagal memperbarui profil." });
+        setMessage({ type: "error", text: json.message || t("profile.errSave") });
       }
     } catch (error) {
       console.error("Failed to update profile:", error);
-      setMessage({ type: "error", text: "Terjadi kesalahan koneksi server." });
+      setMessage({ type: "error", text: t("profile.errConn") });
     } finally {
       setIsSaving(false);
     }
@@ -83,8 +85,8 @@ export default function ProfilePage() {
   return (
     <div className="w-full space-y-12 pb-10">
       <div className="space-y-2 text-left">
-        <h1 className="text-3xl font-bold text-gray-900">Pengaturan Profil</h1>
-        <p className="text-gray-500">Kelola informasi pribadi dan preferensi akun Anda secara real-time.</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t("profile.title")}</h1>
+        <p className="text-gray-500">{t("profile.subtitle")}</p>
       </div>
 
       {message && (
@@ -110,11 +112,11 @@ export default function ProfilePage() {
                <div>
                   <h3 className="text-xl font-bold text-gray-900">{name || "Loading..."}</h3>
                   <p className="text-xs text-green-600 font-bold uppercase tracking-widest mt-1">
-                    {user?.role === 'ADMIN' ? 'Administrator' : 'Premium User'}
+                    {user?.role === 'ADMIN' ? t('header.admin') : t('header.premium')}
                   </p>
                </div>
                <div className="w-full pt-6 border-t border-gray-50 flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest">
-                  <span>ID Anggota</span>
+                  <span>{t("profile.memberId")}</span>
                   <span className="text-gray-900">M360-{user?.id ? user.id.slice(0, 5).toUpperCase() : "10294"}</span>
                </div>
             </Card>
@@ -124,7 +126,7 @@ export default function ProfilePage() {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                </div>
                <p className="text-xs text-amber-700 leading-relaxed text-left">
-                  Data Anda aman dan terenkripsi. Kami tidak akan membagikan informasi pribadi Anda kepada pihak manapun.
+                  {t("profile.securityTip")}
                </p>
             </div>
          </div>
@@ -134,65 +136,65 @@ export default function ProfilePage() {
             <Card className="p-10 lg:p-12 bg-white border-none shadow-sm rounded-[3rem] space-y-10">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Nama Lengkap</label>
+                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelName")}</label>
                      <input 
                        type="text" 
                        value={name}
                        onChange={(e) => setName(e.target.value)}
                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all font-semibold text-gray-800"
                        required
-                     />
+                      />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Email</label>
+                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelEmail")}</label>
                      <input 
                        type="email" 
                        value={email}
                        onChange={(e) => setEmail(e.target.value)}
                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all font-semibold text-gray-800"
                        required
-                     />
+                      />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">No. WhatsApp</label>
+                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelPhone")}</label>
                      <input 
                        type="text" 
                        value={phone}
                        onChange={(e) => setPhone(e.target.value)}
                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all font-semibold text-gray-800 font-sans"
-                     />
+                      />
                   </div>
                   <div className="space-y-2">
-                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Lokasi / Kota</label>
+                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelLocation")}</label>
                      <input 
                        type="text" 
                        value={location}
                        onChange={(e) => setLocation(e.target.value)}
                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all font-semibold text-gray-800"
-                     />
+                      />
                   </div>
                </div>
 
                <div className="pt-6 border-t border-gray-50 space-y-6 text-left">
-                  <h4 className="font-bold text-gray-900">Keamanan Akun</h4>
+                  <h4 className="font-bold text-gray-900">{t("profile.labelSecurity")}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Password Baru</label>
+                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelNewPassword")}</label>
                         <input 
                           type="password" 
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Ketik password baru..."
+                          placeholder={t("profile.phNewPassword")}
                           className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all"
                         />
                      </div>
                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">Konfirmasi Password</label>
+                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-2">{t("profile.labelConfirmPassword")}</label>
                         <input 
                           type="password" 
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
-                          placeholder="Ulangi password baru..."
+                          placeholder={t("profile.phConfirmPassword")}
                           className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[var(--color-primary)]/10 transition-all"
                         />
                      </div>
@@ -209,7 +211,7 @@ export default function ProfilePage() {
                         <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                      ) : (
                         <>
-                           Simpan Perubahan
+                           {t("profile.btnSave")}
                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
                         </>
                      )}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Card from "@/components/ui/Card";
 import { getCompletedModulesCount } from "@/utils/progressStore";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProgressOverviewProps {
   overallProgress: number;
@@ -10,6 +11,7 @@ interface ProgressOverviewProps {
 
 export default function ProgressOverview({ overallProgress }: ProgressOverviewProps) {
   const [completedCount, setCompletedCount] = useState(0);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setCompletedCount(getCompletedModulesCount());
@@ -24,6 +26,8 @@ export default function ProgressOverview({ overallProgress }: ProgressOverviewPr
     };
   }, []);
 
+  const statusParts = t("progress.completedStatusText").split("{count}");
+
   return (
     <Card className="p-8 bg-white border-none shadow-sm lg:col-span-1 flex flex-col items-center justify-center text-center space-y-6">
       <div className="relative w-40 h-40">
@@ -33,11 +37,13 @@ export default function ProgressOverview({ overallProgress }: ProgressOverviewPr
          </svg>
          <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-4xl font-black text-gray-900">{overallProgress}%</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Selesai</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("progress.totalCompletedLabel")}</span>
          </div>
       </div>
       <p className="text-sm text-gray-500 leading-relaxed">
-         Anda telah menyelesaikan <span className="font-bold text-[var(--color-primary)]">{completedCount} dari 6</span> modul utama. Terus tingkatkan!
+         {statusParts[0]}
+         <span className="font-bold text-[var(--color-primary)]">{completedCount}</span>
+         {statusParts[1]}
       </p>
     </Card>
   );

@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function DashboardHero() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div className="relative h-[300px] lg:h-[400px] rounded-[3rem] overflow-hidden group shadow-2xl">
@@ -14,12 +16,12 @@ export default function DashboardHero() {
           fill 
           className="object-cover group-hover:scale-105 transition-transform duration-[5000ms]" 
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center px-12 lg:px-20 space-y-6">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center px-12 lg:px-20 space-y-6 text-left">
            <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight max-w-lg">
-             Apa itu VR Haji 360°?
+             {t("dashboard.heroTitle")}
            </h1>
            <p className="text-gray-300 max-w-md leading-relaxed">
-             VR Haji menghadirkan simulasi interaktif untuk merasakan pengalaman ibadah Haji secara nyata.
+             {t("dashboard.heroDesc")}
            </p>
            <div className="flex items-center gap-6">
               <button 
@@ -29,7 +31,7 @@ export default function DashboardHero() {
                  <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-[var(--color-accent)] fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                  </div>
-                 Tonton Sekarang
+                 {t("dashboard.watchNow")}
               </button>
            </div>
         </div>

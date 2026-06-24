@@ -4,6 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Card from "@/components/ui/Card";
 import { getModuleProgress } from "@/utils/progressStore";
+import { useToast } from "@/context/ToastContext";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ModuleStepsState {
   videoCompleted: boolean;
@@ -144,6 +147,60 @@ interface StepsSectionProps {
 
 export default function StepsSection({ hideHeader = false }: StepsSectionProps) {
   const router = useRouter();
+  const { showToast } = useToast();
+  const { user } = useAuth();
+  const { t } = useLanguage();
+
+  const getPrayerTitle = (title: string) => {
+     if (title.includes("Niat")) return t("prayer.ihram.title");
+     if (title.includes("Talbiyah")) return t("prayer.talbiyah.title");
+     if (title.includes("Memulai Tawaf")) return t("prayer.tawaf.title");
+     if (title.includes("Sapu Jagad")) return t("prayer.sapujagad.title");
+     if (title.includes("Safa")) return t("prayer.sai.title");
+     if (title.includes("Wukuf")) return t("prayer.wukuf.title");
+     if (title.includes("Mabit")) return t("prayer.muzdalifah.title");
+     if (title.includes("Lontar")) return t("prayer.jumrah.title");
+     return title;
+  };
+
+  const getPrayerTranslation = (translation: string, modId: string) => {
+     if (modId === "ihram") {
+       return translation.includes("talbiyah") || translation.includes("panggilan") ? t("prayer.talbiyah.trans") : t("prayer.ihram.trans");
+     }
+     if (modId === "tawaf") {
+       return translation.includes("negeri") || translation.includes("kebaikan") ? t("prayer.sapujagad.trans") : t("prayer.tawaf.trans");
+     }
+     if (modId === "sai") return t("prayer.sai.trans");
+     if (modId === "wukuf") return t("prayer.wukuf.trans");
+     if (modId === "muzdalifah") return t("prayer.muzdalifah.trans");
+     if (modId === "jumrah") return t("prayer.jumrah.trans");
+     return translation;
+  };
+
+  const logActivity = async (title: string, type: string, icon: string, color: string) => {
+    try {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+      const dateStr = now.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+      
+      await fetch("/api/activities", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          type,
+          time: timeStr,
+          date: dateStr,
+          color,
+          icon,
+          userId: user?.id
+        })
+      });
+      window.dispatchEvent(new Event("progressStoreUpdated"));
+    } catch (error) {
+      console.error("Failed to log activity:", error);
+    }
+  };
   
   // Track step-level progress for each module
   const [moduleSteps, setModuleSteps] = useState<Record<string, ModuleStepsState>>({});
@@ -262,7 +319,10 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
   // Triggered when clicking a module card
   const handleModuleClick = (mod: HajiModule, index: number) => {
     if (!isModuleUnlocked(index)) {
-      alert(`🔒 Modul Terkunci!\nSilakan selesaikan Modul sebelumnya terlebih dahulu sampai 100% untuk membuka perjalanan manasik Haji berikutnya sesuai rukun.`);
+      showToast(
+        t("progress.lockedToast"),
+        "warning"
+      );
       return;
     }
     router.push(`/dashboard/modules/${mod.id}`);
@@ -304,6 +364,13 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
     };
     setModuleSteps(updated);
     localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
+
+    logActivity(
+      t("progress.videoCompleted").replace("{name}", t(`module.${selectedModule.id}.name`)),
+      t("history.typeBelajar"),
+      "video",
+      "bg-amber-500 text-white"
+    );
   };
 
   // Play audio for Doa step
@@ -340,15 +407,22 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
     };
     setModuleSteps(updated);
     localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
+
+    logActivity(
+      t("progress.doaCompleted").replace("{name}", getPrayerTitle(selectedModule.prayers[0]?.title || "Doa")),
+      t("history.typeHafalan"),
+      "book",
+      "bg-emerald-500 text-white"
+    );
   };
 
   return (
     <div className="space-y-8 pb-10 font-sans relative">
       {!hideHeader && (
         <div className="max-w-xl">
-          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Jalur Perjalanan Haji</h2>
+          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">{t("progress.title")}</h2>
           <p className="text-gray-500 text-sm mt-2 leading-relaxed">
-             Ikuti urutan bimbingan manasik di bawah secara berurutan sesuai ketentuan Rukun & Wajib Haji. Selesaikan modul sebelumnya hingga 100% untuk membuka materi berikutnya.
+             {t("progress.subtitle")}
           </p>
         </div>
       )}
@@ -376,7 +450,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                      <svg className="w-6 h-6 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>
                    </div>
                    <span className="text-xs font-black uppercase text-amber-900 tracking-widest bg-amber-100/80 px-4 py-1.5 rounded-full border border-amber-200">
-                     Terkunci
+                     {t("progress.locked")}
                    </span>
                 </div>
               )}
@@ -385,7 +459,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
               <div className="relative h-48 overflow-hidden bg-gray-50 shrink-0">
                 <img 
                   src={mod.thumbnail} 
-                  alt={mod.name} 
+                  alt={t(`module.${mod.id}.name`)} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[3000ms]" 
                 />
                 <div className="absolute top-4 right-4">
@@ -394,7 +468,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     ? 'bg-green-600/90 border-green-400 text-white shadow-md' 
                     : 'bg-black/30 border-white/20 text-white'
                   }`}>
-                    {totalProgress === 100 ? '✓ Selesai' : `${totalProgress}% Selesai`}
+                    {totalProgress === 100 ? `✓ ${t("progress.btnDone")}` : `${totalProgress}% ${t("progress.btnDone")}`}
                   </span>
                 </div>
               </div>
@@ -403,31 +477,31 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
               <div className="p-8 flex-1 flex flex-col justify-between space-y-6">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
-                    {mod.name}
+                    {t(`module.${mod.id}.name`)}
                   </h3>
                   <p className="text-gray-500 text-xs mt-3 leading-relaxed line-clamp-2">
-                    {mod.description}
+                    {t(`module.${mod.id}.desc`)}
                   </p>
                 </div>
 
                 {/* Sub-steps Indicator lists */}
                 <div className="space-y-3 pt-4 border-t border-gray-50">
                   <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    <span>Materi Video</span>
+                    <span>{t("progress.videoCompletedLabel")}</span>
                     <span className={stepsState.videoCompleted ? 'text-green-600 font-extrabold' : ''}>
-                      {stepsState.videoCompleted ? '✓ Selesai' : '0/1 Video'}
+                      {stepsState.videoCompleted ? `✓ ${t("progress.btnDone")}` : `0/1 ${t("progress.videoCompletedLabel")}`}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    <span>Doa & Dzikir</span>
+                    <span>{t("progress.doaCompletedLabel")}</span>
                     <span className={stepsState.doaCompleted ? 'text-green-600 font-extrabold' : ''}>
-                      {stepsState.doaCompleted ? '✓ Selesai' : '0/1 Materi'}
+                      {stepsState.doaCompleted ? `✓ ${t("progress.btnDone")}` : `0/1 ${t("progress.doaIntro")}`}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    <span>Simulasi VR 360°</span>
+                    <span>{t("progress.vrStep")}</span>
                     <span className={vr.progress === 100 ? 'text-green-600 font-extrabold' : 'text-emerald-700'}>
-                      {vr.completedCount}/{mod.id === 'ihram' ? 5 : mod.id === 'tawaf' ? 5 : mod.id === 'sai' ? 6 : mod.id === 'wukuf' ? 4 : mod.id === 'muzdalifah' ? 3 : 6} Tugas
+                      {vr.completedCount}/{mod.id === 'ihram' ? 5 : mod.id === 'tawaf' ? 5 : mod.id === 'sai' ? 6 : mod.id === 'wukuf' ? 4 : mod.id === 'muzdalifah' ? 3 : 6} {t("progress.tasksLabel")}
                     </span>
                   </div>
 
@@ -464,10 +538,10 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
             {/* Header info */}
             <div>
               <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-3.5 py-1.5 rounded-full uppercase tracking-widest border border-emerald-100/50">
-                Pintu Pembelajaran Manasik
+                {t("progress.learningPortal")}
               </span>
-              <h3 className="text-2xl font-bold text-gray-900 mt-4">{selectedModule.name}</h3>
-              <p className="text-gray-500 text-xs mt-2 leading-relaxed">{selectedModule.description}</p>
+              <h3 className="text-2xl font-bold text-gray-900 mt-4">{t(`module.${selectedModule.id}.name`)}</h3>
+              <p className="text-gray-500 text-xs mt-2 leading-relaxed">{t(`module.${selectedModule.id}.desc`)}</p>
             </div>
 
             {/* Steps Path Container */}
@@ -481,13 +555,13 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     {moduleSteps[selectedModule.id]?.videoCompleted ? '✓' : '1'}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 text-sm">Langkah 1: Video Tutorial</h4>
-                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Tonton bimbingan visual cara pelaksanaan (20% progres)</p>
+                    <h4 className="font-bold text-gray-800 text-sm">{t("progress.videoStep")}</h4>
+                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">{t("progress.videoStepDesc")}</p>
                   </div>
                 </div>
                 
                 {moduleSteps[selectedModule.id]?.videoCompleted ? (
-                  <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">Selesai</span>
+                  <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">{t("progress.btnDone")}</span>
                 ) : (
                   <button 
                     onClick={() => {
@@ -497,7 +571,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     }}
                     className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
                   >
-                    Tonton Video
+                    {t("progress.btnWatch")}
                   </button>
                 )}
               </div>
@@ -511,13 +585,13 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     {moduleSteps[selectedModule.id]?.doaCompleted ? '✓' : '2'}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 text-sm">Langkah 2: Doa & Dzikir khusus</h4>
-                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Dengarkan do'a wajib yang dibaca (20% progres)</p>
+                    <h4 className="font-bold text-gray-800 text-sm">{t("progress.doaStep")}</h4>
+                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">{t("progress.doaStepDesc")}</p>
                   </div>
                 </div>
 
                 {moduleSteps[selectedModule.id]?.doaCompleted ? (
-                  <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">Selesai</span>
+                  <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">{t("progress.btnDone")}</span>
                 ) : (
                   <button 
                     onClick={() => {
@@ -526,7 +600,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     }}
                     className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
                   >
-                    Buka Doa
+                    {t("progress.btnOpenDoa")}
                   </button>
                 )}
               </div>
@@ -540,14 +614,14 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     {vrProgresses[selectedModule.id]?.progress === 100 ? '✓' : '3'}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 text-sm">Langkah 3: Simulasi VR 360°</h4>
-                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">Tuntaskan semua tugas interaktif lapangan (60% progres)</p>
+                    <h4 className="font-bold text-gray-800 text-sm">{t("progress.vrStep")}</h4>
+                    <p className="text-[10px] text-gray-400 mt-0.5 font-medium">{t("progress.vrStepDesc")}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2.5 py-1.5 rounded-lg">
-                    {vrProgresses[selectedModule.id]?.completedCount || 0}/{vrProgresses[selectedModule.id]?.total || 0} Tugas
+                    {vrProgresses[selectedModule.id]?.completedCount || 0}/{vrProgresses[selectedModule.id]?.total || 0} {t("progress.tasksLabel")}
                   </span>
                   <button 
                     onClick={() => {
@@ -556,7 +630,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     }}
                     className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
                   >
-                    Mulai VR
+                    {t("progress.btnStartVR")}
                   </button>
                 </div>
               </div>
@@ -565,8 +639,8 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
             {/* Total Module Progress Gauge */}
             <div className="p-5 bg-emerald-50/50 border border-emerald-100 rounded-3xl flex items-center justify-between gap-6">
               <div>
-                <p className="text-xs font-black uppercase text-emerald-700 tracking-widest">Total Progres Modul</p>
-                <p className="text-[10px] text-gray-400 font-medium mt-1">Selesaikan 3 langkah di atas untuk 100% kelulusan modul ini.</p>
+                <p className="text-xs font-black uppercase text-emerald-700 tracking-widest">{t("progress.totalProgress")}</p>
+                <p className="text-[10px] text-gray-400 font-medium mt-1">{t("progress.totalProgressDesc")}</p>
               </div>
               <span className="text-3xl font-black text-emerald-600">
                 {calculateTotalProgress(selectedModule.id)}%
@@ -584,7 +658,10 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
             <button 
               onClick={() => {
                 if (!videoFinished && watchedSeconds > 0) {
-                  alert("Peringatan:\nAnda belum selesai menonton minimal 10 detik. Progres bimbingan video Anda tidak akan disimpan.");
+                  showToast(
+                    t("progress.videoWarning"),
+                    "warning"
+                  );
                 }
                 setActiveVideoUrl(null);
                 setWatchedSeconds(0);
@@ -596,9 +673,9 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
 
             <div>
               <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full uppercase tracking-widest border border-emerald-100/50">
-                Video Tutorial Modul
+                {t("progress.videoHeader")}
               </span>
-              <h4 className="text-xl font-bold text-gray-900 mt-3">{selectedModule?.name} - Pengantar</h4>
+              <h4 className="text-xl font-bold text-gray-900 mt-3">{selectedModule ? t(`module.${selectedModule.id}.name`) : ""} - {t("progress.videoIntro")}</h4>
             </div>
 
             <div className="relative aspect-video rounded-[2.5rem] overflow-hidden bg-black shadow-lg">
@@ -614,11 +691,11 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
             {/* Video watch duration controls */}
             <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-gray-500">Persyaratan Kelulusan:</span>
+                <span className="text-xs font-bold text-gray-500">{t("progress.videoReq")}</span>
                 <span className={`text-xs font-bold ${videoFinished ? 'text-green-600' : 'text-emerald-700 animate-pulse'}`}>
                   {videoFinished 
-                    ? "✅ Video Selesai Ditonton" 
-                    : `⏱️ Menonton: ${watchedSeconds}s / 10s`
+                    ? t("progress.videoFinished") 
+                    : t("progress.videoWatching").replace("{watched}", watchedSeconds.toString())
                   }
                 </span>
               </div>
@@ -638,7 +715,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                 }}
                 className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-bold transition-all uppercase tracking-widest shadow-lg shadow-emerald-950/15 cursor-pointer"
               >
-                Kembali ke Portal Langkah
+                {t("progress.btnBack")}
               </button>
             )}
           </div>
@@ -663,9 +740,9 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
 
             <div>
               <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full uppercase tracking-widest border border-emerald-100/50">
-                Doa & Dzikir Rukun
+                {t("progress.doaHeader")}
               </span>
-              <h4 className="text-xl font-bold text-gray-900 mt-3">{selectedModule?.name} - Doa Khusus</h4>
+              <h4 className="text-xl font-bold text-gray-900 mt-3">{selectedModule ? t(`module.${selectedModule.id}.name`) : ""} - {t("progress.doaIntro")}</h4>
             </div>
 
             {/* List of Module specific Prayers */}
@@ -673,7 +750,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
               {activePrayers.map((pr, idx) => (
                 <div key={idx} className="p-6 bg-gray-50/50 border border-gray-100 rounded-3xl space-y-4">
                   <div className="flex items-center justify-between">
-                    <h5 className="font-bold text-gray-800 text-sm">{pr.title}</h5>
+                    <h5 className="font-bold text-gray-800 text-sm">{getPrayerTitle(pr.title)}</h5>
                     <button 
                       onClick={() => handlePlayPrayerAudio(idx, pr.audioUrl)}
                       className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer ${
@@ -682,7 +759,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                         : 'bg-white text-emerald-700 border border-emerald-100'
                       }`}
                     >
-                      {playingAudioIndex === idx ? 'Jeda Audio' : 'Dengarkan'}
+                      {playingAudioIndex === idx ? t("progress.btnPause") : t("progress.btnListen")}
                     </button>
                   </div>
                   
@@ -696,7 +773,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                     "{pr.latin}"
                   </p>
                   <p className="text-[10px] text-gray-500 leading-relaxed">
-                    <b>Artinya:</b> {pr.translation}
+                    <b>{t("prayers.meaning")}</b> {selectedModule ? getPrayerTranslation(pr.translation, selectedModule.id) : pr.translation}
                   </p>
                 </div>
               ))}
@@ -712,7 +789,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
                 }}
                 className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-bold transition-all uppercase tracking-widest shadow-lg shadow-emerald-950/15 cursor-pointer text-center"
               >
-                Saya Telah Menghafal & Selesai
+                {t("progress.btnComplete")}
               </button>
             </div>
           </div>

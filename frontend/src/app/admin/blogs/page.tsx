@@ -5,6 +5,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import Image from "next/image";
+import { useToast } from "@/context/ToastContext";
 
 interface BlogPost {
   id: string;
@@ -18,6 +19,7 @@ interface BlogPost {
 }
 
 export default function AdminBlogsPage() {
+  const { showToast } = useToast();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -62,7 +64,7 @@ export default function AdminBlogsPage() {
     e.preventDefault();
 
     if (!form.title.trim() || !form.summary.trim() || !form.content.trim()) {
-      alert("Judul, Ringkasan, dan Konten wajib diisi!");
+      showToast("Judul, Ringkasan, dan Konten wajib diisi!", "warning");
       return;
     }
 
@@ -87,15 +89,15 @@ export default function AdminBlogsPage() {
 
       const json = await response.json();
       if (json.status === "success") {
-        alert(isEditing ? "Artikel berhasil diperbarui!" : "Artikel baru berhasil diterbitkan!");
+        showToast(isEditing ? "Artikel berhasil diperbarui!" : "Artikel baru berhasil diterbitkan!", "success");
         fetchBlogs();
         resetForm();
       } else {
-        alert(json.message || "Gagal menyimpan artikel.");
+        showToast(json.message || "Gagal menyimpan artikel.", "error");
       }
     } catch (error) {
       console.error("Error saving blog:", error);
-      alert("Terjadi kesalahan koneksi server.");
+      showToast("Terjadi kesalahan koneksi server.", "error");
     }
   };
 
@@ -126,12 +128,14 @@ export default function AdminBlogsPage() {
           });
           const json = await response.json();
           if (json.status === "success") {
+            showToast("Artikel berhasil dihapus!", "success");
             fetchBlogs();
           } else {
-            alert(json.message || "Gagal menghapus artikel.");
+            showToast(json.message || "Gagal menghapus artikel.", "error");
           }
         } catch (error) {
           console.error("Error deleting blog:", error);
+          showToast("Terjadi kesalahan koneksi server.", "error");
         }
       }
     });

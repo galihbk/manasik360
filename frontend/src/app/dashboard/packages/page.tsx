@@ -3,49 +3,52 @@
 import Image from "next/image";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PackagesPage() {
+  const { t } = useLanguage();
+
   const packages = [
     {
       id: "basic",
-      name: "Paket Dasar",
+      name: t("dashpkg.basicName"),
       price: "Rp 150.000",
-      period: "/ sekali bayar",
+      period: t("dashpkg.basicPeriod"),
       features: [
-        "Akses semua video materi",
-        "Modul Ihram & Tawaf (360°)",
-        "E-Sertifikat Dasar",
-        "Akses selamanya"
+        t("dashpkg.basicFeat1"),
+        t("dashpkg.basicFeat2"),
+        t("dashpkg.basicFeat3"),
+        t("dashpkg.basicFeat4")
       ],
       current: false,
       popular: false,
     },
     {
       id: "premium",
-      name: "Paket Premium VR",
+      name: t("dashpkg.premName"),
       price: "Rp 450.000",
-      period: "/ sekali bayar",
+      period: t("dashpkg.premPeriod"),
       features: [
-        "Semua fitur Paket Dasar",
-        "Akses Full VR Experience (360°)",
-        "Konsultasi AI Ustadz 24/7",
-        "Materi Manasik Lansia",
-        "Prioritas Update Modul"
+        t("dashpkg.premFeat1"),
+        t("dashpkg.premFeat2"),
+        t("dashpkg.premFeat3"),
+        t("dashpkg.premFeat4"),
+        t("dashpkg.premFeat5")
       ],
       current: true,
       popular: true,
     },
     {
       id: "travel",
-      name: "Paket Travel Haji",
+      name: t("dashpkg.travName"),
       price: "Rp 1.250.000",
-      period: "/ 50 Lisensi",
+      period: t("dashpkg.travPeriod"),
       features: [
-        "Dashboard Monitoring Jamaah",
-        "Custom Branding Travel",
-        "Laporan Progress Jamaah",
-        "Integrasi Jadwal Travel",
-        "Support Teknis 24/7"
+        t("dashpkg.travFeat1"),
+        t("dashpkg.travFeat2"),
+        t("dashpkg.travFeat3"),
+        t("dashpkg.travFeat4"),
+        t("dashpkg.travFeat5")
       ],
       current: false,
       popular: false,
@@ -55,12 +58,12 @@ export default function PackagesPage() {
   return (
     <div className="w-full space-y-12">
       {/* Header Section */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">Paket & Aktivasi</h1>
-        <p className="text-gray-500">Kelola paket langganan Anda atau aktivasi modul baru di sini.</p>
+      <div className="space-y-2 text-left">
+        <h1 className="text-3xl font-bold text-gray-900">{t("dashpkg.title")}</h1>
+        <p className="text-gray-500">{t("dashpkg.subtitle")}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
         {packages.map((pkg, i) => (
           <div 
             key={i} 
@@ -70,7 +73,7 @@ export default function PackagesPage() {
           >
             {pkg.popular && (
               <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--color-accent)] text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-                Terpopuler
+                {t("dashpkg.popular")}
               </span>
             )}
             
@@ -84,12 +87,12 @@ export default function PackagesPage() {
                   </div>
                 </div>
                 {pkg.current && (
-                  <span className="bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Aktif</span>
+                  <span className="bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">{t("dashpkg.active")}</span>
                 )}
               </div>
 
               <div className="space-y-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Fitur Unggulan:</p>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t("dashpkg.featuredFeatures")}</p>
                 <ul className="space-y-3">
                   {pkg.features.map((feature, f) => (
                     <li key={f} className="flex items-center gap-3 text-sm text-gray-600">
@@ -106,10 +109,10 @@ export default function PackagesPage() {
             <div className="mt-10">
               {pkg.current ? (
                 <button className="w-full py-4 bg-gray-100 text-gray-400 rounded-2xl font-bold text-sm cursor-default">
-                  Paket Anda Saat Ini
+                  {t("dashpkg.currentPkg")}
                 </button>
               ) : (
-                <Button className="w-full py-4 shadow-xl shadow-emerald-900/10">Beli Sekarang</Button>
+                <Button className="w-full py-4 shadow-xl shadow-emerald-900/10">{t("dashpkg.btnBuy")}</Button>
               )}
             </div>
           </div>
@@ -121,19 +124,19 @@ export default function PackagesPage() {
          <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 islamic-pattern pointer-events-none"></div>
          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10 text-center lg:text-left">
             <div className="space-y-4 flex-1">
-               <h2 className="text-3xl font-bold text-white">Aktivasi Kode Voucher</h2>
+               <h2 className="text-3xl font-bold text-white">{t("dashpkg.voucherTitle")}</h2>
                <p className="text-emerald-100 leading-relaxed max-w-md">
-                  Punya kode aktivasi dari Travel Haji atau hadiah? Masukkan kodenya di bawah ini untuk membuka akses materi secara instan.
+                  {t("dashpkg.voucherDesc")}
                </p>
             </div>
             <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-4 bg-white/10 p-2 rounded-3xl backdrop-blur-md border border-white/10">
                <input 
                  type="text" 
-                 placeholder="Masukkan kode voucher..." 
+                 placeholder={t("dashpkg.voucherPlaceholder")} 
                  className="bg-transparent border-none text-white placeholder-white/50 focus:ring-0 px-6 py-4 flex-1 min-w-[280px]"
                />
                <button className="bg-[var(--color-accent)] text-white px-10 py-4 rounded-2xl font-bold shadow-lg hover:bg-[#b45309] transition-all">
-                  Aktivasi Sekarang
+                  {t("dashpkg.voucherBtn")}
                </button>
             </div>
          </div>

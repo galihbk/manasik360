@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FAQItemProps {
   question: string;
@@ -36,27 +37,29 @@ function FAQItem({ question, answer }: FAQItemProps) {
 }
 
 export default function FAQPage() {
+  const { t } = useLanguage();
+
   const categories = [
     {
-      name: "Seputar Bahrain",
+      name: t("faq.cat1"),
       questions: [
-        { q: "Apa itu Bahrain?", a: "Bahrain adalah platform edukasi ibadah Haji dan Umroh berbasis teknologi Virtual Reality (VR) 360 derajat yang memungkinkan jamaah merasakan pengalaman simulasi nyata di Tanah Suci." },
-        { q: "Apakah aplikasi ini gratis?", a: "Kami menyediakan Paket Basic secara gratis untuk mencoba beberapa modul. Untuk akses penuh ke seluruh lokasi dan fitur premium, tersedia paket berlangganan yang terjangkau." },
-        { q: "Perangkat apa saja yang didukung?", a: "Bahrain dapat diakses melalui Smartphone (Android/iOS), Tablet, Laptop, maupun PC. Untuk pengalaman maksimal, kami menyarankan penggunaan kacamata VR." }
+        { q: t("faq.q1"), a: t("faq.a1") },
+        { q: t("faq.q2"), a: t("faq.a2") },
+        { q: t("faq.q3"), a: t("faq.a3") }
       ]
     },
     {
-      name: "Teknologi & VR",
+      name: t("faq.cat2"),
       questions: [
-        { q: "Haruskah saya punya kacamata VR?", a: "Tidak wajib. Anda tetap bisa menikmati konten 360 derajat dengan menggerakkan layar HP atau kursor mouse. Namun, kacamata VR akan memberikan sensasi imersif yang jauh lebih nyata." },
-        { q: "Apakah kacamata VR yang digunakan khusus?", a: "Platform kami kompatibel dengan hampir semua VR Box standar maupun perangkat VR high-end seperti Oculus/Meta Quest." }
+        { q: t("faq.q4"), a: t("faq.a4") },
+        { q: t("faq.q5"), a: t("faq.a5") }
       ]
     },
     {
-      name: "Akun & Pembayaran",
+      name: t("faq.cat3"),
       questions: [
-        { q: "Bagaimana cara aktivasi paket?", a: "Setelah melakukan pembayaran, Anda akan menerima kode aktivasi atau paket Anda akan otomatis aktif jika menggunakan metode pembayaran instan (QRIS/Transfer Bank)." },
-        { q: "Apakah bisa digunakan untuk rombongan travel?", a: "Sangat bisa. Kami memiliki paket khusus Biro Travel yang dilengkapi dashboard monitoring untuk melihat progres setiap jamaah." }
+        { q: t("faq.q6"), a: t("faq.a6") },
+        { q: t("faq.q7"), a: t("faq.a7") }
       ]
     }
   ];
@@ -68,10 +71,10 @@ export default function FAQPage() {
       <main className="flex-grow pt-32 pb-20 lg:pt-48 lg:pb-32">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-24">
-             <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs mb-4 block uppercase opacity-60">Frequently Asked Questions</span>
-             <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight uppercase leading-tight">PERTANYAAN UMUM</h1>
+             <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs mb-4 block uppercase opacity-60">{t("faq.sub")}</span>
+             <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight uppercase leading-tight">{t("faq.title")}</h1>
              <p className="text-xl text-gray-500 mt-6 leading-relaxed">
-               Semua yang perlu Anda ketahui tentang pengalaman baru belajar manasik.
+               {t("faq.desc")}
              </p>
           </div>
 
@@ -96,16 +99,16 @@ export default function FAQPage() {
           {/* CTA Section */}
           <div className="mt-32 p-12 lg:p-16 bg-[#064e3b] rounded-[4rem] text-center text-white space-y-8 shadow-2xl shadow-emerald-950/20 relative overflow-hidden">
              <div className="absolute top-0 right-0 w-32 h-32 opacity-10 islamic-pattern"></div>
-             <h3 className="text-3xl font-bold">Masih punya pertanyaan lain?</h3>
+             <h3 className="text-3xl font-bold">{t("faq.ctaTitle")}</h3>
              <p className="text-emerald-100 opacity-80 max-w-lg mx-auto">
-                Tim dukungan kami siap menjawab segala keraguan Anda mengenai penggunaan platform Bahrain.
+                {t("faq.ctaDesc")}
              </p>
              <div className="pt-4">
                 <a 
                   href="/contact" 
                   className="inline-block px-12 py-5 bg-[var(--color-accent)] text-white rounded-3xl font-bold text-lg hover:bg-[#b45309] transition-all shadow-xl shadow-orange-900/30"
                 >
-                   Hubungi Tim CS
+                   {t("faq.ctaBtn")}
                 </a>
              </div>
           </div>

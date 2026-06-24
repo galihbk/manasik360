@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Card from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Prayer {
   id: string;
@@ -94,6 +95,7 @@ export default function PrayersPage() {
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [audioInstance, setAudioInstance] = useState<HTMLAudioElement | null>(null);
+  const { t } = useLanguage();
 
   // Clean up audio on unmount
   useEffect(() => {
@@ -121,6 +123,38 @@ export default function PrayersPage() {
     }
   };
 
+  const getCategoryText = (cat: string) => {
+     if (cat === "Semua") return t("prayers.cat.all");
+     if (cat === "Persiapan Ihram") return t("prayers.cat.ihram");
+     if (cat === "Thawaf") return t("prayers.cat.tawaf");
+     if (cat === "Sa'i") return t("prayers.cat.sai");
+     if (cat === "Wukuf") return t("prayers.cat.wukuf");
+     if (cat === "Lontar Jumrah") return t("prayers.cat.jumrah");
+     return cat;
+  };
+
+  const getPrayerTitle = (id: string, defaultTitle: string) => {
+     if (id === "niat-ihram") return t("prayer.ihram.title");
+     if (id === "talbiyah") return t("prayer.talbiyah.title");
+     if (id === "mulai-tawaf") return t("prayer.tawaf.title");
+     if (id === "sapu-jagad") return t("prayer.sapujagad.title");
+     if (id === "bukit-safa") return t("prayer.sai.title");
+     if (id === "wukuf-arafah") return t("prayer.wukuf.title");
+     if (id === "lontar-jumrah") return t("prayer.jumrah.title");
+     return defaultTitle;
+  };
+
+  const getPrayerTranslation = (id: string, defaultTrans: string) => {
+     if (id === "niat-ihram") return t("prayer.ihram.trans");
+     if (id === "talbiyah") return t("prayer.talbiyah.trans");
+     if (id === "mulai-tawaf") return t("prayer.tawaf.trans");
+     if (id === "sapu-jagad") return t("prayer.sapujagad.trans");
+     if (id === "bukit-safa") return t("prayer.sai.trans");
+     if (id === "wukuf-arafah") return t("prayer.wukuf.trans");
+     if (id === "lontar-jumrah") return t("prayer.jumrah.trans");
+     return defaultTrans;
+  };
+
   // Filter prayers based on category and search query
   const filteredPrayers = OFFICIAL_PRAYERS.filter((prayer) => {
     const matchesCategory = selectedCategory === "Semua" || prayer.category === selectedCategory;
@@ -134,8 +168,8 @@ export default function PrayersPage() {
     <div className="w-full space-y-12 pb-10 font-sans">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Doa & Dzikir</h1>
-        <p className="text-gray-500 text-lg">Kumpulan doa-doa mustajab selama perjalanan ibadah Haji & Umrah Anda.</p>
+        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">{t("prayers.title")}</h1>
+        <p className="text-gray-500 text-lg">{t("prayers.subtitle")}</p>
       </div>
 
       {/* Search & Categories */}
@@ -146,7 +180,7 @@ export default function PrayersPage() {
             </span>
             <input 
               type="text" 
-              placeholder="Cari doa tertentu..." 
+              placeholder={t("prayers.searchPlaceholder")} 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-emerald-500/20 transition-all font-sans"
@@ -165,7 +199,7 @@ export default function PrayersPage() {
                  : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-100'
                }`}
              >
-               {cat}
+               {getCategoryText(cat)}
              </button>
            ))}
          </div>
@@ -179,7 +213,7 @@ export default function PrayersPage() {
              <div className="flex-1 space-y-6 pb-6 flex flex-col">
                <div className="flex items-center justify-between">
                   <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full uppercase tracking-widest border border-emerald-100/50">
-                     {prayer.category}
+                     {getCategoryText(prayer.category)}
                   </span>
                   <button className="text-gray-200 hover:text-amber-500 hover:scale-110 active:scale-95 transition-all cursor-pointer">
                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -187,7 +221,7 @@ export default function PrayersPage() {
                </div>
                
                <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">{prayer.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">{getPrayerTitle(prayer.id, prayer.title)}</h3>
                   <div className="py-6 border-y border-gray-50">
                      <p className="text-3xl font-arabic text-right leading-[2] text-gray-800 tracking-wide" dir="rtl">
                         {prayer.arabic}
@@ -200,7 +234,7 @@ export default function PrayersPage() {
                      "{prayer.latin}"
                   </p>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                     <span className="font-bold text-gray-600">Artinya:</span> {prayer.translation}
+                     <span className="font-bold text-gray-600">{t("prayers.meaning")}</span> {getPrayerTranslation(prayer.id, prayer.translation)}
                   </p>
                </div>
              </div>
@@ -223,12 +257,12 @@ export default function PrayersPage() {
                          <div className="w-0.5 bg-white animate-[bounce_0.5s_infinite] h-2"></div>
                          <div className="w-0.5 bg-white animate-[bounce_0.7s_infinite] h-3.5"></div>
                        </div>
-                       Jeda Audio
+                       {t("prayers.btnPause")}
                      </>
                    ) : (
                      <>
                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                       Putar Audio
+                       {t("prayers.btnPlay")}
                      </>
                    )}
                 </button>
@@ -242,7 +276,7 @@ export default function PrayersPage() {
          {filteredPrayers.length === 0 && (
            <div className="col-span-full text-center py-16 bg-white rounded-[2.5rem] border border-gray-50">
              <svg className="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-             <p className="text-gray-400 text-sm">Tidak menemukan doa yang cocok dengan pencarian Anda.</p>
+             <p className="text-gray-400 text-sm">{t("prayers.noResults")}</p>
            </div>
          )}
       </div>
@@ -253,9 +287,9 @@ export default function PrayersPage() {
             <svg className="w-8 h-8 text-amber-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
          </div>
          <div>
-            <h4 className="font-bold text-amber-900 mb-1">Tips Menghafal Doa</h4>
+            <h4 className="font-bold text-amber-900 mb-1">{t("prayers.tipTitle")}</h4>
             <p className="text-sm text-amber-700 leading-relaxed">
-               Gunakan tombol <b>Putar Audio</b> di atas untuk mendengarkan lafalan doa yang fasih secara berulang-ulang. Menghafal dengan mendengarkan langsung pelafalan syekh/ustad terbukti mempercepat hafalan hingga 3x lipat!
+               {t("prayers.tipDesc")}
             </p>
          </div>
       </div>
