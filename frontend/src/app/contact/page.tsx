@@ -105,8 +105,8 @@ export default function ContactPage() {
                       <div className="space-y-2">
                          <h4 className="text-xl font-bold text-gray-900">Dukungan Email</h4>
                          <p className="text-gray-500 leading-relaxed">
-                            help@manasik360.com <br/>
-                            support@manasik360.com
+                            help@bahrain.com <br/>
+                            support@bahrain.com
                          </p>
                       </div>
                    </div>

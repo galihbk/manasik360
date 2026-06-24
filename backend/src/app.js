@@ -28,7 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Welcome Route
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Manasik360 API' });
+  res.json({ message: 'Welcome to Bahrain API' });
 });
 
 // API Routes

@@ -159,7 +159,7 @@ export default function ModulePlayerPage() {
 
   const calculateTotalProgress = (modId: string) => {
     if (typeof window === "undefined") return 0;
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
     const steps = moduleSteps[modId] || { videoCompleted: false, doaCompleted: false };
     
@@ -218,7 +218,7 @@ export default function ModulePlayerPage() {
     if (typeof window === "undefined") return;
 
     // Load step status
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
     const steps = moduleSteps[moduleId] || { videoCompleted: false, doaCompleted: false };
     
@@ -243,7 +243,7 @@ export default function ModulePlayerPage() {
       
       const getPrevProgress = () => {
         if (typeof window === "undefined") return 0;
-        const storedSteps = localStorage.getItem("manasik360_module_steps");
+        const storedSteps = localStorage.getItem("bahrain_module_steps");
         const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
         const steps = moduleSteps[prevModule.id] || { videoCompleted: false, doaCompleted: false };
         
@@ -353,7 +353,7 @@ export default function ModulePlayerPage() {
     setVideoCompleted(true);
     playSuccessChime();
 
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
     const updated = {
       ...moduleSteps,
@@ -362,7 +362,7 @@ export default function ModulePlayerPage() {
         videoCompleted: true
       }
     };
-    localStorage.setItem("manasik360_module_steps", JSON.stringify(updated));
+    localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
     window.dispatchEvent(new Event("progressStoreUpdated"));
 
     // Log to backend history
@@ -378,7 +378,7 @@ export default function ModulePlayerPage() {
     setDoaCompleted(true);
     playSuccessChime();
 
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
     const updated = {
       ...moduleSteps,
@@ -387,7 +387,7 @@ export default function ModulePlayerPage() {
         doaCompleted: true
       }
     };
-    localStorage.setItem("manasik360_module_steps", JSON.stringify(updated));
+    localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
     window.dispatchEvent(new Event("progressStoreUpdated"));
 
     // Log to backend history

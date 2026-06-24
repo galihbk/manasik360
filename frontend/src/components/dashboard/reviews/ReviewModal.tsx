@@ -33,7 +33,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: user?.name || "Jamaah Manasik360",
+          name: user?.name || "Jamaah Bahrain",
           role: user?.role === "ADMIN" ? "Administrator" : "Premium User",
           avatar: "/images/pilgrim-hero.png",
           rating,
@@ -70,7 +70,7 @@ export default function ReviewModal({ isOpen, onClose, onSuccess }: ReviewModalP
         <div className="space-y-8">
           <div className="text-center space-y-2">
             <h3 className="text-2xl font-bold text-gray-900">Tulis Ulasan Anda</h3>
-            <p className="text-sm text-gray-500">Ceritakan pengalaman Anda menggunakan Manasik360.</p>
+            <p className="text-sm text-gray-500">Ceritakan pengalaman Anda menggunakan Bahrain.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -51,31 +52,45 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 islamic-pattern">
-      <div className="max-w-md w-full">
+    <main className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-[#042f24] via-[#064e3b] to-[#022c22]">
+      {/* Decorative background glows */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--color-accent)] opacity-10 blur-[150px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-400 opacity-10 blur-[150px] rounded-full pointer-events-none"></div>
+      
+      {/* Subtle Islamic pattern overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none"></div>
+
+      <div className="max-w-md w-full relative z-10">
         {/* Logo Section */}
-        <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-[var(--color-primary)] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">360</span>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <Link href="/" className="inline-flex flex-col items-center gap-2 mb-4 group">
+            <div className="relative w-16 h-16 transition-transform duration-300 group-hover:scale-105">
+              <Image
+                src="/logo.png"
+                alt="Bahrain Logo"
+                fill
+                className="object-contain filter brightness-0 invert"
+              />
             </div>
-            <span className="text-2xl font-bold text-[var(--color-primary)] tracking-tight">Manasik360</span>
+            <span className="text-3xl font-extrabold text-white tracking-widest drop-shadow-sm uppercase">
+              Bahrain
+            </span>
           </Link>
-          <h2 className="text-3xl font-bold text-gray-900">Buat Akun Baru</h2>
-          <p className="text-gray-500 mt-2">Mulai perjalanan manasik digital Anda hari ini</p>
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">Buat Akun Baru</h2>
+          <p className="text-gray-300/80 mt-2 text-sm font-medium">Mulai perjalanan manasik digital Anda hari ini</p>
         </div>
 
         {/* Register Card */}
-        <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+        <div className="bg-white/95 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4)] border border-white/20">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r-xl">
               {error}
             </div>
           )}
           
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                 Nama Lengkap
               </label>
               <input
@@ -84,14 +99,14 @@ export default function RegisterPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-gray-900 bg-white"
                 placeholder="Masukkan nama lengkap Anda"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                 Alamat Email
               </label>
               <input
@@ -100,14 +115,14 @@ export default function RegisterPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-gray-900 bg-white"
                 placeholder="nama@email.com"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                 Kata Sandi
               </label>
               <input
@@ -116,7 +131,7 @@ export default function RegisterPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-gray-900 bg-white"
                 placeholder="Minimal 8 karakter"
                 required
               />
@@ -130,7 +145,7 @@ export default function RegisterPage() {
                 className="mt-1 h-4 w-4 text-[var(--color-primary)] focus:ring-[var(--color-primary)] border-gray-300 rounded"
                 required
               />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+              <label htmlFor="terms" className="ml-2 block text-sm text-gray-600 font-medium">
                 Saya setuju dengan{" "}
                 <Link href="#" className="font-semibold text-[var(--color-primary)] hover:underline">
                   Syarat & Ketentuan
@@ -142,22 +157,22 @@ export default function RegisterPage() {
               </label>
             </div>
 
-            <Button type="submit" className="w-full text-lg" onClick={() => {}}>
+            <Button type="submit" className="w-full py-4 text-base rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white hover:opacity-95 transition-all shadow-lg shadow-emerald-950/20" onClick={() => {}}>
               {loading ? "Mendaftar..." : "Daftar Sekarang"}
             </Button>
           </form>
 
           <div className="mt-8 relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-gray-100"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Atau daftar dengan</span>
+            <div className="relative flex justify-center text-xs uppercase tracking-wider font-semibold">
+              <span className="px-3 bg-white/0 text-gray-400">Atau daftar dengan</span>
             </div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all font-medium text-gray-700 text-sm">
+            <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all font-semibold text-gray-700 text-sm bg-white cursor-pointer">
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -178,7 +193,7 @@ export default function RegisterPage() {
               </svg>
               Google
             </button>
-            <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all font-medium text-gray-700 text-sm">
+            <button className="flex items-center justify-center gap-2 py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all font-semibold text-gray-700 text-sm bg-white cursor-pointer">
               <svg className="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
@@ -187,9 +202,9 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <p className="text-center mt-8 text-gray-600">
+        <p className="text-center mt-8 text-gray-300">
           Sudah punya akun?{" "}
-          <Link href="/login" className="font-bold text-[var(--color-primary)] hover:underline">
+          <Link href="/login" className="font-bold text-[var(--color-accent-light)] hover:underline hover:text-[var(--color-accent)] transition-colors">
             Masuk Sekarang
           </Link>
         </p>

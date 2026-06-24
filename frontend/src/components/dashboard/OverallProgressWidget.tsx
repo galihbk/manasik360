@@ -19,7 +19,7 @@ export default function OverallProgressWidget() {
     setOverallProgress(progress);
 
     // 2. Get local steps progress to calculate total progress per module
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     const moduleSteps = storedSteps ? JSON.parse(storedSteps) : {};
     const store = getProgressStore();
 

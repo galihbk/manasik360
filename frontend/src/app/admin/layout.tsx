@@ -78,7 +78,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <Image src="/logo.png" alt="Logo" fill className="object-contain p-2" />
              </div>
              <div className="flex flex-col">
-                <span className="text-lg font-black text-slate-900 leading-none tracking-tight">MANASIK<span className="text-emerald-600">360</span></span>
+                <span className="text-lg font-black text-slate-900 leading-none tracking-tight">BAHRAIN</span>
                 <span className="text-[9px] text-emerald-600 font-bold uppercase tracking-widest mt-1">ADMIN CONSOLE</span>
              </div>
           </Link>

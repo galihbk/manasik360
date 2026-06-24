@@ -144,20 +144,20 @@ async function main() {
   const bcrypt = require('bcryptjs');
   const hashedPassword = await bcrypt.hash('adminpassword', 10);
   await prisma.user.upsert({
-    where: { email: 'admin@manasik360.com' },
+    where: { email: 'admin@bahrain.com' },
     update: {
-      name: 'Super Admin Manasik360',
+      name: 'Super Admin Bahrain',
       password: hashedPassword,
       role: 'ADMIN'
     },
     create: {
-      name: 'Super Admin Manasik360',
-      email: 'admin@manasik360.com',
+      name: 'Super Admin Bahrain',
+      email: 'admin@bahrain.com',
       password: hashedPassword,
       role: 'ADMIN'
     }
   });
-  console.log('Super Admin seeded/ensured successfully: admin@manasik360.com / adminpassword');
+  console.log('Super Admin seeded/ensured successfully: admin@bahrain.com / adminpassword');
 
   console.log('Seeding finished.');
 }

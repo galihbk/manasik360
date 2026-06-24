@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Manasik360 - Virtual Tour 360 Haji & Umrah",
+  title: "Bahrain - Virtual Tour 360 Haji & Umrah",
   description: "Platform Virtual Tour 360 Manasik Haji yang memuat semua informasi tentang tahapan-tahapan haji dan umrah secara imersif.",
 };
 

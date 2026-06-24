@@ -108,7 +108,7 @@ const DEFAULT_PROGRESS: VRModuleProgress[] = [
   }
 ];
 
-const LOCAL_STORAGE_KEY = "manasik360_modules_progress";
+const LOCAL_STORAGE_KEY = "bahrain_modules_progress";
 
 // Helper to check if localStorage is available (client-side only)
 const isClient = () => typeof window !== "undefined";
@@ -127,7 +127,7 @@ export const getProgressStore = (): VRModuleProgress[] => {
     // Self-healing migration: if the old test progress is present (Ihram = 100), reset it to start completely fresh!
     if (parsed.some(m => m.id === "ihram" && m.progress === 100)) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_PROGRESS));
-      localStorage.removeItem("manasik360_module_steps"); // clear step-level locks too!
+      localStorage.removeItem("bahrain_module_steps"); // clear step-level locks too!
       return DEFAULT_PROGRESS;
     }
     return parsed;
@@ -351,7 +351,7 @@ export const getUnifiedProgressStore = (): UnifiedModuleProgress[] => {
   
   let moduleSteps: Record<string, { videoCompleted: boolean; doaCompleted: boolean }> = {};
   if (typeof window !== "undefined") {
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     if (storedSteps) {
       try {
         moduleSteps = JSON.parse(storedSteps);

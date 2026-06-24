@@ -54,7 +54,7 @@ export default function BlogIndex() {
               Pusat Edukasi & Artikel
             </span>
             <h1 className="text-4xl lg:text-6xl font-black text-white leading-tight uppercase">
-              KABAR & PANDUAN MANASIK360
+              KABAR & PANDUAN BAHRAIN
             </h1>
             <p className="text-gray-300 max-w-xl mx-auto text-base leading-relaxed">
               Jelajahi petunjuk terlengkap seputar fikih ibadah haji, tips stamina sehat, dan panduan perjalanan ibadah langsung dari pembimbing berpengalaman.

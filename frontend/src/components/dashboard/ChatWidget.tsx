@@ -21,14 +21,25 @@ export default function ChatWidget() {
   const [hasUnread, setHasUnread] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Initialize unique sessionId from localStorage
+  // Initialize unique sessionId from localStorage with 1-hour inactivity expiration
   useEffect(() => {
     if (typeof window !== "undefined") {
       let sId = localStorage.getItem("chat_session_id");
+      const lastActive = localStorage.getItem("chat_session_last_active");
+      const now = Date.now();
+      
+      // Expire session if last active is older than 1 hour (3600000 ms)
+      if (sId && lastActive && now - parseInt(lastActive) > 60 * 60 * 1000) {
+        localStorage.removeItem("chat_session_id");
+        localStorage.removeItem("chat_session_last_active");
+        sId = null;
+      }
+      
       if (!sId) {
         sId = "session_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         localStorage.setItem("chat_session_id", sId);
       }
+      localStorage.setItem("chat_session_last_active", now.toString());
       setSessionId(sId);
     }
   }, []);
@@ -86,6 +97,8 @@ export default function ChatWidget() {
   const toggleChat = () => {
     if (!isOpen) {
       setHasUnread(false);
+      // Update last active time when user opens chat
+      localStorage.setItem("chat_session_last_active", Date.now().toString());
     }
     setIsOpen(!isOpen);
   };
@@ -96,6 +109,7 @@ export default function ChatWidget() {
 
     const textToSend = inputValue;
     setInputValue("");
+    localStorage.setItem("chat_session_last_active", Date.now().toString());
 
     // Optimistically add message
     const tempMessage: Message = {
@@ -134,7 +148,7 @@ export default function ChatWidget() {
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                  </div>
                  <div>
-                    <h4 className="font-bold text-sm">CS Manasik360</h4>
+                    <h4 className="font-bold text-sm">CS Bahrain</h4>
                     <p className="text-[10px] text-emerald-300 font-bold uppercase tracking-widest">Online Sekarang</p>
                  </div>
               </div>
@@ -181,7 +195,7 @@ export default function ChatWidget() {
       <button 
         onClick={toggleChat}
         className={`w-16 h-16 rounded-[2rem] shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group relative ${
-          isOpen ? 'bg-white text-gray-400 border border-gray-100' : 'bg-[var(--color-primary)] text-white shadow-emerald-900/30'
+          isOpen ? 'bg-white text-gray-400 border border-gray-100' : 'bg-[var(--color-primary)] text-white border-2 border-white shadow-emerald-900/30'
         }`}
       >
         {!isOpen && <span className="absolute inset-0 rounded-[2rem] bg-[var(--color-primary)] animate-ping opacity-20"></span>}

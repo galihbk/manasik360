@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
     },
     {
       title: "2. Penggunaan Informasi",
-      content: "Informasi yang kami kumpulkan digunakan untuk menyediakan, memelihara, dan meningkatkan layanan Manasik360, memproses transaksi Anda, serta mengirimkan pemberitahuan penting mengenai akun dan pembaruan fitur."
+      content: "Informasi yang kami kumpulkan digunakan untuk menyediakan, memelihara, dan meningkatkan layanan Bahrain, memproses transaksi Anda, serta mengirimkan pemberitahuan penting mengenai akun dan pembaruan fitur."
     },
     {
       title: "3. Keamanan Data",
@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
              <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs mb-4 block uppercase opacity-60">Legal Information</span>
              <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight uppercase leading-tight">KEBIJAKAN PRIVASI</h1>
              <p className="text-xl text-gray-500 mt-6 leading-relaxed">
-               Bagaimana kami menjaga dan melindungi data pribadi Anda di Manasik360.
+               Bagaimana kami menjaga dan melindungi data pribadi Anda di Bahrain.
              </p>
           </div>
 
@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
 
                 <div className="pt-12 border-t border-gray-50 mt-12">
                    <p className="text-gray-500 text-sm leading-relaxed">
-                      Dengan menggunakan layanan Manasik360, Anda menyetujui pengumpulan dan penggunaan informasi sesuai dengan kebijakan ini. Kami dapat memperbarui kebijakan ini dari waktu ke waktu, dan kami akan memberi tahu Anda jika ada perubahan signifikan.
+                      Dengan menggunakan layanan Bahrain, Anda menyetujui pengumpulan dan penggunaan informasi sesuai dengan kebijakan ini. Kami dapat memperbarui kebijakan ini dari waktu ke waktu, dan kami akan memberi tahu Anda jika ada perubahan signifikan.
                    </p>
                 </div>
              </div>

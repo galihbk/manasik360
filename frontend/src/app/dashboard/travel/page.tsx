@@ -102,7 +102,7 @@ export default function TravelDashboardPage() {
       <div className="p-8 bg-[var(--color-primary)] rounded-[2.5rem] text-white flex items-center justify-between">
          <div>
             <h4 className="text-xl font-bold mb-1">Butuh bantuan integrasi API Travel?</h4>
-            <p className="text-[var(--color-primary-light)]">Hubungkan sistem booking travel Anda dengan dashboard monitoring Manasik360.</p>
+            <p className="text-[var(--color-primary-light)]">Hubungkan sistem booking travel Anda dengan dashboard monitoring Bahrain.</p>
          </div>
          <Button className="bg-white text-[var(--color-primary)] hover:bg-gray-100">Pelajari API Doc</Button>
       </div>

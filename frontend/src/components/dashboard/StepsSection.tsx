@@ -180,7 +180,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
     setVrProgresses(vrData);
 
     // 2. Get local video/doa steps progress
-    const storedSteps = localStorage.getItem("manasik360_module_steps");
+    const storedSteps = localStorage.getItem("bahrain_module_steps");
     if (storedSteps) {
       try {
         setModuleSteps(JSON.parse(storedSteps));
@@ -198,7 +198,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
       // Ihram default is unlocked, but steps are incomplete
       initial[m.id] = { videoCompleted: false, doaCompleted: false };
     });
-    localStorage.setItem("manasik360_module_steps", JSON.stringify(initial));
+    localStorage.setItem("bahrain_module_steps", JSON.stringify(initial));
     setModuleSteps(initial);
   };
 
@@ -303,7 +303,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
       }
     };
     setModuleSteps(updated);
-    localStorage.setItem("manasik360_module_steps", JSON.stringify(updated));
+    localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
   };
 
   // Play audio for Doa step
@@ -339,7 +339,7 @@ export default function StepsSection({ hideHeader = false }: StepsSectionProps) 
       }
     };
     setModuleSteps(updated);
-    localStorage.setItem("manasik360_module_steps", JSON.stringify(updated));
+    localStorage.setItem("bahrain_module_steps", JSON.stringify(updated));
   };
 
   return (

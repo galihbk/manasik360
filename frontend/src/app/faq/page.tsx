@@ -38,11 +38,11 @@ function FAQItem({ question, answer }: FAQItemProps) {
 export default function FAQPage() {
   const categories = [
     {
-      name: "Seputar Manasik360",
+      name: "Seputar Bahrain",
       questions: [
-        { q: "Apa itu Manasik360?", a: "Manasik360 adalah platform edukasi ibadah Haji dan Umroh berbasis teknologi Virtual Reality (VR) 360 derajat yang memungkinkan jamaah merasakan pengalaman simulasi nyata di Tanah Suci." },
+        { q: "Apa itu Bahrain?", a: "Bahrain adalah platform edukasi ibadah Haji dan Umroh berbasis teknologi Virtual Reality (VR) 360 derajat yang memungkinkan jamaah merasakan pengalaman simulasi nyata di Tanah Suci." },
         { q: "Apakah aplikasi ini gratis?", a: "Kami menyediakan Paket Basic secara gratis untuk mencoba beberapa modul. Untuk akses penuh ke seluruh lokasi dan fitur premium, tersedia paket berlangganan yang terjangkau." },
-        { q: "Perangkat apa saja yang didukung?", a: "Manasik360 dapat diakses melalui Smartphone (Android/iOS), Tablet, Laptop, maupun PC. Untuk pengalaman maksimal, kami menyarankan penggunaan kacamata VR." }
+        { q: "Perangkat apa saja yang didukung?", a: "Bahrain dapat diakses melalui Smartphone (Android/iOS), Tablet, Laptop, maupun PC. Untuk pengalaman maksimal, kami menyarankan penggunaan kacamata VR." }
       ]
     },
     {
@@ -98,7 +98,7 @@ export default function FAQPage() {
              <div className="absolute top-0 right-0 w-32 h-32 opacity-10 islamic-pattern"></div>
              <h3 className="text-3xl font-bold">Masih punya pertanyaan lain?</h3>
              <p className="text-emerald-100 opacity-80 max-w-lg mx-auto">
-                Tim dukungan kami siap menjawab segala keraguan Anda mengenai penggunaan platform Manasik360.
+                Tim dukungan kami siap menjawab segala keraguan Anda mengenai penggunaan platform Bahrain.
              </p>
              <div className="pt-4">
                 <a 

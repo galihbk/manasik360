@@ -1,6 +1,6 @@
-# Manasik360 - Immersive VR Training Platform
+# Bahrain - Immersive VR Training Platform
 
-Manasik360 adalah platform pelatihan manasik haji dan umrah berbasis Virtual Reality (VR) 360 derajat. Platform ini dirancang untuk memberikan pengalaman simulasi yang nyata bagi calon jamaah melalui navigasi interaktif dan konten edukasi modular.
+Bahrain adalah platform pelatihan manasik haji dan umrah berbasis Virtual Reality (VR) 360 derajat. Platform ini dirancang untuk memberikan pengalaman simulasi yang nyata bagi calon jamaah melalui navigasi interaktif dan konten edukasi modular.
 
 ## 🚀 Fitur Utama
 
@@ -21,8 +21,8 @@ Manasik360 adalah platform pelatihan manasik haji dan umrah berbasis Virtual Rea
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/galihbk/manasik360.git
-   cd manasik360
+   git clone https://github.com/galihbk/bahrain.git
+   cd bahrain
    ```
 
 2. **Setup Backend**
@@ -52,4 +52,4 @@ Manasik360 adalah platform pelatihan manasik haji dan umrah berbasis Virtual Rea
 Kontribusi selalu terbuka! Silakan fork repository ini dan buat pull request untuk fitur-fitur baru.
 
 ---
-**Manasik360** - *Bimbingan Ibadah Lebih Nyata, Lebih Berkesan.*
+**Bahrain** - *Bimbingan Ibadah Lebih Nyata, Lebih Berkesan.*

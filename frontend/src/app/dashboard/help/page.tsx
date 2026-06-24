@@ -113,7 +113,7 @@ export default function HelpPage() {
                      </div>
                      <div>
                         <p className="text-[10px] font-bold text-emerald-300 uppercase tracking-widest">Email Support</p>
-                        <p className="text-sm font-bold">help@manasik360.com</p>
+                        <p className="text-sm font-bold">help@bahrain.com</p>
                      </div>
                   </a>
                </div>
@@ -122,7 +122,7 @@ export default function HelpPage() {
             <div className="bg-gray-50 p-8 rounded-[3rem] border border-gray-100">
                <h4 className="font-bold text-gray-900 mb-2">Punya Feedback?</h4>
                <p className="text-xs text-gray-400 leading-relaxed">
-                  Kami selalu terbuka untuk saran agar Manasik360 menjadi lebih baik bagi seluruh jamaah.
+                  Kami selalu terbuka untuk saran agar Bahrain menjadi lebih baik bagi seluruh jamaah.
                </p>
                <button 
                   onClick={() => setIsModalOpen(true)}

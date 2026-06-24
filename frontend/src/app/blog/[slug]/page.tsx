@@ -94,7 +94,7 @@ export default function BlogDetail({ params }: { params: Promise<{ slug: string 
                     {post.title}
                   </h1>
                   <div className="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    <span>Tim Manasik360</span>
+                    <span>Tim Bahrain</span>
                     <span>•</span>
                     <span>{post.date}</span>
                   </div>
@@ -125,7 +125,7 @@ export default function BlogDetail({ params }: { params: Promise<{ slug: string 
                     
                     <p className="text-lg leading-loose text-gray-600">
                       Dalam mempersiapkan perjalanan suci ini, memiliki panduan yang komprehensif adalah sebuah keharusan. 
-                      Teknologi visual seperti Manasik360 memberikan jembatan yang sempurna untuk membiasakan diri Anda 
+                      Teknologi visual seperti Bahrain memberikan jembatan yang sempurna untuk membiasakan diri Anda 
                       dengan tata letak geografis rukun ibadah haji, melengkapi persiapan spiritual, fisik, maupun fikih yang Anda miliki.
                     </p>
                   </div>

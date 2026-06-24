@@ -7,7 +7,7 @@ export default function TermsPage() {
   const sections = [
     {
       title: "1. Ketentuan Penggunaan",
-      content: "Dengan mengakses dan menggunakan platform Manasik360, Anda setuju untuk terikat oleh syarat dan ketentuan ini. Layanan kami disediakan untuk tujuan edukasi persiapan ibadah Haji dan Umroh."
+      content: "Dengan mengakses dan menggunakan platform Bahrain, Anda setuju untuk terikat oleh syarat dan ketentuan ini. Layanan kami disediakan untuk tujuan edukasi persiapan ibadah Haji dan Umroh."
     },
     {
       title: "2. Akun Pengguna",
@@ -15,7 +15,7 @@ export default function TermsPage() {
     },
     {
       title: "3. Hak Kekayaan Intelektual",
-      content: "Seluruh konten dalam Manasik360, termasuk namun tidak terbatas pada video 360°, teks, grafis, logo, dan perangkat lunak, adalah milik Manasik360 dan dilindungi oleh undang-undang hak cipta Indonesia."
+      content: "Seluruh konten dalam Bahrain, termasuk namun tidak terbatas pada video 360°, teks, grafis, logo, dan perangkat lunak, adalah milik Bahrain dan dilindungi oleh undang-undang hak cipta Indonesia."
     },
     {
       title: "4. Pembelian dan Pembatalan",
@@ -23,7 +23,7 @@ export default function TermsPage() {
     },
     {
       title: "5. Batasan Tanggung Jawab",
-      content: "Manasik360 adalah alat bantu simulasi dan edukasi. Kami tidak bertanggung jawab atas perubahan prosedur resmi yang dilakukan oleh otoritas pemerintah Arab Saudi atau penyelenggara Haji/Umroh resmi."
+      content: "Bahrain adalah alat bantu simulasi dan edukasi. Kami tidak bertanggung jawab atas perubahan prosedur resmi yang dilakukan oleh otoritas pemerintah Arab Saudi atau penyelenggara Haji/Umroh resmi."
     }
   ];
 
@@ -37,7 +37,7 @@ export default function TermsPage() {
              <span className="text-[var(--color-primary)] font-bold tracking-[0.4em] text-xs mb-4 block uppercase opacity-60">Terms of Service</span>
              <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 tracking-tight uppercase leading-tight">SYARAT & KETENTUAN</h1>
              <p className="text-xl text-gray-500 mt-6 leading-relaxed">
-               Aturan dan ketentuan penggunaan layanan platform Manasik360.
+               Aturan dan ketentuan penggunaan layanan platform Bahrain.
              </p>
           </div>
 

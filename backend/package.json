@@ -1,7 +1,7 @@
 {
-  "name": "manasik360-backend",
+  "name": "bahrain-backend",
   "version": "1.0.0",
-  "description": "Backend for Manasik360",
+  "description": "Backend for Bahrain",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

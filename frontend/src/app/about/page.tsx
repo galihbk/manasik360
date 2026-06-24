@@ -20,7 +20,7 @@ export default function AboutPage() {
               Menghubungkan Hati dengan <br className="hidden lg:block"/> Tanah Suci Melalui Teknologi
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Manasik360 lahir dari keinginan untuk membantu setiap jamaah merasakan ketenangan dan kesiapan maksimal sebelum melangkah ke Baitullah.
+              Bahrain lahir dari keinginan untuk membantu setiap jamaah merasakan ketenangan dan kesiapan maksimal sebelum melangkah ke Baitullah.
             </p>
           </div>
         </section>
@@ -52,7 +52,7 @@ export default function AboutPage() {
                   Kami memahami bahwa perjalanan Haji dan Umrah adalah momen sekali seumur hidup yang paling sakral. Namun, ketidaktahuan akan situasi lapangan seringkali menimbulkan kecemasan bagi calon jamaah, terutama lansia.
                 </p>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  Manasik360 hadir sebagai jembatan imersif. Dengan teknologi VR 360°, kami menghadirkan simulasi nyata yang memungkinkan jamaah "berada" di lokasi sebenarnya, menghafal rute, dan memahami rukun secara visual sebelum keberangkatan.
+                  Bahrain hadir sebagai jembatan imersif. Dengan teknologi VR 360°, kami menghadirkan simulasi nyata yang memungkinkan jamaah "berada" di lokasi sebenarnya, menghafal rute, dan memahami rukun secara visual sebelum keberangkatan.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
                    <div className="space-y-3">
@@ -72,7 +72,7 @@ export default function AboutPage() {
         {/* Features / Why Us Section */}
         <section className="py-32 bg-[#f8f9f5] relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24">
-            <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">Kenapa Manasik360 Berbeda?</h2>
+            <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">Kenapa Bahrain Berbeda?</h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-lg">Inovasi kami dirancang untuk memudahkan, bukan mempersulit.</p>
           </div>
           

@@ -49,7 +49,7 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-8 uppercase tracking-widest text-[var(--color-accent)]">Hubungi Kami</h4>
             <p className="text-gray-300 mb-6">Punya pertanyaan? Kami siap membantu persiapan Anda.</p>
             <div className="space-y-4">
-              <a href="mailto:info@manasik360.com" className="block text-gray-100 font-bold hover:text-[var(--color-accent)] transition-colors">info@manasik360.com</a>
+              <a href="mailto:info@bahrain.com" className="block text-gray-100 font-bold hover:text-[var(--color-accent)] transition-colors">info@bahrain.com</a>
               <div className="flex gap-4">
               {[
                 { name: "Instagram", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" strokeWidth="2"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" strokeWidth="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeWidth="2"/></svg> },
@@ -68,7 +68,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6 text-center sm:text-left">
-          <p className="text-gray-400 text-sm">© 2026 Manasik360. Seluruh hak cipta dilindungi oleh Allah SWT.</p>
+          <p className="text-gray-400 text-sm">© 2026 Bahrain. Seluruh hak cipta dilindungi oleh Allah SWT.</p>
         </div>
       </div>
     </footer>

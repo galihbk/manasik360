@@ -86,7 +86,7 @@ export default function ReviewsPage() {
             <div className="space-y-4 flex-1 text-center lg:text-left">
                <h3 className="text-2xl font-bold">Bagikan Pengalaman Anda</h3>
                <p className="text-emerald-100 text-sm leading-relaxed">
-                  Bantu jamaah lain dengan memberikan ulasan mengenai pengalaman Anda menggunakan simulasi Manasik360.
+                  Bantu jamaah lain dengan memberikan ulasan mengenai pengalaman Anda menggunakan simulasi Bahrain.
                </p>
                <button 
                   onClick={() => setIsModalOpen(true)}

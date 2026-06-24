@@ -94,7 +94,7 @@ export default function Home() {
                   DAN <span className="italic font-serif">IMERSIF</span>
                 </h1>
                 <p className="text-xl text-gray-300 mb-12 max-w-xl leading-relaxed">
-                  Manasik360 menghadirkan suasana Tanah Suci langsung ke hadapan Anda melalui teknologi VR 360° yang nyata dan mendalam.
+                  Bahrain menghadirkan suasana Tanah Suci langsung ke hadapan Anda melalui teknologi VR 360° yang nyata dan mendalam.
                 </p>
                 <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
                   <Button 
@@ -204,12 +204,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why Manasik360 Section */}
+        {/* Why Bahrain Section */}
         <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center gap-24">
               <div className="flex-1 space-y-10">
-                <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight uppercase">Mengapa Harus <br/> Manasik360?</h2>
+                <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight uppercase">Mengapa Harus <br/> Bahrain?</h2>
                 <div className="space-y-8">
                    {[
                      { t: "Akurasi Visual 100%", d: "Semua lokasi difilmkan langsung di Tanah Suci menggunakan kamera resolusi 8K." },
@@ -255,7 +255,7 @@ export default function Home() {
                 TESTIMONI TERBARU JAMAAH KAMI
               </h2>
               <p className="text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
-                Dengarkan cerita jujur dari para jamaah yang telah mematangkan persiapan ibadah haji mereka bersama Manasik360.
+                Dengarkan cerita jujur dari para jamaah yang telah mematangkan persiapan ibadah haji mereka bersama Bahrain.
               </p>
             </div>
 

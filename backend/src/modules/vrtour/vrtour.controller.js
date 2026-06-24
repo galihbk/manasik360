@@ -95,7 +95,7 @@ const getTourConfig = async (req, res, next) => {
     const config = {
       default: {
         firstScene: scenes.find(s => s.isFirst)?.id || scenes[0]?.id,
-        author: "Manasik360",
+        author: "Bahrain",
         sceneFadeDuration: 1000,
         autoLoad: true,
         type: "equirectangular",
