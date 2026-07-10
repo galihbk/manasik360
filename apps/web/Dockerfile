@@ -45,4 +45,4 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "web", "dev"]
+CMD ["pnpm", "--filter", "web", "start"]

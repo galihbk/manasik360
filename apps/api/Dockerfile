@@ -45,4 +45,4 @@ ENV PORT=5001
 
 EXPOSE 5001
 
-CMD ["pnpm", "--filter", "api", "dev"]
+CMD ["pnpm", "--filter", "api", "start"]
