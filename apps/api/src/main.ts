@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { execSync } from 'child_process';
 
 // Dependency-free local .env loader (MUST run before importing AppModule!)
 function loadEnv() {
@@ -22,6 +23,24 @@ function loadEnv() {
   }
 }
 loadEnv();
+
+// Auto-push Prisma schema to database on startup (ensures tables always exist)
+function ensureDatabase() {
+  try {
+    const schemaPath = path.join(process.cwd(), 'packages/database/prisma/schema.prisma');
+    if (fs.existsSync(schemaPath)) {
+      console.log('Running prisma db push to sync database schema...');
+      execSync(`npx prisma db push --schema="${schemaPath}" --accept-data-loss`, {
+        stdio: 'inherit',
+        env: process.env
+      });
+      console.log('Database schema synced successfully.');
+    }
+  } catch (e) {
+    console.error('prisma db push failed (app will continue):', e);
+  }
+}
+ensureDatabase();
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';

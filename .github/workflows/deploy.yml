@@ -158,11 +158,11 @@ jobs:
             # Stop and re-launch updated containers with zero orphan traces
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
-            # Wait 5 seconds for Database and API startup
-            sleep 5
+            # Wait 10 seconds for Database and API startup
+            sleep 10
 
             # Auto-run Prisma db push inside the api container to sync DB schema structure
-            docker exec manasik360_backend npx prisma db push --schema=packages/database/prisma/schema.prisma --accept-data-loss || true
+            docker exec manasik360_backend sh -c 'cd /app && pnpm --filter @bahrain/database db:push' || true
 
             # Auto-run database seeder inside the backend container to ensure Super Admin exists
             docker exec manasik360_backend node seed.js || true
