@@ -1,0 +1,340 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "features": "Fitur",
+    "pricing": "Harga",
+    "faq": "FAQ",
+    "contact": "Hubungi Kami",
+    "register": "Daftar",
+    "login": "Login"
+  },
+  "hero": {
+    "badge": "LMS Enterprise V2",
+    "heading": "PERSIAPKAN IBADAH HAJI ANDA SECARA EFISIEN DAN IMERSIF DENGAN VR Haji 360°",
+    "subheading": "Platform berbasis teknologi VR dan video 360° untuk mempelajari setiap tahapan ibadah Haji secara mendalam.",
+    "cta": "Daftar Sekarang"
+  },
+  "benefits": {
+    "section_title": "Infrastruktur Perusahaan",
+    "section_subtitle": "Dibangun untuk Sepuluh Tahun Operasi Produk",
+    "items": [
+      {
+        "title": "Alur Pembelajaran Fleksibel",
+        "desc": "Rumuskan aturan dinamis dan persyaratan sekuensial yang sesuai dengan kurikulum institusi Anda tanpa batasan kaku."
+      },
+      {
+        "title": "Integrasi Tur Virtual 3DVista",
+        "desc": "Unggah dan luncurkan tur interaktif 360° yang kaya fitur secara mulus. Pantau statistik keterlibatan siswa langsung dari API kami."
+      },
+      {
+        "title": "Multi-Tenancy Skala Besar",
+        "desc": "Sediakan subdomain unik, database terisolasi, tema kustom, dan profil branding khusus untuk setiap agensi mitra."
+      },
+      {
+        "title": "Inti RTL & Multi-Bahasa",
+        "desc": "Dibuat dari awal untuk mendukung Bahasa Indonesia, Inggris, dan Arab dengan tata letak UI kanan-ke-kiri yang responsif."
+      }
+    ]
+  },
+  "overview": {
+    "section_title": "Ekosistem Terintegrasi",
+    "section_subtitle": "Satu Inti Pelatihan Terpadu",
+    "section_desc": "Bahrain memetakan seluruh ruang kerja operasional institusi Anda: dari panel penyampaian materi ke siswa, antarmuka pengawasan, pembuat sertifikat, hingga pustaka media.",
+    "student": {
+      "badge": "Untuk Siswa",
+      "title": "Portal Platform Pembelajaran",
+      "desc": "Layar interaktif yang memuat lembar bacaan, pemutaran media, penilaian kuis langsung, dan panduan simulasi virtual yang imersif."
+    },
+    "organization": {
+      "badge": "Untuk Organisasi",
+      "title": "Ruang Kerja Organisasi",
+      "desc": "Kelola distribusi paket voucher, kelompokkan grup jemaah, pantau lini masa kemajuan belajar, dan ekspor laporan khusus."
+    },
+    "operator": {
+      "badge": "Untuk Operator",
+      "title": "Panel Administrasi Platform",
+      "desc": "Kelola penyewa secara global, konfigurasikan profil fitur, edit artikel CMS, tinjau log server, dan pantau metrik analitik."
+    }
+  },
+  "user_flow": {
+    "section_title": "Alur Pengguna",
+    "section_subtitle": "Perjalanan Jemaah / Siswa",
+    "steps": [
+      { "title": "Lembar Bacaan", "desc": "Akses materi panduan berbasis teks dengan kontras tinggi, referensi penting, dan infografis kustom." },
+      { "title": "Modul Video Tutorial", "desc": "Putar video instruksional dan tinjauan prosedur inti yang di-host di server CDN yang aman." },
+      { "title": "Tur Virtual 3DVista", "desc": "Interaksi langsung dengan tur virtual 360° yang imersif di dalam halaman pelajaran." },
+      { "title": "Penilaian Kuis Dinamis", "desc": "Validasi tingkat pemahaman materi melalui ujian pilihan ganda dengan penilaian otomatis." },
+      { "title": "Sertifikat PDF Kustom", "desc": "Kompilasi dan unduh sertifikat resmi PDF secara instan setelah menyelesaikan kriteria pelatihan." }
+    ]
+  },
+  "org_flow": {
+    "section_title": "Alur Kerja",
+    "section_subtitle": "Operasional Organisasi",
+    "steps": [
+      { "num": "01", "title": "Beli Voucher", "desc": "Pesan paket kupon akses yang disesuaikan." },
+      { "num": "02", "title": "Distribusikan Kode", "desc": "Kirim kode akses via email, WhatsApp, atau chat." },
+      { "num": "03", "title": "Pantau Progres", "desc": "Ikuti perkembangan belajar kelompok jemaah Anda." },
+      { "num": "04", "title": "Ekspor Laporan", "desc": "Unduh data laporan progres siswa yang sesuai standar." },
+      { "num": "05", "title": "Terbitkan Sertifikat", "desc": "Berikan sertifikat PDF kustom kepada peserta yang lulus." }
+    ]
+  },
+  "features": {
+    "section_title": "Kemampuan",
+    "section_subtitle": "Matriks Fungsional Lengkap",
+    "items": [
+      { "title": "Manajemen Pembelajaran", "desc": "Kelola kursus, modul, ujian, dan dokumen referensi." },
+      { "title": "Dukungan Tur 3DVista", "desc": "Unggah folder tur zip hasil ekspor 3DVista dan pasang di pelajaran secara aman." },
+      { "title": "Mesin Kuis Canggih", "desc": "Uji pemahaman peserta dengan kuis interaktif berskema nilai otomatis." },
+      { "title": "Sertifikat Otomatis", "desc": "Hasilkan file PDF sertifikat kustom ber-tanda tangan digital ketika siswa lulus." },
+      { "title": "Distribusi Voucher", "desc": "Buat dan distribusikan kode promosi untuk verifikasi masuk kursus." },
+      { "title": "Analisis Kustom", "desc": "Himpun log progres belajar jemaah dan metrik pendaftaran harian." },
+      { "title": "Manajemen Konten (CMS)", "desc": "Perbarui pengumuman publik, item spanduk, dan blog secara dinamis." },
+      { "title": "Laporan Terdokumentasi", "desc": "Ekspor log lengkap yang merinci mutasi database dan aktivitas sistem." },
+      { "title": "Layanan Bantuan", "desc": "Integrasikan widget obrolan langsung untuk membantu pengguna secara instan." },
+      { "title": "Sistem Tiga Bahasa", "desc": "Tampilkan materi yang diterjemahkan ke Bahasa Indonesia, Inggris, dan Arab." }
+    ]
+  },
+  "pricing": {
+    "heading": "Harga Layanan",
+    "subheading": "Temukan Paket Terbaik Untuk Anda",
+    "title": "Umum",
+    "desc": "Sempurna untuk calon jemaah mandiri",
+    "price": "Rp 50.000",
+    "period": "per user",
+    "features": [
+      "Akses simulasi VR Haji Interaktif",
+      "Panduan audio visual lengkap",
+      "Akses multi-platform",
+      "Sertifikat kesiapan ibadah haji"
+    ]
+  },
+  "stats": {
+    "items": [
+      { "value": "25+", "label": "Tenant Platform Aktif (Nilai Demo)" },
+      { "value": "180.000+", "label": "Peserta Terdaftar (Nilai Demo)" },
+      { "value": "99,98%", "label": "Uptime Infrastruktur (Standar SLA)" }
+    ]
+  },
+  "testimonials": {
+    "section_title": "Umpan Balik",
+    "section_subtitle": "Dipercaya oleh Ahli Industri",
+    "items": [
+      {
+        "quote": "Bahrain International telah mempermudah alur pelatihan kami. Tingkat kelulusan jemaah kami meningkat 42% setelah menerapkan integrasi tur 3DVista.",
+        "author": "Dr. Ahmad R., Direktur Pendidikan",
+        "org": "Dewan Studi Haji Global"
+      },
+      {
+        "quote": "Arsitektur multi-tenant memudahkan biro perjalanan kami meluncurkan portal kustom ber-branding sendiri kurang dari satu jam. Keamanan dan lokalisasi luar biasa.",
+        "author": "Sarah W., Kepala Operasional",
+        "org": "Jaringan Nusa Indah Travel"
+      },
+      {
+        "quote": "Dukungan RTL untuk Bahasa Arab serta validasi kuis otomatis menjadikan platform ini solusi definitif bagi program pelatihan korporasi kami.",
+        "author": "Hassan Al-M., Manajer Pelatihan",
+        "org": "Korporasi Logistik Timur Tengah"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Dukungan",
+    "subheading": "Pertanyaan yang Sering Diajukan",
+    "items": [
+      {
+        "q": "Apakah Bahrain International me-render panorama 360° secara langsung?",
+        "a": "Tidak. Sistem mendelegasikan pembuatan konten ke 3DVista. Anda membangun dan mengekspor tur menggunakan 3DVista, lalu mengunggah file zip statis ke CMS kami. Bahrain meng-host, melayani, dan melacak akses ke tur tersebut sebagai bagian dari pembelajaran."
+      },
+      {
+        "q": "Bagaimana cara kerja Learning Rule Engine?",
+        "a": "Anda dapat menentukan aturan logika kelulusan melalui CMS (contoh: pengguna harus menyelesaikan video orientasi, berinteraksi dengan tur virtual, dan mencapai nilai 80% pada kuis sebelum dapat membuka modul berikutnya)."
+      },
+      {
+        "q": "Apakah platform mendukung domain kustom white-label?",
+        "a": "Ya. Setiap organisasi/tenant dapat memetakan domain atau subdomain kustom mereka sendiri, menyesuaikan warna aplikasi, mengunggah logo, dan menerapkan template sertifikat yang berbeda."
+      }
+    ]
+  },
+  "cta_banner": {
+    "heading": "Siap Meluncurkan Portal Anda?",
+    "subheading": "Buka dasbor organisasi Anda dan mulai rancang jalur pelatihan kustom Anda sekarang.",
+    "btn_free": "Gunakan Tenant Gratis",
+    "btn_sales": "Hubungi Penjualan Enterprise"
+  },
+  "footer": {
+    "desc": "Bahrain International adalah platform SaaS dinamis yang memberdayakan agen perjalanan, akademi, dan institusi melalui solusi pelatihan digital imersif.",
+    "col1_title": "Platform",
+    "col2_title": "Sumber Daya",
+    "col3_title": "Legal",
+    "copyright": "© 2026 Bahrain International Systems. Hak cipta dilindungi undang-undang."
+  },
+  "auth": {
+    "login_title": "Masuk ke Bahrain",
+    "login_subtitle": "Akses Portal Enterprise",
+    "email_label": "Alamat Email",
+    "password_label": "Kata Sandi",
+    "remember_me": "Ingat saya",
+    "forgot_password": "Lupa kata sandi?",
+    "no_account": "Belum punya akun?",
+    "register_title": "Bergabung ke Bahrain",
+    "register_subtitle": "Pilih tipe pendaftaran akun Anda di bawah ini",
+    "tab_personal": "Personal / Jemaah",
+    "tab_org": "Organisasi / Tenant",
+    "admin_name": "Nama Administrator",
+    "org_name": "Nama Organisasi",
+    "subdomain": "Subdomain Portal yang Diminta",
+    "full_name": "Nama Lengkap",
+    "voucher": "Kode Voucher / Undangan (Opsional)",
+    "terms_note": "Dengan mendaftar, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi Bahrain International. Semua aktivitas sistem dipantau di bawah panduan keamanan.",
+    "already_have_account": "Sudah punya akun?"
+  },
+  "dashboard": {
+    "main": "UTAMA",
+    "communication": "KOMUNIKASI",
+    "account": "AKUN",
+    "home": "Beranda",
+    "my_learning": "Pembelajaran Saya",
+    "certificates": "Sertifikat",
+    "subscription": "Langganan",
+    "notifications": "Notifikasi",
+    "support": "Dukungan",
+    "profile": "Profil",
+    "settings": "Pengaturan",
+    "sign_out": "Keluar",
+    "welcome": "Assalamualaikum",
+    "home_sub": "Selamat datang kembali. Lanjutkan perjalanan belajar Anda di bawah.",
+    "continue_learning": "Lanjutkan Belajar",
+    "resume_activity": "Lanjutkan Aktivitas",
+    "reminder": "Pengingat Hari Ini",
+    "reminder_desc": "Konsultasikan dengan dokter Anda mengenai vaksinasi perjalanan Haji. Persiapkan latihan kardio harian.",
+    "progress": "Progres Kelas",
+    "recent_activity": "Aktivitas Terbaru",
+    "recommended_course": "Rekomendasi Kelas",
+    "cert_status": "Status Sertifikat",
+    "completed": "Selesai",
+    "in_progress": "Sedang Berjalan",
+    "locked": "Terkunci",
+    "duration": "Durasi",
+    "lessons": "Pelajaran"
+  },
+  "my_learning_wizard": {
+    "last_active": "Terakhir aktif",
+    "not_started": "Belum dimulai",
+    "assessed_yesterday": "Memeriksa batas Miqat kemarin",
+    "minutes": "menit",
+    "mins": "menit",
+    "hours": "jam",
+    "hour": "jam",
+    "type_reading": "Materi",
+    "type_video": "Video",
+    "type_tour": "Tur Virtual 3D",
+    "back_path": "Kembali ke Jalur Belajar",
+    "back": "Kembali",
+    "overview": "Ringkasan",
+    "reading": "Materi",
+    "video": "Video",
+    "tour": "Tur 360°",
+    "quiz": "Kuis",
+    "lesson_contents": "Konten Pelajaran",
+    "est_duration": "Perkiraan Durasi",
+    "welcome_desc": "Selamat datang di pelajaran ini. Kami akan memandu Anda langkah demi langkah melalui lembar bacaan, panduan video, dan simulasi kubah virtual 360° interaktif. Selesaikan kuis di bagian akhir untuk memenuhi persyaratan urutan jalur pembelajaran.",
+    "start_lesson": "Mulai Pelajaran",
+    "reading_material": "Materi Bacaan",
+    "next_video": "Selanjutnya: Tonton Video",
+    "video_tutorial": "Video Panduan",
+    "play_mock": "Putar Video Panduan",
+    "next_tour": "Selanjutnya: Buka Tur 360°",
+    "tour_iframe": "Tur Virtual 3D (Iframe Terisolasi)",
+    "tour_title": "Simulasi 360° Masjidil Haram",
+    "tour_desc": "Bundel direktori simulasi tur Cloudflare R2 menyajikan konten statis",
+    "next_quiz": "Selanjutnya: Ikuti Kuis",
+    "knowledge_assessment": "Evaluasi Pemahaman",
+    "submit_answers": "Kirim Jawaban",
+    "quiz_result": "Hasil Kuis",
+    "quiz_pass": "Evaluasi lulus! Persyaratan jalur pembelajaran terpenuhi.",
+    "quiz_fail": "Gagal. Silakan ulas kembali materi pelajaran dan coba lagi.",
+    "quiz_finish": "Selesaikan Pelajaran & Kembali ke Jalur",
+    "no_quiz": "Tidak ada kuis untuk pelajaran pengenalan ini.",
+    "learning_progress": "Progress Belajar",
+    "step": "Langkah",
+    "of": "dari",
+    "steps": "langkah selesai",
+    "completed_status": "selesai",
+    "continue_btn": "Lanjutkan",
+    "objectives_title": "Tujuan Pembelajaran",
+    "objectives_desc": "Setelah pelajaran ini Anda akan mampu:",
+    "objective_1": "Memahami standar kebugaran jasmani dan protokol stamina kardio untuk jalan kaki harian.",
+    "objective_2": "Mengenali batas wilayah geografis dan protokol masuk ke dalam keadaan Ihram.",
+    "objective_3": "Mengenali jalur landmarks virtual di Masjidil Haram (Ka'bah, Safa, Marwah).",
+    "objective_4": "Memahami boarding dan aturan jadwal perjalanan Safar.",
+    "objective_5": "Mengenali struktur perkemahan Mina dan rutinitas melontar jumrah.",
+    "celebration_congrats": "Selamat!",
+    "celebration_desc": "Anda telah berhasil menyelesaikan pelajaran ini dan lulus kuis evaluasi pemahaman.",
+    "next_lesson_btn": "Lanjut Pelajaran Berikutnya",
+    "lesson_1_1_content": "## Pendahuluan\nMelaksanakan ibadah Haji bukan hanya perjalanan spiritual tetapi juga fisik.\nJamaah akan menghabiskan banyak waktu berjalan kaki, berdiri, dan berpindah antar tempat suci di bawah cuaca yang panas.\nPersiapan fisik yang tepat membantu mengurangi kelelahan, menurunkan risiko kesehatan, dan memungkinkan jamaah melakukan setiap ibadah dengan lebih nyaman dan aman.\nMempersiapkan tubuh Anda beberapa minggu sebelum keberangkatan adalah salah satu investasi terbaik untuk kelancaran ibadah Anda.\n\n## Mengapa Persiapan Fisik Sangat Penting\nBanyak jamaah meremehkan tuntutan fisik ibadah Haji.\nSelama ibadah, Anda mungkin akan:\n• Berjalan kaki beberapa kilometer setiap hari.\n• Berdiri dalam waktu lama selama ibadah.\n• Melakukan perjalanan ke berbagai tempat suci.\n• Menghadapi suhu udara yang tinggi.\n• Berada di lingkungan yang ramai dan padat.\nTanpa persiapan yang matang, aktivitas ini dapat sangat melelahkan. Kebugaran fisik yang baik memungkinkan jamaah untuk lebih fokus pada ibadah daripada ketidaknyamanan fisik.\n\n## Aktivitas Fisik yang Direkomendasikan\nMulailah melatih tubuh Anda setidaknya 4-8 minggu sebelum keberangkatan.\nLatihan yang disarankan meliputi:\n• Berjalan kaki 30-45 menit setiap hari.\n• Naik tangga untuk memperkuat otot kaki.\n• Peregangan ringan setiap pagi dan sore.\n• Latihan pernapasan sederhana.\n• Latihan kardio berbenturan rendah.\nLatihan bertahap sangat disarankan. Jangan memaksakan diri melampaui kemampuan fisik Anda. Konsultasikan dengan dokter jika Anda memiliki kondisi medis tertentu.\n\n## Persiapan Medis\nSebelum bepergian, pastikan Anda telah menyelesaikan semua persiapan medis yang diwajibkan.\nDaftar Periksa:\n✓ Pemeriksaan medis.\n✓ Vaksinasi wajib.\n✓ Obat-obatan resep dokter.\n✓ Catatan medis pribadi.\n✓ Dokumen asuransi kesehatan.\n✓ Informasi kontak darurat.\nJika Anda memiliki penyakit kronis seperti hipertensi, diabetes, asma, atau penyakit jantung, konsultasikan dengan dokter Anda sebelum keberangkatan.\n\n## Perlengkapan Pribadi\nSiapkan perlengkapan yang mendukung kenyamanan fisik selama ibadah.\nBarang yang direkomendasikan:\n• Sepatu berjalan yang nyaman.\n• Sandal ekstra.\n• Kaos kaki yang menyerap keringat.\n• Botol air minum.\n• Ransel kecil.\n• Payung.\n• Topi.\n• Tabir surya.\n• Obat-obatan pribadi.\n\n## Menjaga Kesehatan Selama Haji\nSelama berada di Arab Saudi:\n• Minum air secara teratur.\n• Jangan melewatkan waktu makan.\n• Cukup istirahat.\n• Kenakan alas kaki yang nyaman.\n• Ikuti arahan dari ketua rombongan Anda.\n• Hindari aktivitas fisik yang tidak perlu di luar jadwal ibadah.\nJika Anda merasa kurang sehat, segera laporkan kondisi Anda kepada petugas kesehatan.\n\n## Praktik Terbaik\nUntuk meningkatkan kesiapan fisik Anda:\n✔ Berolahraga secara konsisten.\n✔ Tidur 7-8 jam setiap hari.\n✔ Makan makanan bergizi seimbang.\n✔ Jaga hidrasi tubuh.\n✔ Latih berjalan menggunakan alas kaki yang akan Anda pakai saat ibadah.\n✔ Bangun stamina secara bertahap.\n\n## Kesalahan Umum yang Harus Dihindari\nHindari kesalahan-kesalahan ini:\n❌ Baru memulai latihan fisik beberapa hari sebelum keberangkatan.\n❌ Mengabaikan saran medis.\n❌ Mengenakan sepatu baru saat ibadah Haji.\n❌ Melupakan obat-obatan pribadi.\n❌ Kurang minum air.\n❌ Memaksakan diri sebelum ibadah dimulai.\n\n## Poin Penting\nIngat poin-poin penting ini:\n• Haji membutuhkan ketahanan fisik.\n• Mulailah berolahraga beberapa minggu sebelum keberangkatan.\n• Selesaikan semua persyaratan medis.\n• Siapkan perlengkapan yang tepat.\n• Pertahankan kebiasaan sehat sepanjang ibadah.\n\n## Refleksi\nLuangkan waktu sejenak untuk merenung.\nApakah Anda sudah mulai mempersiapkan fisik untuk ibadah Haji?\nPersiapan apa saja yang sudah Anda selesaikan?\nBagian mana yang masih perlu ditingkatkan sebelum keberangkatan?\n\n## Next Learning Activity\nSetelah menyelesaikan materi bacaan ini, lanjutkan dengan:\n▶ Video\nPelajaran berikutnya akan menunjukkan contoh praktis persiapan fisik sebelum Haji.\nKlik 'Selanjutnya: Tonton Video' untuk melanjutkan.",
+    "lesson_1_2_content": "## Memahami Batas Miqat\n\n### Apa itu Miqat?\nMiqat adalah batas tempat atau batas wilayah yang telah ditentukan dalam syariat Islam sebagai lokasi dimulainya niat ihram bagi jamaah haji maupun umrah. Setiap jamaah yang akan memasuki Kota Makkah untuk melaksanakan ibadah wajib mengenakan pakaian ihram dan berniat ihram sebelum melewati batas Miqat yang sesuai dengan jalur kedatangannya.\n\nDengan memahami letak Miqat, jamaah dapat menghindari kesalahan dalam memulai rangkaian ibadah haji maupun umrah.\n\n### Mengapa Miqat Sangat Penting?\nMiqat merupakan salah satu ketentuan yang telah ditetapkan oleh Rasulullah ﷺ. Apabila seseorang melewati Miqat tanpa berniat ihram, maka ia harus kembali ke Miqat untuk mengambil niat. Apabila tidak memungkinkan kembali, terdapat konsekuensi hukum yang harus dipenuhi sesuai ketentuan fikih.\n\nOleh karena itu, setiap jamaah perlu mengetahui lokasi Miqat yang akan dilalui sebelum keberangkatan.\n\n### Lima Miqat Makani\nBerikut adalah lima Miqat utama yang digunakan oleh jamaah berdasarkan arah kedatangannya.\n\n1. **Dzul Hulaifah (Abyar Ali)**\n   Merupakan Miqat bagi jamaah yang datang dari arah Madinah. Lokasi ini adalah Miqat yang paling sering digunakan oleh jamaah Indonesia yang terlebih dahulu mengunjungi Madinah sebelum menuju Makkah.\n\n2. **Al-Juhfah**\n   Digunakan oleh jamaah yang datang dari wilayah Syam, Mesir, dan Afrika bagian barat. Saat ini sebagian jamaah biasanya mengambil Miqat di daerah Rabigh yang letaknya berdekatan dengan Al-Juhfah.\n\n3. **Qarnul Manazil**\n   Merupakan Miqat bagi jamaah yang datang dari wilayah Najd dan sekitarnya.\n\n4. **Yalamlam**\n   Digunakan oleh jamaah yang datang dari arah Yaman. Banyak penerbangan dari Asia Tenggara yang melewati jalur udara sejajar dengan Yalamlam sehingga jamaah biasanya mulai berniat ihram ketika pesawat mendekati kawasan tersebut sesuai arahan pembimbing.\n\n5. **Dzatu 'Irq**\n   Merupakan Miqat bagi jamaah yang datang dari arah Irak dan wilayah timur laut Jazirah Arab.\n\n### Jalur Jamaah Indonesia\nSecara umum terdapat dua skenario perjalanan jamaah Indonesia.\n\n* **Gelombang Pertama**\n  Indonesia → Madinah → Dzul Hulaifah → Makkah\n  Pada perjalanan ini jamaah mengambil Miqat di Masjid Dzul Hulaifah sebelum berangkat menuju Makkah.\n\n* **Gelombang Kedua**\n  Indonesia → Jeddah → Makkah\n  Karena pesawat melewati kawasan Miqat di udara, jamaah biasanya telah mengenakan pakaian ihram sejak dari embarkasi atau di dalam pesawat, kemudian berniat ihram ketika pilot atau pembimbing mengumumkan bahwa pesawat telah sejajar dengan kawasan Miqat.",
+    "lesson_1_3_content": "Buka tur virtual 360° yang imersif di bawah ini untuk mengenali jalur Masjidil Haram, menemukan landmark penting termasuk Ka'bah, bukit Safa, dan bukit Marwah.",
+    "lesson_2_1_content": "Memahami prosedur perjalanan safar dan jadwal keberangkatan rombongan.",
+    "lesson_2_2_content": "Panduan langkah demi langkah tentang struktur perkemahan dan jadwal melontar jumrah.",
+    "lesson_1_1_quiz": [
+      { "id": 1, "q": "Berapa durasi jalan kaki harian yang direkomendasikan untuk membangun stamina sebelum Haji?", "a": ["10 menit", "15 menit", "30-45 menit", "2 jam"], "correct": "30-45 menit" }
+    ],
+    "lesson_1_2_quiz": [
+      { "id": 1, "q": "Batas Miqat mana yang ditentukan untuk jamaah yang datang dari Madinah?", "a": ["Yalamlam", "Dzul Hulaifah", "Juhfah", "Dzat Irq"], "correct": "Dzul Hulaifah" }
+    ],
+    "lesson_1_3_quiz": [
+      { "id": 1, "q": "Apakah titik awal dimulainya putaran ritual Tawaf?", "a": ["Maqam Ibrahim", "Hajar Aswad", "Bukit Safa", "Muzdalifah"], "correct": "Hajar Aswad" }
+    ],
+    "lesson_summaries": {
+      "readiness": {
+        "objective": "Memahami standar kebugaran jasmani dan protokol stamina kardio untuk jalan kaki harian.",
+        "desc": "Selamat datang di materi Persiapan Fisik. Di sini Anda akan mempelajari kesiapan fisik yang diperlukan sebelum keberangkatan ibadah Haji, termasuk olahraga berjalan kaki, persiapan medis wajib, serta tips menjaga stamina selama di tanah suci."
+      },
+      "miqat": {
+        "objective": "Mengenali batas wilayah geografis dan protokol masuk ke dalam keadaan Ihram.",
+        "desc": "Selamat datang di materi Memahami Batas Miqat. Pelajaran ini memandu Anda memahami batas wilayah (Miqat Makani) di mana Anda wajib mulai berniat Ihram, rute kedatangan jemaah Indonesia, serta konsekuensi jika melewatinya tanpa niat."
+      },
+      "ihram": {
+        "objective": "Memahami tata cara niat Ihram dari Miqat dan larangan selama dalam keadaan Ihram.",
+        "desc": "Selamat datang di materi Ihram (Niat). Pelajaran ini akan membahas langkah awal memulai rangkaian ibadah Haji, mencakup pelafalan niat Ihram, penggunaan pakaian Ihram yang benar untuk laki-laki dan perempuan, serta larangan-larangannya."
+      },
+      "wukuf": {
+        "objective": "Memahami rangkaian puncak ibadah Haji di Padang Arafah pada 9 Zulhijah.",
+        "desc": "Selamat datang di materi Wukuf di Arafah. Pelajari tata cara pelaksanaan wukuf sebagai rukun terpenting dalam ibadah Haji, mencakup waktu pelaksanaan, zikir dan doa yang dianjurkan, serta adab berwukuf."
+      },
+      "mabit_muzdalifah": {
+        "objective": "Memahami tata cara bermalam sejenak di Muzdalifah dan mengumpulkan kerikil.",
+        "desc": "Selamat datang di materi Mabit di Muzdalifah. Di sini Anda akan mempelajari kewajiban bermalam sejenak (mabit) setelah waktu wukuf di Arafah selesai, sekaligus panduan mengumpulkan kerikil untuk melontar jumrah."
+      },
+      "jumrah_aqabah": {
+        "objective": "Memahami pelaksanaan melontar Jumrah Aqabah pada tanggal 10 Zulhijah.",
+        "desc": "Selamat datang di materi Melempar Jumrah Aqabah. Pelajari rincian tata cara melontar 7 batu kerikil di Jamrah Aqabah pada hari Idul Adha (10 Zulhijah) sebagai bagian penting dari wajib Haji."
+      },
+      "tahalul": {
+        "objective": "Memahami ketentuan bercukur (tahallul) untuk membebaskan diri dari larangan ihram.",
+        "desc": "Selamat datang di materi Tahallul. Pelajari aturan mencukur atau memotong rambut minimal 3 helai setelah melakukan sebagian rangkaian ibadah, sebagai tanda selesainya masa Ihram (Tahallul Awal atau Tahallul Akhir)."
+      },
+      "tawaf": {
+        "objective": "Memahami rukun Tawaf Ifadah/Wada mengelilingi Ka'bah sebanyak 7 putaran.",
+        "desc": "Selamat datang di materi Tawaf. Pelajari rukun penting mengelilingi Ka'bah sebanyak 7 putaran berlawanan arah jarum jam di Masjidil Haram, lengkap dengan syarat sah, doa, dan tata caranya."
+      },
+      "sai": {
+        "objective": "Memahami rukun Sa'i berjalan/berlari kecil antara bukit Safa dan Marwah.",
+        "desc": "Selamat datang di materi Sa'i. Di sini Anda akan mempelajari tata cara berjalan dan berlari-lari kecil sebanyak 7 kali perjalanan antara bukit Safa dan bukit Marwah sebagai rukun dalam rangkaian Haji."
+      },
+      "mabit_mina": {
+        "objective": "Memahami tata cara mabit di Mina dan melontar tiga jumrah pada hari Tasyrik.",
+        "desc": "Selamat datang di materi Mabit di Mina & Lempar Jumrah. Pelajari kewajiban bermalam di Mina pada hari-hari Tasyrik (11, 12, dan 13 Zulhijah) beserta tata cara melontar tiga jumrah (Ula, Wustha, dan Aqabah) secara berurutan."
+      },
+      "wada": {
+        "objective": "Memahami pelaksanaan Tawaf Wada sebagai penghormatan terakhir sebelum pulang.",
+        "desc": "Selamat datang di materi Tawaf Wada (Perpisahan). Pelajari tata cara melakukan tawaf perpisahan sebelum meninggalkan kota suci Makkah sebagai tanda berakhirnya seluruh rangkaian ibadah Haji Anda."
+      }
+    },
+    "title_introductory_rites": "Pembelajaran Haji",
+    "title_physical_readiness": "Protokol Kesiapan Fisik",
+    "title_miqat_boundaries": "Memahami Batas Miqat",
+    "title_interactive_dome": "Tur Virtual Dome Interaktif",
+    "title_advanced_ritual": "Urutan Ritual Tingkat Lanjut & Tenda Mina"
+  }
+}

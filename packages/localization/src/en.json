@@ -1,0 +1,340 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "features": "Features",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "contact": "Contact Us",
+    "register": "Register",
+    "login": "Login"
+  },
+  "hero": {
+    "badge": "Enterprise LMS V2",
+    "heading": "PREPARE YOUR HAJJ PILGRIMAGE EFFICIENTLY AND IMMERSIVELY WITH VR HAJJ 360°",
+    "subheading": "A platform based on VR and 360° video technologies to study each stage of the Hajj pilgrimage in depth.",
+    "cta": "Register Now"
+  },
+  "benefits": {
+    "section_title": "Enterprise Infrastructure",
+    "section_subtitle": "Built for Ten Years of Product Operations",
+    "items": [
+      {
+        "title": "Configurable Learning Paths",
+        "desc": "Formulate dynamic rules and sequence requirements suited to your institutional curriculum without hardcoded constraints."
+      },
+      {
+        "title": "3DVista Virtual Tour Integration",
+        "desc": "Seamlessly host and deploy rich 360° interactive tours. Monitor student engagement stats direct from our custom viewer API."
+      },
+      {
+        "title": "Enterprise Multi-Tenancy",
+        "desc": "Provide unique portal subdomains, isolated databases, custom themes, and bespoke branding profiles for individual client agencies."
+      },
+      {
+        "title": "RTL & Multi-Language Core",
+        "desc": "Built from the ground up to support Bahasa Indonesia, English, and Arabic, offering fully responsive right-to-left UI layouts."
+      }
+    ]
+  },
+  "overview": {
+    "section_title": "Integrated Ecosystem",
+    "section_subtitle": "One Unified Training Core",
+    "section_desc": "Bahrain maps your entire institutional operational workspace: from course delivery panels to supervisor overview interfaces, certificate generator scripts, and media libraries.",
+    "student": {
+      "badge": "For Students",
+      "title": "Learning Platform Portal",
+      "desc": "Interactive screens featuring reading sheets, media playbacks, inline quiz assessments, and virtual immersive walkthroughs."
+    },
+    "organization": {
+      "badge": "For Organizations",
+      "title": "Organization Workspace",
+      "desc": "Control voucher batch distribution, categorize student groups, monitor learning progress timelines, and export custom reports."
+    },
+    "operator": {
+      "badge": "For Operators",
+      "title": "Administration Panel",
+      "desc": "Manage tenants globally, configure feature flag profiles, edit CMS articles, review server logs, and monitor analytics metrics."
+    }
+  },
+  "user_flow": {
+    "section_title": "User Flow",
+    "section_subtitle": "The Learner Journey",
+    "steps": [
+      { "title": "Reading Sheets", "desc": "Access high-contrast textual manuals, reference materials, and custom infographics." },
+      { "title": "Video Tutorial Modules", "desc": "Stream instructions and core procedural reviews hosted on secure CDN servers." },
+      { "title": "3DVista Virtual Tours", "desc": "Interact with immersive 360° virtual tours directly inside the course view." },
+      { "title": "Dynamic Quiz Assessments", "desc": "Validate learning retention via server-graded multiple choice exams." },
+      { "title": "Custom PDF Certificates", "desc": "Instantly compile signed, official PDF completion certificates upon satisfying path criteria." }
+    ]
+  },
+  "org_flow": {
+    "section_title": "Workflow",
+    "section_subtitle": "Organization Operations",
+    "steps": [
+      { "num": "01", "title": "Purchase Voucher", "desc": "Order customized coupon packages." },
+      { "num": "02", "title": "Distribute Codes", "desc": "Deploy codes via email or chat." },
+      { "num": "03", "title": "Monitor Progress", "desc": "Follow student cohort metrics." },
+      { "num": "04", "title": "Compile Reports", "desc": "Export compliant progress data." },
+      { "num": "05", "title": "Issue Certificates", "desc": "Award customized completion PDFs." }
+    ]
+  },
+  "features": {
+    "section_title": "Capabilities",
+    "section_subtitle": "Complete Functional Matrix",
+    "items": [
+      { "title": "Learning Management", "desc": "Manage courses, modules, assessments, and reference documents." },
+      { "title": "3DVista Tours Support", "desc": "Upload exported tour zip directories and embed them securely within lessons." },
+      { "title": "Advanced Quiz Engine", "desc": "Assess and evaluate retention using automated grading algorithms." },
+      { "title": "Automatic Certificates", "desc": "Generate signed, customized completion PDF assets on student completion." },
+      { "title": "Voucher Distribution", "desc": "Generate and distribute promotional codes for course entry validation." },
+      { "title": "Custom Analytics", "desc": "Compile student progress logs and daily registration metrics." },
+      { "title": "Content Management", "desc": "Update public announcements, banner items, and blogs dynamically." },
+      { "title": "Audited Reporting", "desc": "Export granular logs detailing database mutation and system activities." },
+      { "title": "Dedicated Support", "desc": "Integrate active support chat portals to assist users instantly." },
+      { "title": "Triple Language System", "desc": "Deploy content translated dynamically into English, Indonesian, and Arabic." }
+    ]
+  },
+  "pricing": {
+    "heading": "Service Pricing",
+    "subheading": "Discover the Best Plan for You",
+    "title": "General",
+    "desc": "Perfect for independent pilgrims",
+    "price": "$3.50",
+    "period": "per user",
+    "features": [
+      "Access to Interactive VR Hajj Simulation",
+      "Complete audio-visual guides",
+      "Multi-platform access",
+      "Hajj readiness completion certificate"
+    ]
+  },
+  "stats": {
+    "items": [
+      { "value": "25+", "label": "Active Tenant Platforms (Demo Value)" },
+      { "value": "180,000+", "label": "Registered Learners (Demo Value)" },
+      { "value": "99.98%", "label": "Infrastructure Uptime (SLA Standard)" }
+    ]
+  },
+  "testimonials": {
+    "section_title": "Feedback",
+    "section_subtitle": "Trusted by Industry Experts",
+    "items": [
+      {
+        "quote": "Bahrain International has streamlined our training pipelines. Our student cohort completion rate improved by 42% after introducing interactive 3DVista integrations.",
+        "author": "Dr. Ahmad R., Director of Education",
+        "org": "Global Hajj Studies Council"
+      },
+      {
+        "quote": "The multi-tenant architecture allowed our travel agency to deploy a custom-branded portal in under an hour. Outstanding security and localization infrastructure.",
+        "author": "Sarah W., Head of Operations",
+        "org": "Nusa Indah Travel Network"
+      },
+      {
+        "quote": "RTL support for Arabic paired with dynamic quiz rule validation has made this the definitive platform for our international corporate training initiatives.",
+        "author": "Hassan Al-M., Training Manager",
+        "org": "Middle East Logistics Corp"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Support",
+    "subheading": "Frequently Asked Questions",
+    "items": [
+      {
+        "q": "Does Bahrain International render 360° panoramas directly?",
+        "a": "No. The system delegates content creation to 3DVista. You build and export your tours using 3DVista, and upload the static zip output to our CMS. Bahrain hosts, serves, and tracks access to the tour as a learning step."
+      },
+      {
+        "q": "How does the Learning Rule Engine operate?",
+        "a": "You can define logical triggers via the CMS (e.g., user must finish the orientation video, interact with the virtual tour, and achieve an 80% score on the quiz before unlocking the next module)."
+      },
+      {
+        "q": "Does the platform support dynamic domain white-labeling?",
+        "a": "Yes. Each tenant can map their own custom domain or subdomain, customize application colors, upload logos, and apply distinct certificate layout designs."
+      }
+    ]
+  },
+  "cta_banner": {
+    "heading": "Ready to Deploy Your Own Portal?",
+    "subheading": "Unlock your organization dashboard and start structuring customized training tracks today.",
+    "btn_free": "Deploy Free Tenant",
+    "btn_sales": "Contact Enterprise Sales"
+  },
+  "footer": {
+    "desc": "Bahrain International is a dynamic SaaS platform empowering travel companies, academies, and institutions through immersive digital training solutions.",
+    "col1_title": "Platform",
+    "col2_title": "Resources",
+    "col3_title": "Legal",
+    "copyright": "© 2026 Bahrain International Systems. All rights reserved."
+  },
+  "auth": {
+    "login_title": "Login to Bahrain",
+    "login_subtitle": "Enterprise Portal Access",
+    "email_label": "Email Address",
+    "password_label": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password?",
+    "no_account": "Don't have an account?",
+    "register_title": "Join Bahrain International",
+    "register_subtitle": "Select your account registration type below",
+    "tab_personal": "Personal / Jemaah",
+    "tab_org": "Organisasi / Tenant",
+    "admin_name": "Administrator Name",
+    "org_name": "Organization Name",
+    "subdomain": "Requested Portal Subdomain",
+    "full_name": "Full Name",
+    "voucher": "Voucher / Invitation Code (Optional)",
+    "terms_note": "By registering, you agree to Bahrain International's Terms of Service and Privacy Policy. All system actions are monitored under security compliance guidelines.",
+    "already_have_account": "Already have an account?"
+  },
+  "dashboard": {
+    "main": "MAIN",
+    "communication": "COMMUNICATION",
+    "account": "ACCOUNT",
+    "home": "Home",
+    "my_learning": "My Learning",
+    "certificates": "Certificates",
+    "subscription": "Subscription",
+    "notifications": "Notifications",
+    "support": "Support",
+    "profile": "Profile",
+    "settings": "Settings",
+    "sign_out": "Sign Out",
+    "welcome": "Assalamualaikum",
+    "home_sub": "Welcome back. Continue your learning journey below.",
+    "continue_learning": "Continue Learning",
+    "resume_activity": "Resume Activity",
+    "reminder": "Today's Reminder",
+    "reminder_desc": "Consult with your physician regarding Hajj travel vaccinations. Prepare daily cardio exercises.",
+    "progress": "Course Progress",
+    "recent_activity": "Recent Activity",
+    "recommended_course": "Recommended Course",
+    "cert_status": "Certificates Status",
+    "completed": "Completed",
+    "in_progress": "In Progress",
+    "locked": "Locked",
+    "duration": "Duration",
+    "lessons": "Lessons"
+  },
+  "my_learning_wizard": {
+    "last_active": "Last active",
+    "not_started": "Not started",
+    "assessed_yesterday": "Miqat boundary assessed yesterday",
+    "minutes": "minutes",
+    "mins": "mins",
+    "hours": "hours",
+    "hour": "hour",
+    "type_reading": "Reading",
+    "type_video": "Video",
+    "type_tour": "3D Virtual Tour",
+    "back_path": "Back to Learning Path",
+    "back": "Back",
+    "overview": "Overview",
+    "reading": "Reading",
+    "video": "Video",
+    "tour": "360° Tour",
+    "quiz": "Quiz",
+    "lesson_contents": "Lesson Contents",
+    "est_duration": "Estimated Duration",
+    "welcome_desc": "Welcome to this lesson. We will guide you step by step through reading materials, video guides, and interactive 360° virtual dome simulations. Complete the quiz at the end to satisfy the learning path sequence requirements.",
+    "start_lesson": "Start Lesson",
+    "reading_material": "Reading Material",
+    "next_video": "Next: Watch Video",
+    "video_tutorial": "Video Guide",
+    "play_mock": "Play Video Guide",
+    "next_tour": "Next: Open 360° Tour",
+    "tour_iframe": "3D Virtual Tour (Isolated Iframe)",
+    "tour_title": "360° Simulation of Masjidil Haram",
+    "tour_desc": "Virtual tour simulation package hosted on Cloudflare R2",
+    "next_quiz": "Next: Take Quiz",
+    "knowledge_assessment": "Knowledge Assessment",
+    "submit_answers": "Submit Answers",
+    "quiz_result": "Quiz Result",
+    "quiz_pass": "Assessment passed! Learning path requirements fulfilled.",
+    "quiz_fail": "Failed. Please review the lesson material and try again.",
+    "quiz_finish": "Finish Lesson & Return to Path",
+    "no_quiz": "No quiz configured for this introductory lesson.",
+    "learning_progress": "Learning Progress",
+    "step": "Step",
+    "of": "of",
+    "steps": "steps completed",
+    "completed_status": "completed",
+    "continue_btn": "Continue",
+    "objectives_title": "Learning Objectives",
+    "objectives_desc": "After this lesson you will be able to:",
+    "objective_1": "Understand cardiovascular stamina requirements and protocols for daily pre-departure walks.",
+    "objective_2": "Identify geographic borders and enter the state of Ihram correctly.",
+    "objective_3": "Orient landmarks including the Kaaba, Safa, and Marwah hills virtually.",
+    "objective_4": "Understand traveler boarding and group schedule guidelines.",
+    "objective_5": "Orient campsite structures and stoning routines.",
+    "celebration_congrats": "Congratulations!",
+    "celebration_desc": "You have successfully completed this lesson and passed the sequence assessment query check.",
+    "next_lesson_btn": "Continue to Next Lesson",
+    "lesson_1_1_content": "## Introduction\nPerforming Hajj is not only a spiritual journey but also a physical one.\nPilgrims will spend long periods walking, standing, and moving between holy sites under hot weather conditions.\nProper physical preparation helps reduce fatigue, lowers health risks, and allows pilgrims to perform every ritual more comfortably and safely.\nPreparing your body several weeks before departure is one of the best investments you can make for a successful pilgrimage.\n\n## Why Physical Preparation Matters\nMany pilgrims underestimate the physical demands of Hajj.\nDuring the pilgrimage, you may:\n• Walk several kilometers each day.\n• Stand for long periods during rituals.\n• Travel between multiple holy locations.\n• Experience high temperatures.\n• Face crowded environments.\nWithout proper preparation, these activities may become physically exhausting.\nGood physical fitness allows pilgrims to focus more on worship rather than physical discomfort.\n\n## Recommended Physical Activities\nBegin preparing your body at least 4-8 weeks before departure.\nRecommended exercises include:\n• Walking 30-45 minutes every day.\n• Climbing stairs to strengthen leg muscles.\n• Light stretching every morning and evening.\n• Simple breathing exercises.\n• Low-impact cardio exercises.\nExercise gradually. Do not force yourself beyond your physical ability. Consult your physician if you have existing medical conditions.\n\n## Medical Preparation\nBefore traveling, make sure you have completed all required medical preparations.\nChecklist:\n✓ Medical examination.\n✓ Mandatory vaccinations.\n✓ Prescription medications.\n✓ Personal medical records.\n✓ Health insurance documents.\n✓ Emergency contact information.\nIf you have chronic illnesses such as hypertension, diabetes, asthma, or heart disease, consult your doctor before departure.\n\n## Personal Equipment\nPrepare equipment that supports physical comfort during worship.\nRecommended items:\n• Comfortable walking shoes.\n• Extra sandals.\n• Moisture-absorbing socks.\n• Water bottle.\n• Small backpack.\n• Umbrella.\n• Hat.\n• Sunscreen.\n• Personal medications.\n\n## Maintaining Your Health During Hajj\nWhile in Saudi Arabia:\n• Drink water regularly.\n• Avoid skipping meals.\n• Get enough rest.\n• Wear comfortable footwear.\n• Follow guidance from your group leader.\n• Avoid unnecessary physical activity outside worship schedules.\nIf you feel unwell, immediately report your condition to healthcare officers.\n\n## Best Practices\nTo improve your physical readiness:\n✔ Exercise consistently.\n✔ Sleep 7-8 hours daily.\n✔ Eat balanced meals.\n✔ Maintain hydration.\n✔ Practice walking using your pilgrimage footwear.\n✔ Build stamina gradually.\n\n## Common Mistakes\nAvoid these mistakes:\n❌ Starting physical training only a few days before departure.\n❌ Ignoring medical advice.\n❌ Wearing new shoes during Hajj.\n❌ Forgetting personal medication.\n❌ Not drinking enough water.\n❌ Overexerting yourself before the pilgrimage begins.\n\n## Key Takeaways\nRemember these important points:\n• Hajj requires physical endurance.\n• Begin exercising several weeks before departure.\n• Complete all medical requirements.\n• Prepare proper equipment.\n• Maintain healthy habits throughout the pilgrimage.\n\n## Reflection\nTake a moment to reflect.\nHave you already begun preparing physically for Hajj?\nWhich preparations have you completed?\nWhat areas still need improvement before departure?\n\n## Next Learning Activity\nAfter completing this reading material, continue with:\n▶ Video\nThe next lesson will demonstrate practical examples of physical preparation before Hajj.\nClick \"Next: Watch Video\" to continue.",
+    "lesson_1_2_content": "## Understanding Miqat Boundaries\n\n### What is Miqat?\nMiqat is the boundary place or region determined in Islamic law as the starting location for the intention of ihram for hajj and umrah pilgrims. Every pilgrim entering Makkah for mandatory worship must wear the ihram clothes and make the ihram intention before crossing the Miqat boundary appropriate to their arrival route.\n\nBy understanding the location of Miqat, pilgrims can avoid mistakes in initiating the series of hajj and umrah worship.\n\n### Why is Miqat Crucial?\nMiqat is one of the provisions established by the Prophet Muhammad ﷺ. If someone passes Miqat without the intention of ihram, they must return to Miqat to assume the intention. If it is not possible to return, there are legal consequences that must be met according to fiqh provisions.\n\nTherefore, every pilgrim needs to know the Miqat location they will pass before departure.\n\n### Five Makani Miqats\nHere are the five main Miqats used by pilgrims based on their direction of arrival.\n\n1. **Dhul Hulaifah (Abyar Ali)**\n   The Miqat for pilgrims coming from Medina. This location is the most frequently used Miqat for Indonesian pilgrims who first visit Medina before going to Makkah.\n\n2. **Al-Juhfah**\n   Used by pilgrims coming from the Levant (Syria), Egypt, and West Africa. Currently, some pilgrims usually assume Ihram in Rabigh, which is located close to Al-Juhfah.\n\n3. **Qarnul Manazil**\n   The Miqat for pilgrims coming from the Najd region and its surroundings.\n\n4. **Yalamlam**\n   Used by pilgrims coming from the direction of Yemen. Many flights from Southeast Asia pass through the air corridor parallel to Yalamlam, so pilgrims usually start making intentions for ihram when the aircraft approaches the area as directed by the guide.\n\n5. **Dhat 'Irq**\n   The Miqat for pilgrims coming from the direction of Iraq and the northeast region of the Arabian Peninsula.\n\n### Route of Indonesian Pilgrims\nIn general, there are two travel scenarios for Indonesian pilgrims.\n\n* **First Wave**\n  Indonesia → Medina → Dhul Hulaifah → Makkah\n  On this trip, pilgrims assume Miqat at Dhul Hulaifah Mosque before departing for Makkah.\n\n* **Second Wave**\n  Indonesia → Jeddah → Makkah\n  Because the aircraft passes the Miqat zone in the air, pilgrims usually have put on their ihram clothes since the embarkation or in the plane, then make the ihram intention when the pilot or guide announces that the plane is parallel with the Miqat area.",
+    "lesson_1_3_content": "Launch the immersive 360° tour below to orient yourself with the pathways of Masjidil Haram, locating key landmarks including the Kaaba, Safa, and Marwah hills.",
+    "lesson_2_1_content": "Understand traveling procedures and group boarding schedules.",
+    "lesson_2_2_content": "Step-by-step overview of camp structures and stoning schedules.",
+    "lesson_1_1_quiz": [
+      { "id": 1, "q": "What is the recommended daily walking duration to build stamina before Hajj?", "a": ["10 minutes", "15 minutes", "30-45 minutes", "2 hours"], "correct": "30-45 minutes" }
+    ],
+    "lesson_1_2_quiz": [
+      { "id": 1, "q": "Which Miqat boundary is designated for pilgrims arriving from Medina?", "a": ["Yalamlam", "Dhul Hulaifah", "Juhfah", "Dhat Irq"], "correct": "Dhul Hulaifah" }
+    ],
+    "lesson_1_3_quiz": [
+      { "id": 1, "q": "What is the starting point of the Tawaf ritual circuit?", "a": ["Maqam Ibrahim", "Hajar al-Aswad (Black Stone)", "Safa Hill", "Muzdalifah"], "correct": "Hajar al-Aswad (Black Stone)" }
+    ],
+    "lesson_summaries": {
+      "readiness": {
+        "objective": "Understand physical fitness standards and cardio stamina protocols for daily walking.",
+        "desc": "Welcome to Physical Readiness. Here you will learn about the physical fitness required before departure for Hajj, including walking exercises, mandatory medical preparation, and tips to maintain stamina."
+      },
+      "miqat": {
+        "objective": "Identify geographical boundary zones and the correct protocols to enter the state of Ihram.",
+        "desc": "Welcome to Understanding Miqat Boundaries. This lesson guides you to understand the boundaries (Miqat Makani) where you must assume Ihram, Indonesian pilgrim arrival routes, and consequences of passing without intention."
+      },
+      "ihram": {
+        "objective": "Understand the Ihram intention from Miqat and forbidden acts during Ihram.",
+        "desc": "Welcome to Ihram (Intention). This lesson covers the initial steps of the Hajj pilgrimage, including pronouncing the Ihram intention, correct dress code for men and women, and prohibitions."
+      },
+      "wukuf": {
+        "objective": "Understand the peak ritual of Hajj at Mount Arafat on the 9th of Dhul-Hijjah.",
+        "desc": "Welcome to Wukuf in Arafat. Learn the procedures for performing wukuf as the most important pillar of Hajj, including its timing, recommended prayers/zikr, and etiquette."
+      },
+      "mabit_muzdalifah": {
+        "objective": "Understand how to perform overnight stay (mabit) in Muzdalifah and gather pebbles.",
+        "desc": "Welcome to Mabit in Muzdalifah. Here you will study the obligation of spending the night briefly in Muzdalifah after Arafat wukuf, and how to collect stones for stoning the jamrah."
+      },
+      "jumrah_aqabah": {
+        "objective": "Understand stoning the Jamrah Aqabah on the 10th of Dhul-Hijjah.",
+        "desc": "Welcome to Stoning Jamrah Aqabah. Learn the detailed procedures for stoning 7 pebbles at Jamrah Aqabah on the day of Eid al-Adha (10 Zulhijah) as an important part of Hajj duties."
+      },
+      "tahalul": {
+        "objective": "Understand shaving/cutting hair (tahallul) to lift Ihram prohibitions.",
+        "desc": "Welcome to Tahallul. Learn the rules of shaving or cutting at least 3 strands of hair after completing parts of the pilgrimage, marking the end of Ihram restrictions (Tahallul Awal or Tahallul Akhir)."
+      },
+      "tawaf": {
+        "objective": "Understand the Tawaf Ifadah/Wada circuit of Kaaba for 7 rounds.",
+        "desc": "Welcome to Tawaf. Learn the critical pillar of circumambulating the Kaaba 7 times counter-clockwise at Masjidil Haram, including conditions of validity, prayers, and procedures."
+      },
+      "sai": {
+        "objective": "Understand Sa'i walking/running between the hills of Safa and Marwah 7 times.",
+        "desc": "Welcome to Sa'i. Study the rules and steps of walking and running between Safa and Marwah hills 7 times as a pillar of Hajj."
+      },
+      "mabit_mina": {
+        "objective": "Understand staying in Mina and stoning three jamarat during Tashreeq days.",
+        "desc": "Welcome to Mabit in Mina & Lempar Jumrah. Learn the obligation of staying overnight in Mina during the Tashreeq days (11th, 12th, and 13th of Dhul-Hijjah) and stoning the three jamarat (Ula, Wusta, Aqabah) in order."
+      },
+      "wada": {
+        "objective": "Understand Tawaf Wada as the final farewell circumambulation.",
+        "desc": "Welcome to Tawaf Wada (Farewell). Learn the rules of performing the farewell tawaf before leaving the holy city of Makkah, marking the end of your Hajj pilgrimage."
+      }
+    },
+    "title_introductory_rites": "Introductory Rites and Physical Preparation",
+    "title_physical_readiness": "Physical Readiness Protocols",
+    "title_miqat_boundaries": "Understanding Miqat Boundaries",
+    "title_interactive_dome": "Interactive Dome Virtual Tour",
+    "title_advanced_ritual": "Advanced Rituals and Mina Camps"
+  }
+}

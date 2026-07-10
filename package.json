@@ -1,0 +1,16 @@
+{
+  "name": "bahrain-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bahrain International V2 Enterprise Platform Monorepo",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}

@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id           String     @id @default(uuid())
+  name         String
+  primaryColor String?
+  logoUrl      String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  auditLogs    AuditLog[]
+  products     Product[]
+  users        User[]
+  vouchers     Voucher[]
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String
+  passwordHash  String
+  role          String
+  tenantId      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+  auditLogs     AuditLog[]
+  certificates  Certificate[]
+  notifications Notification[]
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  sentMessages     ChatMessage[] @relation("SentMessages")
+  phone            String?
+  passportNumber   String?
+  address          String?
+  bio              String?
+  receivedMessages ChatMessage[] @relation("ReceivedMessages")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  tenantId   String
+  userId     String?
+  action     String
+  entityName String
+  entityId   String
+  oldValues  Json?
+  newValues  Json?
+  createdAt  DateTime @default(now())
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
+}
+
+model Product {
+  id          String         @id @default(uuid())
+  tenantId    String
+  title       String
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  deletedAt   DateTime?
+  paths       LearningPath[]
+  tenant      Tenant         @relation(fields: [tenantId], references: [id])
+}
+
+model LearningPath {
+  id          String    @id @default(uuid())
+  productId   String
+  title       String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  courses     Course[]
+  product     Product   @relation(fields: [productId], references: [id])
+}
+
+model Course {
+  id             String        @id @default(uuid())
+  learningPathId String
+  title          String
+  description    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+  certificates   Certificate[]
+  path           LearningPath  @relation(fields: [learningPathId], references: [id])
+  modules        Module[]
+}
+
+model Module {
+  id          String    @id @default(uuid())
+  courseId    String
+  title       String
+  description String?
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  lessons     Lesson[]
+  course      Course    @relation(fields: [courseId], references: [id])
+}
+
+model Lesson {
+  id          String            @id @default(uuid())
+  moduleId    String
+  title       String
+  description String?
+  order       Int               @default(0)
+  ruleSchema  Json?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  deletedAt   DateTime?
+  contents    LearningContent[]
+  module      Module            @relation(fields: [moduleId], references: [id])
+}
+
+model LearningContent {
+  id          String    @id @default(uuid())
+  lessonId    String
+  type        String
+  title       String
+  resourceUrl String?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  lesson      Lesson    @relation(fields: [lessonId], references: [id])
+}
+
+model Voucher {
+  id          String    @id @default(uuid())
+  tenantId    String
+  code        String    @unique
+  maxUses     Int       @default(1)
+  currentUses Int       @default(0)
+  packageType String    @default("hajj")
+  pricePaid   Int       @default(0)
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+}
+
+model VoucherPrice {
+  id          String    @id @default(uuid())
+  packageType String    @unique
+  price       Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Certificate {
+  id         String   @id @default(uuid())
+  userId     String
+  courseId   String
+  pdfUrl     String
+  verifiedAt DateTime @default(now())
+  course     Course   @relation(fields: [courseId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model BlogPost {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChatMessage {
+  id          String   @id @default(uuid())
+  senderId    String
+  recipientId String
+  message     String
+  createdAt   DateTime @default(now())
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  recipient   User     @relation("ReceivedMessages", fields: [recipientId], references: [id])
+}

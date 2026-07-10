@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: bahrain_db_prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bahrain_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bahrain_password}
+      POSTGRES_DB: ${POSTGRES_DB:-bahrain_db}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: bahrain_redis_prod
+    restart: always
+    volumes:
+      - redis_data_prod:/data
+
+  api:
+    image: ghcr.io/${REPO_LOWER}/api:latest
+    container_name: bahrain_api_prod
+    restart: always
+    ports:
+      - "127.0.0.1:5001:5001"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bahrain_user}:${POSTGRES_PASSWORD:-bahrain_password}@db:5432/${POSTGRES_DB:-bahrain_db}?schema=public
+      REDIS_URL: redis://redis:6379
+      PORT: 5001
+      NODE_ENV: production
+    depends_on:
+      - db
+      - redis
+
+  web:
+    image: ghcr.io/${REPO_LOWER}/web:latest
+    container_name: bahrain_web_prod
+    restart: always
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost/api/v1
+      PORT: 3000
+      NODE_ENV: production
+    depends_on:
+      - api
+
+volumes:
+  postgres_data_prod:
+  redis_data_prod:

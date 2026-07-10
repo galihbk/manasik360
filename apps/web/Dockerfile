@@ -1,0 +1,42 @@
+# ==========================================
+# FRONTEND WEB DOCKERFILE (Monorepo context)
+# ==========================================
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+RUN npm install -g pnpm@9
+
+COPY package.json pnpm-workspace.yaml turbo.json ./
+COPY packages/config/package.json ./packages/config/
+COPY packages/types/package.json ./packages/types/
+COPY packages/database/package.json ./packages/database/
+COPY packages/localization/package.json ./packages/localization/
+COPY packages/ui/package.json ./packages/ui/
+COPY apps/web/package.json ./apps/web/
+
+RUN pnpm install --frozen-lockfile --ignore-scripts || pnpm install --no-frozen-lockfile
+
+COPY packages ./packages
+COPY apps/web ./apps/web
+
+RUN pnpm --filter @bahrain/types build
+RUN pnpm --filter @bahrain/localization build
+RUN pnpm --filter @bahrain/ui build
+RUN pnpm --filter web build
+
+# Runner stage
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+RUN npm install -g pnpm@9
+
+COPY --from=builder /app ./
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+EXPOSE 3000
+
+CMD ["pnpm", "--filter", "web", "dev"]
