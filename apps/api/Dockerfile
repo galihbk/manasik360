@@ -7,12 +7,18 @@ WORKDIR /app
 
 RUN npm install -g pnpm@9
 
-COPY package.json pnpm-workspace.yaml turbo.json ./
+COPY package.json pnpm-workspace.yaml turbo.json pnpm-lock.yaml ./
+COPY packages/api-client/package.json ./packages/api-client/
+COPY packages/auth/package.json ./packages/auth/
 COPY packages/config/package.json ./packages/config/
-COPY packages/types/package.json ./packages/types/
+COPY packages/constants/package.json ./packages/constants/
 COPY packages/database/package.json ./packages/database/
+COPY packages/hooks/package.json ./packages/hooks/
 COPY packages/localization/package.json ./packages/localization/
+COPY packages/logger/package.json ./packages/logger/
+COPY packages/types/package.json ./packages/types/
 COPY packages/ui/package.json ./packages/ui/
+COPY packages/utils/package.json ./packages/utils/
 COPY apps/api/package.json ./apps/api/
 
 RUN pnpm install --frozen-lockfile --ignore-scripts || pnpm install --no-frozen-lockfile
