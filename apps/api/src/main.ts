@@ -26,18 +26,50 @@ loadEnv();
 
 // Auto-push Prisma schema to database on startup (ensures tables always exist)
 function ensureDatabase() {
+  const schemaPath = path.join(process.cwd(), 'packages/database/prisma/schema.prisma');
+  if (!fs.existsSync(schemaPath)) {
+    console.warn('[DB] schema.prisma not found at:', schemaPath);
+    return;
+  }
+
+  // Try multiple prisma binary locations (monorepo pnpm structure)
+  const prismaBinCandidates = [
+    path.join(process.cwd(), 'node_modules/.bin/prisma'),
+    path.join(process.cwd(), 'node_modules/.pnpm/prisma@5.22.0/node_modules/.bin/prisma'),
+    'prisma'
+  ];
+
+  let prismaBin = 'prisma';
+  for (const candidate of prismaBinCandidates) {
+    if (fs.existsSync(candidate)) {
+      prismaBin = candidate;
+      break;
+    }
+  }
+
+  console.log('[DB] Running prisma db push with binary:', prismaBin);
+  console.log('[DB] Schema path:', schemaPath);
+  console.log('[DB] DATABASE_URL set:', !!process.env.DATABASE_URL);
+
   try {
-    const schemaPath = path.join(process.cwd(), 'packages/database/prisma/schema.prisma');
-    if (fs.existsSync(schemaPath)) {
-      console.log('Running prisma db push to sync database schema...');
-      execSync(`npx prisma db push --schema="${schemaPath}" --accept-data-loss`, {
+    execSync(`"${prismaBin}" db push --schema="${schemaPath}" --accept-data-loss`, {
+      stdio: 'inherit',
+      env: process.env
+    });
+    console.log('[DB] Database schema synced successfully.');
+  } catch (e: any) {
+    console.error('[DB] prisma db push failed:', e.message);
+    // Try via pnpm filter as fallback
+    try {
+      execSync(`pnpm --filter @bahrain/database db:push`, {
         stdio: 'inherit',
+        cwd: process.cwd(),
         env: process.env
       });
-      console.log('Database schema synced successfully.');
+      console.log('[DB] Database schema synced via pnpm filter.');
+    } catch (e2: any) {
+      console.error('[DB] pnpm db:push also failed:', e2.message);
     }
-  } catch (e) {
-    console.error('prisma db push failed (app will continue):', e);
   }
 }
 ensureDatabase();

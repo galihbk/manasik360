@@ -105,16 +105,20 @@ export class AuthService implements OnModuleInit {
 
   async ensureDevUsers() {
     try {
+      console.log('[SEED] Starting ensureDevUsers...');
       // Ensure default tenant exists
       let tenant = await this.prisma.tenant.findFirst({ where: { name: 'Bahrain Virtual Academy' } });
       if (!tenant) {
         tenant = await this.prisma.tenant.create({ data: { name: 'Bahrain Virtual Academy' } });
+        console.log('[SEED] Created tenant: Bahrain Virtual Academy');
       }
 
       let biroTenant = await this.prisma.tenant.findFirst({ where: { name: 'Biro-travel' } });
       if (!biroTenant) {
         biroTenant = await this.prisma.tenant.create({ data: { name: 'Biro-travel' } });
+        console.log('[SEED] Created tenant: Biro-travel');
       }
+
 
       const devUsers = [
         { email: 'learner@bahrain.com', name: 'Learner Demo', role: 'LEARNER', password: 'learner123', tenantId: tenant.id },
@@ -134,10 +138,14 @@ export class AuthService implements OnModuleInit {
               tenantId: u.tenantId
             }
           });
+          console.log('[SEED] Created dev user:', u.email);
+        } else {
+          console.log('[SEED] Dev user already exists:', u.email);
         }
       }
+      console.log('[SEED] ensureDevUsers completed OK.');
     } catch (e) {
-      console.error('ensureDevUsers error:', e);
+      console.error('[SEED] ensureDevUsers FAILED:', e);
     }
   }
 
