@@ -162,7 +162,7 @@ jobs:
             sleep 5
 
             # Auto-run Prisma db push inside the api container to sync DB schema structure
-            docker exec manasik360_backend npx prisma db push --accept-data-loss || true
+            docker exec manasik360_backend npx prisma db push --schema=packages/database/prisma/schema.prisma --accept-data-loss || true
 
             # Auto-run database seeder inside the backend container to ensure Super Admin exists
             docker exec manasik360_backend node seed.js || true
