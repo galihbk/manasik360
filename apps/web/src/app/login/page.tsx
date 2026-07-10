@@ -13,8 +13,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [lang, setLang] = useState('en');
   const [devRole, setDevRole] = useState('Learner');
-
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Read language preference on mount
   useEffect(() => {
@@ -34,39 +34,40 @@ export default function LoginPage() {
   const t = tMap[lang] || en;
   const isRtl = lang === 'ar';
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Parse name from email and update localStorage to prevent stale caches
-    const parsedName = email.split('@')[0];
-    const capitalized = parsedName.charAt(0).toUpperCase() + parsedName.slice(1);
-    const storedEmail = localStorage.getItem('bahrain_user_email');
-    
-    localStorage.setItem('bahrain_user_name', capitalized);
-    localStorage.setItem('bahrain_user_email', email);
-    
-    // Determine the role
-    let finalRole = devRole;
-    if (email === 'superadmin@bahrain.com' || email.includes('superadmin')) {
-      finalRole = 'Super Admin';
-    } else if (email.includes('biro') || email.includes('orgadmin')) {
-      finalRole = 'Org Admin';
-    }
-    
-    localStorage.setItem('bahrain_user_role', finalRole);
-    
-    if (storedEmail !== email) {
-      localStorage.removeItem('bahrain_org_name');
-    }
-    
-    // Write cookie session securely for middleware detection
-    document.cookie = "bahrain_session=true; path=/; max-age=86400;";
-    
-    // Smooth transition defer to give loader a moment to render
-    setTimeout(() => {
+    setError('');
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const res = await fetch(`${apiBase}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data?.message || 'Email atau kata sandi tidak valid.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Store verified user data from backend
+      const user = data.user;
+      localStorage.setItem('bahrain_user_name', user.name);
+      localStorage.setItem('bahrain_user_email', user.email);
+      localStorage.setItem('bahrain_user_role', user.role);
+      localStorage.setItem('bahrain_org_name', user.tenantName || 'Bahrain Virtual Academy');
+      document.cookie = 'bahrain_session=true; path=/; max-age=86400;';
+
       router.push('/dashboard');
-    }, 100);
+    } catch (err) {
+      setError('Koneksi ke server gagal. Coba lagi.');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,7 +111,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => {
                 setEmail('learner@bahrain.com');
-                setPassword('password');
+                setPassword('learner123');
                 setDevRole('Learner');
               }}
               className={`py-1.5 text-[10px] font-bold rounded-md transition-all ${
@@ -122,8 +123,8 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => {
-                setEmail('biro-travel@bahrain.com');
-                setPassword('password');
+                setEmail('adminbiro@bahrain.com');
+                setPassword('adminbiro123');
                 setDevRole('Org Admin');
               }}
               className={`py-1.5 text-[10px] font-bold rounded-md transition-all ${
@@ -136,7 +137,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => {
                 setEmail('superadmin@bahrain.com');
-                setPassword('password');
+                setPassword('superadmin123');
                 setDevRole('Super Admin');
               }}
               className={`py-1.5 text-[10px] font-bold rounded-md transition-all ${
@@ -206,6 +207,12 @@ export default function LoginPage() {
               t.nav.login
             )}
           </button>
+
+          {error && (
+            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md text-xs text-red-600 text-center">
+              {error}
+            </div>
+          )}
         </form>
 
         <div className="border-t border-slate-100 mt-8 pt-6 text-center">

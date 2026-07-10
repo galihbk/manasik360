@@ -1,9 +1,17 @@
 import { Controller, Get, Post, Body, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
-@Controller('learning')
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {
+    // Seed default dev users on startup
+    this.authService.ensureDevUsers();
+  }
+
+  @Post('login')
+  async login(@Body() body: { email: string; password: string }) {
+    return this.authService.login(body.email, body.password);
+  }
 
   @Get('profile')
   async getProfile(
