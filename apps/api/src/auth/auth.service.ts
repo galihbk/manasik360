@@ -128,19 +128,29 @@ export class AuthService implements OnModuleInit {
 
       for (const u of devUsers) {
         const existing = await this.prisma.user.findFirst({ where: { email: u.email } });
+        const hashed = this.hashPassword(u.password);
         if (!existing) {
           await this.prisma.user.create({
             data: {
               email: u.email,
               name: u.name,
               role: u.role,
-              passwordHash: this.hashPassword(u.password),
+              passwordHash: hashed,
               tenantId: u.tenantId
             }
           });
           console.log('[SEED] Created dev user:', u.email);
         } else {
-          console.log('[SEED] Dev user already exists:', u.email);
+          // Force update fields to match expected dev environment state
+          await this.prisma.user.update({
+            where: { id: existing.id },
+            data: {
+              name: u.name,
+              role: u.role,
+              passwordHash: hashed
+            }
+          });
+          console.log('[SEED] Force updated dev user defaults:', u.email);
         }
       }
       console.log('[SEED] ensureDevUsers completed OK.');
