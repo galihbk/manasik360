@@ -1,6 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@bahrain/ui", "@bahrain/types", "@bahrain/localization"],
+  transpilePackages: [
+    "@bahrain/ui",
+    "@bahrain/types",
+    "@bahrain/localization",
+    "@bahrain/api-client",
+    "@bahrain/auth",
+    "@bahrain/config",
+    "@bahrain/constants",
+    "@bahrain/database",
+    "@bahrain/hooks",
+    "@bahrain/logger",
+    "@bahrain/utils"
+  ],
   async rewrites() {
     return [
       {

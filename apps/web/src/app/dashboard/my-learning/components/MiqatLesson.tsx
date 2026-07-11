@@ -119,18 +119,13 @@ export default function MiqatLesson({
         {activeTab === 'tour' && (
           <div className="space-y-6">
             <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{sd.tour_iframe}</h4>
-            <div className="relative w-full aspect-video rounded-xl border border-slate-200 overflow-hidden bg-slate-900 flex flex-col items-center justify-center text-white">
-              <Image
-                src="/images/pilgrim-hero.png"
-                alt="3DVista Tour Simulation"
-                fill
-                className="object-cover opacity-45"
+            <div className="relative w-full aspect-video rounded-xl border border-slate-200 overflow-hidden bg-slate-900 shadow-sm">
+              <iframe
+                src="/tour/index.htm"
+                className="w-full h-full"
+                allowFullScreen
+                style={{ border: 0 }}
               />
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-6 text-center">
-                <Compass className="w-14 h-14 text-[#d97706] mb-3 animate-spin" />
-                <h5 className="text-sm font-extrabold">{sd.tour_title}</h5>
-                <p className="text-xs text-slate-300 max-w-sm mt-1">{sd.tour_desc}</p>
-              </div>
             </div>
           </div>
         )}
