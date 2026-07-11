@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
+// Handles POST /auth/login (new real DB auth)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -9,6 +10,12 @@ export class AuthController {
   async login(@Body() body: { email: string; password: string }) {
     return this.authService.login(body.email, body.password);
   }
+}
+
+// Handles legacy /learning/profile, /learning/notifications routes used by dashboard pages
+@Controller('learning')
+export class LearningAuthController {
+  constructor(private readonly authService: AuthService) {}
 
   @Get('profile')
   async getProfile(
