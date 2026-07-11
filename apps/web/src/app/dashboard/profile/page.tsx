@@ -124,7 +124,7 @@ export default function ProfilePage() {
   const isLearner = role.toLowerCase().includes('learner') || role.toLowerCase().includes('jemaah');
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl mx-auto space-y-8 bg-slate-50 min-h-screen">
+    <div className="p-6 md:p-8 w-full space-y-8 bg-slate-50 min-h-screen">
       {/* Toast Alert */}
       {showToast && (
         <div className="fixed bottom-5 right-5 z-55 flex items-center gap-2 px-4 py-3 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg shadow-lg text-xs font-bold transition-all">

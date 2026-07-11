@@ -398,7 +398,7 @@ function MyLearningContent() {
         </div>
 
         {/* Split Grid Layout */}
-        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl w-full mx-auto p-4 md:p-6 gap-6">
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden w-full p-4 md:p-6 gap-6">
 
           {/* Left Sidebar: Progress Stepper */}
           <div className="w-full lg:w-72 bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col shrink-0 gap-4">

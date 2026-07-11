@@ -69,8 +69,9 @@ export default function HomePage() {
 
   const navLinks = [
     { label: t.nav.home, href: '#' },
-    { label: t.nav.about, href: '#tentang' },
+    { label: t.nav.about, href: '/about' },
     { label: t.nav.features, href: '#features' },
+    { label: 'Blog', href: '/blogs' },
     { label: t.nav.pricing, href: '#pricing' },
     { label: t.nav.faq, href: '#faq' }
   ];
@@ -262,11 +263,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center relative z-10">
           
           {/* Hero Content */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/20 mb-6 text-xs text-emerald-100 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] animate-pulse"></span>
-              {t.hero.badge}
-            </div>
+          <div className="lg:col-span-7 flex flex-col items-start text-left pt-6 lg:pt-0">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-[1.15] mb-6">
               {t.hero.heading}
             </h1>

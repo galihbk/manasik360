@@ -173,7 +173,7 @@ export default function ChatPage() {
   const isSuperAdminUser = role === 'Super Admin' || role === 'SUPER_ADMIN' || role === 'SUPER ADMIN';
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6 bg-slate-50 min-h-screen">
+    <div className="p-6 md:p-8 w-full space-y-6 bg-slate-50 min-h-screen">
       {/* Toast Alert */}
       {toast && (
         <div className={`fixed bottom-5 right-5 z-55 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg border text-xs font-bold transition-all ${

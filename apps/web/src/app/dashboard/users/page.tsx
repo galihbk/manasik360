@@ -53,7 +53,7 @@ export default function UsersPage() {
   );
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8 bg-slate-50 min-h-screen">
+    <div className="p-6 md:p-8 w-full space-y-8 bg-slate-50 min-h-screen">
       {/* Toast Alert */}
       {toast && (
         <div className={`fixed bottom-5 right-5 z-55 flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg border text-xs font-bold transition-all ${

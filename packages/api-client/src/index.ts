@@ -205,6 +205,20 @@ export class ApiClient {
 
   // --- BLOG MANAGEMENT METHODS ---
 
+  async getPublicBlogs() {
+    const res = await fetch(`${this.config.baseUrl}/blogs/public`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+
+  async getPublicBlog(id: string) {
+    const res = await fetch(`${this.config.baseUrl}/blogs/public/${encodeURIComponent(id)}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+
   async getSuperAdminBlogs() {
     const res = await fetch(`${this.config.baseUrl}/learning/super-admin/blogs`, {
       headers: this.getHeaders()
