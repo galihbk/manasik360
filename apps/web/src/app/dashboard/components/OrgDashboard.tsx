@@ -208,6 +208,168 @@ export default function OrgDashboard({
           Bagikan kode voucher kemitraan Anda di atas kepada jemaah travel Anda. Ketika jemaah melakukan registrasi dan memasukkan kode voucher ini, akun mereka akan otomatis memiliki akses premium ke pembelajaran Haji & Umrah V2 secara gratis, serta terhubung di bawah pimpinan grup Biro Anda untuk pemantauan progres.
         </p>
       </div>
+
+      {/* B2B Recommendations / Partner Offers Section */}
+      <OrgRecommendations />
+    </div>
+  );
+}
+
+// Sub-component to isolate state and effects for cleaner code
+import { useState, useEffect } from 'react';
+import { ApiClient } from '@bahrain/api-client';
+import { Hotel, Gift, MapPin, Phone, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+
+function RecommendationCardImage({ imageUrl, type, name }: { imageUrl: string; type: string; name: string }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const images = imageUrl ? imageUrl.split(',').filter((img: string) => img.trim() !== '') : [];
+
+  if (images.length === 0) {
+    return (
+      <div className="relative h-32 bg-slate-100 flex items-center justify-center">
+        <div className="text-slate-350">
+          {type === 'HOTEL' ? <Hotel className="w-8 h-8" /> : <Gift className="w-8 h-8" />}
+        </div>
+        <span className={`absolute top-2 left-2 text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded shadow-sm bg-slate-600 text-white`}>
+          {type === 'HOTEL' ? 'Hotel Partner' : 'Oleh-oleh Partner'}
+        </span>
+      </div>
+    );
+  }
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setActiveIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <div className="relative h-32 bg-slate-100 flex items-center justify-center group">
+      <img src={images[activeIndex]} alt={name} className="object-cover w-full h-full" />
+      
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="absolute left-1 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/85 text-white p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={handleNext}
+            className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/85 text-white p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-0.5 z-10">
+            {images.map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1 h-1 rounded-full transition-all ${
+                  i === activeIndex ? 'bg-blue-500 scale-110' : 'bg-white/60'
+                }`} 
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      <span className={`absolute top-2 left-2 text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded shadow-sm text-white ${
+        type === 'HOTEL' ? 'bg-indigo-600' : 'bg-amber-600'
+      }`}>
+        {type === 'HOTEL' ? 'Hotel Partner' : 'Oleh-oleh Partner'}
+      </span>
+    </div>
+  );
+}
+
+function OrgRecommendations() {
+  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const client = new ApiClient({ baseUrl: '/api/v1' });
+    client.getActiveRecommendations('org_admin')
+      .then(res => {
+        if (res && res.success) {
+          setRecommendations(res.recommendations || []);
+        }
+      })
+      .catch(err => console.error("Error fetching org recommendations:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-center justify-center py-10">
+        <span className="text-xs text-slate-400 font-bold uppercase tracking-wider animate-pulse">Memuat penawaran mitra...</span>
+      </div>
+    );
+  }
+
+  if (recommendations.length === 0) return null;
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-2 text-indigo-650">
+          <Hotel className="w-5 h-5 text-indigo-600" />
+          <h3 className="text-base font-extrabold text-slate-800">
+            Penawaran Kerja Sama Hotel & Kemitraan (B2B)
+          </h3>
+        </div>
+        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[9px] font-black uppercase tracking-wider">Tarif Khusus Biro</span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {recommendations.map((reco) => (
+          <div key={reco.id} className="border border-slate-150 rounded-xl overflow-hidden flex flex-col justify-between hover:shadow-md transition-all bg-slate-50/50">
+            <div>
+              <RecommendationCardImage imageUrl={reco.imageUrl} type={reco.type} name={reco.name} />
+
+              <div className="p-4 space-y-2">
+                <h5 className="font-extrabold text-xs text-slate-800 line-clamp-1">{reco.name}</h5>
+                <p className="text-[11px] text-slate-500 leading-normal line-clamp-2">{reco.description || 'Penawaran kerja sama khusus untuk Biro Anda.'}</p>
+              </div>
+            </div>
+
+            <div className="p-4 pt-0 space-y-2">
+              <div className="border-t border-slate-150 pt-2 flex flex-col gap-1 text-[10px] text-slate-550 font-medium">
+                {reco.location && (
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <span className="truncate">{reco.location}</span>
+                  </div>
+                )}
+                {reco.contactNumber && (
+                  <div className="flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <span>{reco.contactNumber}</span>
+                  </div>
+                )}
+              </div>
+
+              {reco.websiteUrl && (
+                <a
+                  href={reco.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 flex items-center justify-center gap-1 py-1.5 w-full bg-slate-900 hover:bg-slate-850 text-white font-extrabold text-[10px] rounded-md transition-all shadow-sm"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Hubungi Partner / B2B Detail
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

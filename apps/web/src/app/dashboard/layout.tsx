@@ -21,7 +21,8 @@ import {
   Ticket,
   Building2,
   FileText,
-  MessageSquare
+  MessageSquare,
+  Hotel
 } from 'lucide-react';
 import { en, id, ar } from '@bahrain/localization';
 import { ApiClient } from '@bahrain/api-client';
@@ -150,6 +151,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     },
     { id: 'certificates', label: d.certificates, path: '/dashboard/certificates', icon: <Award className="w-5 h-5" />, group: 'MAIN' },
     { id: 'subscription', label: d.subscription, path: '/dashboard/subscription', icon: <CreditCard className="w-5 h-5" />, group: 'MAIN' },
+    { id: 'recommendations', label: 'Rekomendasi Mitra', path: '/dashboard/recommendations', icon: <Hotel className="w-5 h-5" />, group: 'MAIN' },
     
     { id: 'notifications', label: d.notifications, path: '/dashboard/notifications', icon: <Bell className="w-5 h-5" />, group: 'COMMUNICATION' },
     { id: 'support', label: d.support, path: '/dashboard/support', icon: <HelpCircle className="w-5 h-5" />, group: 'COMMUNICATION' },
@@ -164,6 +166,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { id: 'pilgrims', label: 'Daftar Jemaah', path: '/dashboard/pilgrims', icon: <Users className="w-5 h-5" />, group: 'BIRO' },
     { id: 'progress', label: 'Progres Belajar', path: '/dashboard/progress', icon: <BarChart3 className="w-5 h-5" />, group: 'BIRO' },
     { id: 'vouchers', label: 'Voucher Jemaah', path: '/dashboard/vouchers', icon: <Ticket className="w-5 h-5" />, group: 'BIRO' },
+    { id: 'recommendations', label: 'Rekomendasi Mitra', path: '/dashboard/recommendations', icon: <Hotel className="w-5 h-5" />, group: 'BIRO' },
 
     { id: 'notifications', label: d.notifications, path: '/dashboard/notifications', icon: <Bell className="w-5 h-5" />, group: 'KOMUNIKASI' },
     { id: 'support', label: d.support, path: '/dashboard/support', icon: <HelpCircle className="w-5 h-5" />, group: 'KOMUNIKASI' },
@@ -176,6 +179,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const superMenuItems = [
     { id: 'home', label: 'Konsol Utama', path: '/dashboard', icon: <Home className="w-5 h-5" />, group: 'SUPER_ADMIN' },
     { id: 'tenants', label: 'Kelola Biro', path: '/dashboard/tenants', icon: <Building2 className="w-5 h-5" />, group: 'SUPER_ADMIN' },
+    { id: 'recommendations', label: 'Kelola Kemitraan', path: '/dashboard/recommendations', icon: <Building2 className="w-5 h-5" />, group: 'SUPER_ADMIN' },
     { id: 'vouchers', label: 'Semua Voucher', path: '/dashboard/vouchers', icon: <Ticket className="w-5 h-5" />, group: 'SUPER_ADMIN' },
     { id: 'users', label: 'Daftar Pengguna', path: '/dashboard/users', icon: <Users className="w-5 h-5" />, group: 'SUPER_ADMIN' },
     { id: 'blogs', label: 'Kelola Blog', path: '/dashboard/blogs', icon: <FileText className="w-5 h-5" />, group: 'SUPER_ADMIN' },
@@ -355,7 +359,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* MAIN CONTENT WRAPPER — only this area scrolls */}
       <main className="flex-1 flex flex-col bg-white overflow-y-auto h-screen md:ml-64">
         {/* Mobile Top Navbar Header */}
-        <header className="h-16 border-b px-6 flex items-center justify-between md:hidden shrink-0 z-30 bg-white border-slate-200/60">
+        <header className="h-16 border-b px-6 flex items-center justify-between md:hidden shrink-0 bg-white border-slate-200/60">
           <button 
             onClick={() => setIsMobileOpen(true)}
             className="p-1 focus:outline-none text-slate-500 hover:text-slate-900"

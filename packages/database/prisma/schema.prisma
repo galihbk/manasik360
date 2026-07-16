@@ -197,3 +197,22 @@ model ChatMessage {
   sender      User     @relation("SentMessages", fields: [senderId], references: [id])
   recipient   User     @relation("ReceivedMessages", fields: [recipientId], references: [id])
 }
+
+model Recommendation {
+  id             String   @id @default(uuid())
+  name           String
+  type           String   // e.g., "HOTEL" or "SOUVENIR"
+  description    String?
+  imageUrl       String?
+  location       String?
+  contactNumber  String?
+  websiteUrl     String?
+  isPaid         Boolean  @default(true)
+  isActive       Boolean  @default(true)
+  showToLearner  Boolean  @default(true)
+  showToOrgAdmin Boolean  @default(true)
+  showToPublic   Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+

@@ -276,6 +276,62 @@ export class ApiClient {
     });
     return res.json();
   }
+
+  // --- RECOMMENDATION API METHODS ---
+
+  async getActiveRecommendations(target: string) {
+    const res = await fetch(`${this.config.baseUrl}/recommendations/active?target=${encodeURIComponent(target)}`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+
+  async getAllRecommendations() {
+    const res = await fetch(`${this.config.baseUrl}/recommendations`, {
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+
+  async createRecommendation(data: any) {
+    const res = await fetch(`${this.config.baseUrl}/recommendations`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  }
+
+  async updateRecommendation(id: string, data: any) {
+    const res = await fetch(`${this.config.baseUrl}/recommendations/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  }
+
+  async deleteRecommendation(id: string) {
+    const res = await fetch(`${this.config.baseUrl}/recommendations/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: this.getHeaders()
+    });
+    return res.json();
+  }
+
+  async uploadRecommendationImage(file: File) {
+    const headers = this.getHeaders();
+    delete headers['Content-Type'];
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${this.config.baseUrl}/recommendations/upload`, {
+      method: 'POST',
+      headers,
+      body: formData
+    });
+    return res.json();
+  }
 }
+
 
 

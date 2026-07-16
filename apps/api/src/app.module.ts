@@ -6,6 +6,7 @@ import { VoucherModule } from './voucher/voucher.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { ChatModule } from './chat/chat.module';
 import { BlogModule } from './blog/blog.module';
+import { RecommendationModule } from './recommendation/recommendation.module';
 
 @Controller('health')
 export class HealthController {
@@ -23,9 +24,11 @@ export class HealthController {
     LearningModule,
     SuperAdminModule,
     ChatModule,
-    BlogModule
+    BlogModule,
+    RecommendationModule
   ],
   controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
+

@@ -24,6 +24,9 @@ import {
   ChevronDown,
   PlayCircle
 } from 'lucide-react';
+import { ApiClient } from '@bahrain/api-client';
+
+const client = new ApiClient({ baseUrl: '/api/v1' });
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,12 +34,21 @@ export default function HomePage() {
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Read language preference on mount
+  const [prices, setPrices] = useState<{ hajj: number; umroh: number }>({ hajj: 100000, umroh: 100000 });
+
+  // Read language preference on mount and fetch prices
   useEffect(() => {
     const savedLang = localStorage.getItem('bahrain_lang');
     if (savedLang) {
       setCurrentLang(savedLang);
     }
+    client.getVoucherPrices()
+      .then(res => {
+        if (res && res.hajj && res.umroh) {
+          setPrices({ hajj: res.hajj, umroh: res.umroh });
+        }
+      })
+      .catch(err => console.error('Gagal mengambil harga paket:', err));
   }, []);
 
   // Update language preference helper
@@ -72,6 +84,7 @@ export default function HomePage() {
     { label: t.nav.about, href: '/about' },
     { label: t.nav.features, href: '#features' },
     { label: 'Blog', href: '/blogs' },
+    { label: 'Kemitraan', href: '/recommendations' },
     { label: t.nav.pricing, href: '#pricing' },
     { label: t.nav.faq, href: '#faq' }
   ];
@@ -111,7 +124,7 @@ export default function HomePage() {
           
           {/* Logo Brand Tag (Mihrab Golden Ribbon Style) */}
           <div 
-            className="relative bg-[#d97706] text-white px-6 pt-8 pb-12 flex flex-col items-center justify-center shadow-lg z-50 min-w-[130px] self-start mt-[-4px] md:mt-[-10px] transition-transform duration-300"
+            className="relative bg-[#d97706] text-white px-4 pt-5 pb-9 md:px-6 md:pt-8 md:pb-12 flex flex-col items-center justify-center shadow-lg z-50 min-w-[80px] md:min-w-[130px] self-start mt-[-4px] md:mt-[-10px] transition-transform duration-300"
             style={{ clipPath: 'polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%)' }}
           >
             <Image 
@@ -119,7 +132,7 @@ export default function HomePage() {
               alt="Bahrain Logo" 
               width={64} 
               height={64} 
-              className="w-10 h-10 md:w-16 md:h-16 object-contain brightness-0 invert"
+              className="w-12 h-12 md:w-16 md:h-16 object-contain brightness-0 invert"
             />
           </div>
 
@@ -190,58 +203,59 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Mobile Navigation Panel */}
+        {/* Mobile Navigation Drawer (Slide right to left) */}
         {mobileMenuOpen && (
-          <div className={`md:hidden border-t px-6 py-6 flex flex-col gap-4 transition-colors ${
-            isScrolled ? 'bg-white border-slate-100 shadow-lg' : 'bg-[#064e3b] border-[#022c22]'
-          }`}>
-            {navLinks.map((link) => (
-              <a 
-                key={link.label} 
-                href={link.href} 
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-sm font-medium py-1 transition-colors ${
-                  isScrolled ? 'text-slate-600 hover:text-slate-900' : 'text-emerald-100 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className={`border-t pt-4 flex flex-col gap-3 ${
-              isScrolled ? 'border-slate-100' : 'border-[#022c22]'
-            }`}>
-              <div className={`flex items-center gap-2 text-sm py-1 ${
-                isScrolled ? 'text-slate-700' : 'text-emerald-100'
-              }`}>
-                <Globe2 className="w-4 h-4" />
-                <select 
-                  value={currentLang} 
-                  onChange={(e) => {
-                    handleLangChange(e.target.value);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`bg-transparent border-none text-xs focus:ring-0 cursor-pointer ${
-                    isScrolled ? 'text-slate-800' : 'text-white'
-                  }`}
-                >
-                  <option value="en" className="text-black">English</option>
-                  <option value="id" className="text-black">Indonesian</option>
-                  <option value="ar" className="text-black">العربية</option>
-                </select>
+          <>
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9998]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            {/* Drawer Panel */}
+            <div className="fixed top-0 right-0 h-screen w-72 bg-[#064e3b] text-white z-[9999] shadow-2xl p-6 flex flex-col gap-6 animate-in slide-in-from-right duration-250">
+              <div className="flex items-center justify-between border-b border-emerald-900 pb-4">
+                <span className="text-sm font-black uppercase tracking-wider text-emerald-350">Menu Bahrain</span>
+                <button onClick={() => setMobileMenuOpen(false)} className="p-1.5 hover:bg-emerald-800 rounded-lg text-emerald-100 transition-all">
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <a 
-                href="/register" 
-                className={`text-sm font-medium py-1 ${
-                  isScrolled ? 'text-slate-700 hover:text-slate-950' : 'text-emerald-100 hover:text-white'
-                }`}
-              >
-                {t.nav.register}
-              </a>
-              <a href="/login" className="bg-[#d97706] text-white text-center text-xs font-bold py-3 rounded-full">
-                {t.nav.login}
-              </a>
+              <nav className="flex flex-col gap-4 text-sm font-bold text-emerald-100/90">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-1 hover:text-white transition-all hover:translate-x-1"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+              <div className="border-t border-emerald-900 pt-6 flex flex-col gap-4">
+                <div className="flex items-center gap-2 text-xs">
+                  <Globe2 className="w-4 h-4 text-emerald-400" />
+                  <select
+                    value={currentLang}
+                    onChange={(e) => { handleLangChange(e.target.value); setMobileMenuOpen(false); }}
+                    className="bg-emerald-900/80 border border-emerald-850 text-white rounded px-2.5 py-1 text-xs focus:ring-0 cursor-pointer font-bold"
+                  >
+                    <option value="en" className="text-black">English</option>
+                    <option value="id" className="text-black">Indonesian</option>
+                    <option value="ar" className="text-black">العربية</option>
+                  </select>
+                </div>
+                <a
+                  href="/register"
+                  className="text-center text-xs font-bold py-2.5 rounded-full border border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-800 transition-all text-emerald-100"
+                >
+                  {t.nav.register}
+                </a>
+                <a href="/login" className="bg-[#d97706] hover:bg-[#b45309] text-white text-center text-xs font-bold py-3 rounded-full shadow-md transition-all">
+                  {t.nav.login}
+                </a>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </header>
 
@@ -408,33 +422,106 @@ export default function HomePage() {
             <p className="text-3xl font-black text-slate-900 tracking-tight">{t.pricing.subheading}</p>
           </div>
 
-          <div className="max-w-md mx-auto bg-white border border-slate-200 rounded-md p-8 shadow-sm">
-            <div className="flex justify-between items-start mb-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Hajj Card */}
+            <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 uppercase tracking-wide">{t.pricing.title}</h3>
-                <p className="text-xs text-slate-400 mt-1">{t.pricing.desc}</p>
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h3 className="text-lg font-extrabold text-slate-900 uppercase tracking-wide">
+                      {currentLang === 'id' ? 'Paket Haji' : currentLang === 'ar' ? 'باقة الحج' : 'Hajj Package'}
+                    </h3>
+                    <p className="text-[11px] text-slate-450 mt-1">
+                      {currentLang === 'id' ? 'Persiapan Haji komprehensif' : currentLang === 'ar' ? 'إعداد الحج الشامل' : 'Comprehensive Hajj preparation'}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-emerald-800">
+                      Rp {prices.hajj.toLocaleString('id-ID')}
+                    </span>
+                    <p className="text-[9px] text-slate-450 font-mono mt-0.5">
+                      {currentLang === 'id' ? 'per jemaah' : currentLang === 'ar' ? 'لكل مستخدم' : 'per user'}
+                    </p>
+                  </div>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Akses simulasi VR Haji Interaktif' : currentLang === 'ar' ? 'الوصول إلى محاكاة الحج التفاعلية VR' : 'Interactive VR Hajj simulation access'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Materi modul panduan audio visual haji' : currentLang === 'ar' ? 'وحدات دليل الحج السمعي والبصري' : 'Hajj audio-visual guide modules'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Akses multi-platform (Android, Web, VR)' : currentLang === 'ar' ? 'الوصول متعدد المنصات (أندرويد، ويب، VR)' : 'Multi-platform access (Android, Web, VR)'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Sertifikat digital kesiapan ibadah haji' : currentLang === 'ar' ? 'شهادة رقمية للجاهزية للحج' : 'Hajj readiness digital certificate'}</span>
+                  </li>
+                </ul>
               </div>
-              <div className="text-right">
-                <span className="text-3xl font-black text-emerald-800">{t.pricing.price}</span>
-                <p className="text-[10px] text-slate-400 font-mono mt-0.5">{t.pricing.period}</p>
-              </div>
+
+              <a 
+                href="/register" 
+                className="block text-center bg-[#064e3b] hover:bg-[#043427] text-white text-xs font-bold py-3.5 rounded-full transition-all shadow-md"
+              >
+                {t.hero.cta}
+              </a>
             </div>
 
-            <ul className="space-y-4 mb-8">
-              {t.pricing.features.map((item: string, idx: number) => (
-                <li key={idx} className="flex items-center gap-3 text-xs text-slate-600">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Umrah Card */}
+            <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h3 className="text-lg font-extrabold text-slate-900 uppercase tracking-wide">
+                      {currentLang === 'id' ? 'Paket Umrah' : currentLang === 'ar' ? 'باقة العمرة' : 'Umrah Package'}
+                    </h3>
+                    <p className="text-[11px] text-slate-450 mt-1">
+                      {currentLang === 'id' ? 'Persiapan Umrah komprehensif' : currentLang === 'ar' ? 'إعداد العمرة الشامل' : 'Comprehensive Umrah preparation'}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-emerald-800">
+                      Rp {prices.umroh.toLocaleString('id-ID')}
+                    </span>
+                    <p className="text-[9px] text-slate-450 font-mono mt-0.5">
+                      {currentLang === 'id' ? 'per jemaah' : currentLang === 'ar' ? 'لكل مستخدم' : 'per user'}
+                    </p>
+                  </div>
+                </div>
 
-            <a 
-              href="/register" 
-              className="block text-center bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-bold py-3.5 rounded-full transition-all shadow-md shadow-amber-900/10"
-            >
-              {t.hero.cta}
-            </a>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Akses simulasi VR Umrah Interaktif' : currentLang === 'ar' ? 'الوصول إلى محاكاة العمرة التفاعلية VR' : 'Interactive VR Umrah simulation access'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Materi modul panduan audio visual umrah' : currentLang === 'ar' ? 'وحدات دليل العمرة السمعي والبصري' : 'Umrah audio-visual guide modules'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Akses multi-platform (Android, Web, VR)' : currentLang === 'ar' ? 'الوصول متعدد المنصات (أندرويد، ويب، VR)' : 'Multi-platform access (Android, Web, VR)'}</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-xs text-slate-655">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{currentLang === 'id' ? 'Sertifikat digital kesiapan ibadah umrah' : currentLang === 'ar' ? 'شهادة رقمية للجاهزية للعمرة' : 'Umrah readiness digital certificate'}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <a 
+                href="/register" 
+                className="block text-center bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-bold py-3.5 rounded-full transition-all shadow-md shadow-amber-900/10"
+              >
+                {t.hero.cta}
+              </a>
+            </div>
           </div>
         </div>
       </section>
