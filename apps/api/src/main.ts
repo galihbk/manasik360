@@ -26,15 +26,33 @@ loadEnv();
 
 // Auto-push Prisma schema to database on startup (ensures tables always exist)
 function ensureDatabase() {
-  const schemaPath = path.join(process.cwd(), 'packages/database/prisma/schema.prisma');
-  if (!fs.existsSync(schemaPath)) {
-    console.warn('[DB] schema.prisma not found at:', schemaPath);
+  const schemaCandidates = [
+    path.join(process.cwd(), 'packages/database/prisma/schema.prisma'),
+    path.join(process.cwd(), '../../packages/database/prisma/schema.prisma'),
+    path.join(process.cwd(), '../packages/database/prisma/schema.prisma'),
+    path.join(__dirname, '../../packages/database/prisma/schema.prisma'),
+    path.join(__dirname, '../../../packages/database/prisma/schema.prisma'),
+    path.join(__dirname, '../packages/database/prisma/schema.prisma')
+  ];
+
+  let schemaPath: string | null = null;
+  for (const candidate of schemaCandidates) {
+    if (fs.existsSync(candidate)) {
+      schemaPath = candidate;
+      break;
+    }
+  }
+
+  if (!schemaPath) {
+    console.warn('[DB] schema.prisma not found in candidate paths:', schemaCandidates);
     return;
   }
 
   // Try multiple prisma binary locations (monorepo pnpm structure)
   const prismaBinCandidates = [
     path.join(process.cwd(), 'node_modules/.bin/prisma'),
+    path.join(process.cwd(), '../../node_modules/.bin/prisma'),
+    path.join(process.cwd(), '../node_modules/.bin/prisma'),
     path.join(process.cwd(), 'node_modules/.pnpm/prisma@5.22.0/node_modules/.bin/prisma'),
     'prisma'
   ];
