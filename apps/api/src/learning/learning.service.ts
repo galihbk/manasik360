@@ -354,6 +354,8 @@ export class LearningService {
       await this.prisma.learningContent.deleteMany();
       await this.prisma.lesson.deleteMany();
       await this.prisma.module.deleteMany();
+      await this.prisma.certificate.deleteMany();
+      await this.prisma.course.deleteMany();
       await this.prisma.learningPath.deleteMany();
       await this.prisma.product.deleteMany();
 

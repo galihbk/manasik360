@@ -13,7 +13,9 @@ import {
   Phone,
   ExternalLink,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Lock,
+  Zap
 } from 'lucide-react';
 
 const client = new ApiClient({ baseUrl: '/api/v1' });
@@ -70,25 +72,48 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
         <p className="text-sm text-slate-400 mt-1">{d.home_sub || 'Lanjutkan perjalanan belajar Anda di bawah.'}</p>
       </div>
 
-      {/* Continue Learning (Row 1) */}
+      {/* Main Hero Banner (Row 1) */}
       <div className="bg-slate-900 text-white rounded-xl p-8 border border-slate-800 shadow-sm relative overflow-hidden">
         <div className="relative z-10 max-w-lg">
-          <span className="text-xs font-bold text-[#d97706] uppercase tracking-widest">{d.continue_learning || 'Lanjutkan Belajar'}</span>
-          <h3 className="text-lg font-bold text-white mt-1.5">
-            {continueLesson?.title || 'Memulai Pembelajaran'}
-          </h3>
-          <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-            {continueLesson
-               ? `Materi tipe ${continueLesson.type === 'READING' ? 'Membaca' : 'Tur Virtual 360°'} dengan estimasi pengerjaan ${continueLesson.duration || '15 menit'}.`
-               : 'Silakan aktifkan paket pembelajaran Anda untuk memulai manasik haji & umrah.'}
-          </p>
-          <button 
-            onClick={() => router.push('/dashboard/my-learning')}
-            className="mt-5 bg-[#d97706] hover:bg-[#b45309] text-white text-sm font-bold px-6 py-3 rounded-full transition-all shadow-md flex items-center gap-2"
-          >
-            <Play className="w-3.5 h-3.5 fill-white" />
-            {d.resume_activity || 'Lanjutkan Aktivitas'} ({continueLesson?.duration || '10 menit'})
-          </button>
+          {planActive ? (
+            <>
+              <span className="text-xs font-bold text-[#d97706] uppercase tracking-widest">{d.continue_learning || 'Lanjutkan Belajar'}</span>
+              <h3 className="text-lg font-bold text-white mt-1.5">
+                {continueLesson?.title || 'Memulai Pembelajaran'}
+              </h3>
+              <p className="text-sm text-slate-300 mt-2 leading-relaxed">
+                {continueLesson
+                   ? `Materi tipe ${continueLesson.type === 'READING' ? 'Membaca' : 'Tur Virtual 360°'} dengan estimasi pengerjaan ${continueLesson.duration || '15 menit'}.`
+                   : 'Silakan aktifkan paket pembelajaran Anda untuk memulai manasik haji & umrah.'}
+              </p>
+              <button 
+                onClick={() => router.push('/dashboard/my-learning')}
+                className="mt-5 bg-[#d97706] hover:bg-[#b45309] text-white text-sm font-bold px-6 py-3 rounded-full transition-all shadow-md flex items-center gap-2"
+              >
+                <Play className="w-3.5 h-3.5 fill-white" />
+                {d.resume_activity || 'Lanjutkan Aktivitas'} ({continueLesson?.duration || '10 menit'})
+              </button>
+            </>
+          ) : (
+            <>
+              <span className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5" /> Langganan Tidak Aktif
+              </span>
+              <h3 className="text-lg font-bold text-white mt-1.5">
+                Akses Pembelajaran Terkunci
+              </h3>
+              <p className="text-sm text-slate-300 mt-2 leading-relaxed">
+                Status paket pembelajaran Anda saat ini <strong className="text-amber-300">TIDAK AKTIF</strong>. Aktifkan langganan Anda untuk dapat mengakses materi haji & umrah, tur 360°, dan aktivitas interaktif.
+              </p>
+              <button 
+                onClick={() => router.push('/dashboard/subscription')}
+                className="mt-5 bg-amber-500 hover:bg-amber-600 text-slate-950 text-sm font-extrabold px-6 py-3 rounded-full transition-all shadow-md flex items-center gap-2"
+              >
+                <Zap className="w-4 h-4 fill-slate-950" />
+                Aktifkan Paket Sekarang
+              </button>
+            </>
+          )}
         </div>
         <div className="absolute right-8 bottom-0 top-0 w-1/3 opacity-20 pointer-events-none hidden md:block">
           <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" className="w-full h-full text-white">
@@ -100,9 +125,31 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
       {/* Grid: Course Progress & Today's Reminder (Row 2) */}
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2 border border-slate-200/80 rounded-xl p-6 bg-white shadow-sm space-y-4">
-          <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">{d.progress || 'Progres Kelas'}</h4>
+          <div className="flex items-center justify-between">
+            <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">{d.progress || 'Progres Kelas'}</h4>
+            {!planActive && (
+              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex items-center gap-1">
+                <Lock className="w-3 h-3" /> Membutuhkan Langganan Aktif
+              </span>
+            )}
+          </div>
+
+          {!planActive && (
+            <div className="flex items-center justify-between p-3.5 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 text-xs font-medium">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>Materi & progres kelas saat ini terkunci.</span>
+              </div>
+              <button 
+                onClick={() => router.push('/dashboard/subscription')} 
+                className="px-3 py-1 bg-amber-600 text-white rounded font-bold text-[11px] hover:bg-amber-700 transition-colors shrink-0"
+              >
+                Aktifkan Paket
+              </button>
+            </div>
+          )}
           
-          <div className="space-y-4">
+          <div className={`space-y-4 ${!planActive ? 'opacity-50 pointer-events-none' : ''}`}>
             {courses.length > 0 ? (
               courses.map((course) => (
                 <div key={course.id}>
@@ -138,7 +185,7 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
       <div className="grid md:grid-cols-2 gap-8">
         <div className="border border-slate-200/80 rounded-xl p-6 bg-white shadow-sm space-y-4">
           <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">{d.recent_activity || 'Aktivitas Terbaru'}</h4>
-          {recentLesson ? (
+          {planActive && recentLesson ? (
             <div className="flex gap-3 text-sm leading-relaxed">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
@@ -151,7 +198,11 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
           ) : (
             <div className="flex gap-2.5 items-center text-sm text-slate-450 italic py-2">
               <AlertCircle className="w-4.5 h-4.5 text-slate-400" />
-              <span>{lang === 'id' ? 'Belum ada aktivitas belajar diselesaikan.' : 'No completed activities yet.'}</span>
+              <span>
+                {!planActive 
+                  ? (lang === 'id' ? 'Aktivitas dinonaktifkan (Langganan Tidak Aktif).' : 'Activities disabled (Inactive Subscription).')
+                  : (lang === 'id' ? 'Belum ada aktivitas belajar diselesaikan.' : 'No completed activities yet.')}
+              </span>
             </div>
           )}
         </div>
@@ -169,6 +220,16 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
               {planActive ? 'ACTIVE' : 'INACTIVE'}
             </span>
           </div>
+
+          {!planActive && (
+            <button
+              onClick={() => router.push('/dashboard/subscription')}
+              className="mt-2 w-full py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+            >
+              <Zap className="w-3.5 h-3.5 fill-slate-950" />
+              Aktifkan Paket Sekarang
+            </button>
+          )}
         </div>
       </div>
 
@@ -179,11 +240,16 @@ export default function LearnerDashboard({ userName, courses, d, lang, subscript
             <Sparkles className="w-5 h-5" />
             <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">{d.recommended_course || 'Rekomendasi Kelas'}</h4>
           </div>
-          {recommendedLesson ? (
+          {planActive && recommendedLesson ? (
             <div>
               <h5 className="font-bold text-sm text-slate-800">{recommendedLesson.title}</h5>
               <p className="text-xs text-slate-500 mt-1">Materi selanjutnya untuk diselesaikan. Estimasi pengerjaan: {recommendedLesson.duration || '15 menit'}.</p>
             </div>
+          ) : !planActive ? (
+            <p className="text-xs text-amber-700 italic flex items-center gap-1">
+              <Lock className="w-3.5 h-3.5" />
+              Aktifkan langganan Anda untuk melihat rekomendasi kelas.
+            </p>
           ) : (
             <p className="text-xs text-slate-455 italic">Semua kelas direkomendasikan selesai!</p>
           )}

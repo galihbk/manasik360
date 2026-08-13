@@ -24,8 +24,12 @@ function loadEnv() {
 }
 loadEnv();
 
-// Auto-push Prisma schema to database on startup (ensures tables always exist)
+// Auto-push Prisma schema to database on startup (ensures tables always exist in production/Docker)
 function ensureDatabase() {
+  // In local development watch mode, skip auto db push on every file save to prevent delays and log spam
+  if (process.env.NODE_ENV !== 'production' && process.env.AUTO_DB_PUSH !== 'true') {
+    return;
+  }
   const schemaCandidates = [
     path.join(process.cwd(), 'packages/database/prisma/schema.prisma'),
     path.join(process.cwd(), '../../packages/database/prisma/schema.prisma'),
@@ -49,15 +53,19 @@ function ensureDatabase() {
   }
 
   // Try multiple prisma binary locations (monorepo pnpm structure)
+  const isWin = process.platform === 'win32';
+  const binName = isWin ? 'prisma.cmd' : 'prisma';
+
   const prismaBinCandidates = [
-    path.join(process.cwd(), 'node_modules/.bin/prisma'),
-    path.join(process.cwd(), '../../node_modules/.bin/prisma'),
-    path.join(process.cwd(), '../node_modules/.bin/prisma'),
-    path.join(process.cwd(), 'node_modules/.pnpm/prisma@5.22.0/node_modules/.bin/prisma'),
-    'prisma'
+    path.join(process.cwd(), 'node_modules/.bin', binName),
+    path.join(process.cwd(), '../../node_modules/.bin', binName),
+    path.join(process.cwd(), '../node_modules/.bin', binName),
+    path.join(process.cwd(), 'packages/database/node_modules/.bin', binName),
+    path.join(__dirname, '../../node_modules/.bin', binName),
+    path.join(__dirname, '../../../node_modules/.bin', binName)
   ];
 
-  let prismaBin = 'prisma';
+  let prismaBin: string | null = null;
   for (const candidate of prismaBinCandidates) {
     if (fs.existsSync(candidate)) {
       prismaBin = candidate;
@@ -65,12 +73,14 @@ function ensureDatabase() {
     }
   }
 
-  console.log('[DB] Running prisma db push with binary:', prismaBin);
+  const runCommand = prismaBin ? `"${prismaBin}"` : 'npx prisma';
+
+  console.log('[DB] Running prisma db push with command:', runCommand);
   console.log('[DB] Schema path:', schemaPath);
   console.log('[DB] DATABASE_URL set:', !!process.env.DATABASE_URL);
 
   try {
-    execSync(`"${prismaBin}" db push --schema="${schemaPath}" --accept-data-loss`, {
+    execSync(`${runCommand} db push --schema="${schemaPath}" --accept-data-loss`, {
       stdio: 'inherit',
       env: process.env
     });
